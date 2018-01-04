@@ -1,0 +1,133 @@
+body {
+  background: lightgray;
+  width: 95%;
+  /*max-width: 600px;*/
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 0px;
+  padding-bottom: 20px;
+}
+
+.report {
+  max-width: 600px;
+}
+
+.vis {
+  max-width: 900px;
+}
+
+h1 {
+  color: darkred;
+  font-size: x-large;
+  margin-top: 0px;
+}
+
+h2 {
+  color: darkred;
+  font-size: large;
+  /*font-weight: normal;*/
+  margin-top: 30px;
+  margin-bottom: 0px
+}
+
+h3 {
+  color: darkred;
+  font-weight: normal;
+}
+
+p {
+  color: black;
+  font-size: medium;
+  margin-top: 0px;
+}
+
+a {
+  color: black;
+  font-weight: normal;
+  /*text-decoration: none;*/
+}
+
+img {
+  max-width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+th {
+  text-align: left;
+}
+
+.content {
+  background: white;
+  padding-top: 40px;
+  padding-bottom: 100px;
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-bottom: 200px;
+}
+
+.mono {
+  font-family: monospace;
+  font-size: large;
+  font-style: normal;
+  font-weight: normal;
+
+}
+
+.part {
+  font-style: italic;
+}
+
+.dotOn {
+  fill: rgba(0,0,0,1);
+}
+
+.dotOff {
+  fill: rgba(0,0,0,0);
+}
+
+.gridYear {
+  font-size: 8pt;
+  font-family: sans-serif;
+}
+
+.meanDeviation {
+  margin-bottom: 50px;
+}
+
+.min-max-area {
+  fill: rgba(255, 255, 255, 0.25);
+}
+
+.tempCell {
+  fill: rgba(175, 175, 175, 1);
+}
+
+.tempLine-off line {
+  stroke: rgba(100, 100, 100, 0.1);
+  stroke-width: 1px;
+}
+
+.tempLine-on line {
+  stroke: rgba(175, 0, 0, 1);
+  stroke-width: 4px;
+  stroke-linecap: round;
+}
+
+.xLines {
+  stroke: rgba(0,0,0,0.2);
+  stroke-dasharray: 2,2;
+}
+
+.yLines {
+  stroke: rgba(0,0,0,0.2);
+  stroke-dasharray: 2,2;
+}
