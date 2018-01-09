@@ -8,7 +8,7 @@
     <title>IDE Exam</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap.min.css">
 
     <!-- IDE Visualization CSS -->
     <link rel="stylesheet" href="style.css">
@@ -26,14 +26,28 @@
   <body>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="jquery-3.2.1.slim.min.js" ></script>
+    <script type="text/javascript" src="popper.min.js" ></script>
+    <script type="text/javascript" src="bootstrap.min.js" ></script>
 
     <!-- This is the overall container for the two columns -->
     <div class="row" style="height:740px;">
         <!-- Container for the left-hand side visualization area -->
-        <div class="col-sm-8" style="background: black;"></div>
+        <div class="col-sm-8" style="background: white;">
+            <div><h1>Title Here</h1></div>
+            <div id="streetSim">
+                <img width="500px" src="streetscape_test.png">
+            </div>
+            <div>
+            <svg id="barchart-1"></svg>
+            </div>
+            <div id="timeYear">2000 (year)</div>
+            <div id="timeMonth">01 Jan (month)</div>
+            <div id="timeDay">01 (day)</div>
+            <div id="timeHour">01 (hour)</div>
+            <div id="timeMinute">01 (minute)</div>
+            <div id="particlesBarGraph"></div>
+        </div>
 
         <!-- Container for the right-hand side text accordion -->
         <div class="col-sm-4" style="max-height:500px;">
