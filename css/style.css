@@ -141,3 +141,8 @@ th {
 .hideBar {
   fill: rgba(0,0,255,0);
 }
+
+.slider-wrapper {
+  display: inline-block;
+  padding: 0;
+}
