@@ -1,121 +1,49 @@
 {
     "data": [{
+        "date" : {"id": "2017-12-31 23:30", "year": 2017, "month": 12, "day": 31, "time": 23.5},
+        "particles" : [
+            {"name": "CO", "value": 0.4, "percent": 10.2, "miss": false, "inter": false},
+            {"name": "O3", "value": 0.55, "percent": -8.3, "miss": false, "inter": false},
+            {"name": "SO2", "value": 0.32, "percent": 6.1, "miss": false, "inter": true},
+            {"name": "PM10", "value": 0.25, "percent": -5.5, "miss": false, "inter": false},
+            {"name": "PM25", "value": 1.3, "percent": 9.2, "miss": false, "inter": false},
+            {"name": "NOX", "value": 0.36, "percent": -7.2, "miss": false, "inter": false},
+            {"name": "NO2", "value": 0.66, "percent": 8.2, "miss": false, "inter": false}
+        ]},
+    {
         "date" : {
-            "id" : "2017-12-31T23:30",
+            "id" : "2017-12-31 23:00",
             "year" : 2017,
             "month" : 12,
             "day" : 31,
             "time" : 23.5
         },
         "particles" : [
-            {"name": "CO", "value": 0.4, "percent": 10.2, "miss": false, "inter": false},
-            {"name": "O3", "value": 0.55, "percent": -8.3, "miss": false, "inter": false},
-            {"name": "SO2", "value": 0.32, "percent": 2.1, "miss": false, "inter": true},
-            {"name": "PM10", "value": 0.25,
-            "percent": -0.5,
-            "miss": false,
-            "inter": false
-        },
-        {"name": "PM25",
-            "value": 1.3,
-            "percent": 10.2,
-            "miss": false,
-            "inter": false
-        },
-        {"name": "NOX",
-            "value": 0.36,
-            "percent": -1.2,
-            "miss": false,
-            "inter": false
-        },
-        {"name": "NO2",
-            "value": 0.66,
-            "percent": 8.2,
-            "miss": false,
-            "inter": false
-        }
-    ]}
+            {"name": "CO", "value": 0.4, "percent": -10.2, "miss": false, "inter": false},
+            {"name": "O3", "value": 0.55, "percent": 8.3, "miss": false, "inter": false},
+            {"name": "SO2", "value": 0.32, "percent": -6.1, "miss": false, "inter": true},
+            {"name": "PM10", "value": 0.25, "percent": 5.5, "miss": false, "inter": false},
+            {"name": "PM25", "value": 1.3, "percent": -9.2, "miss": false, "inter": false},
+            {"name": "NOX", "value": 0.36, "percent": 7.2, "miss": false, "inter": false},
+            {"name": "NO2", "value": 0.66, "percent": -8.2, "miss": false, "inter": false}
+        ]},
     {
         "date" : {
-            "id" : "2017-12-31T23:00",
+            "id" : "2017-12-31 22:30",
             "year" : 2017,
             "month" : 12,
             "day" : 31,
-            "time" : 23
+            "time" : 23.5
         },
-        "CO" : {
-            "value": 0.3,
-            "percent": 12.2,
-            "miss": false,
-            "inter": false
-        },
-        "O3": {
-            "value": 0.45,
-            "percent": -4.3,
-            "miss": false,
-            "inter": false
-        },
-        "SO2": {
-            "value": 0.62,
-            "percent": 14.1,
-            "miss": false,
-            "inter": true
-        },
-        "PM10": {
-            "value": 0.45,
-            "percent": -12.5,
-            "miss": false,
-            "inter": false
-        },
-        "PM25": {
-            "value": 1.3,
-            "percent": 10.2,
-            "miss": false,
-            "inter": false
-        },
-        "NOX": {
-            "value": 0.36,
-            "percent": -1.2,
-            "miss": false,
-            "inter": false
-        },
-        "NO2": {
-            "value": 0.66,
-            "percent": 8.2,
-            "miss": false,
-            "inter": false
-        }
-    }],
-    "parts" : {
-        "CO" : {
-            "units": "ug",
-            "limit": 0.40
-        },
-        "O3": {
-            "units": "ug",
-            "limit": 0.60
-        },
-        "SO2": {
-            "units": "mg",
-            "limit": 0.55
-        },
-        "PM10": {
-            "units": "ug",
-            "limit": 0.14
-        },
-        "PM25": {
-            "units": "ug",
-            "limit": 0.62
-        },
-        "NOX": {
-            "units": "ug",
-            "limit": 0.32
-        },
-        "NO2": {
-            "units": "ug",
-            "limit": 0.47
-        }
-    }
+        "particles" : [
+            {"name": "CO", "value": 0.4, "percent": -1, "miss": false, "inter": false},
+            {"name": "O3", "value": 0.55, "percent": 8, "miss": false, "inter": false},
+            {"name": "SO2", "value": 0.32, "percent": -6, "miss": false, "inter": true},
+            {"name": "PM10", "value": 0.25, "percent": 5, "miss": false, "inter": false},
+            {"name": "PM25", "value": 1.3, "percent": -9, "miss": false, "inter": false},
+            {"name": "NOX", "value": 0.36, "percent": 7, "miss": false, "inter": false},
+            {"name": "NO2", "value": 0.66, "percent": -8, "miss": false, "inter": false}
+        ]}
+    ]
 }
-
 

@@ -26,7 +26,6 @@ h1 {
 h2 {
   color: darkred;
   font-size: large;
-  /*font-weight: normal;*/
   margin-top: 30px;
   margin-bottom: 0px
 }
@@ -130,4 +129,15 @@ th {
 .yLines {
   stroke: rgba(0,0,0,0.2);
   stroke-dasharray: 2,2;
+}
+
+
+
+
+.showBar {
+  fill: rgba(255,0,0,1);
+}
+
+.hideBar {
+  fill: rgba(0,0,255,0);
 }
