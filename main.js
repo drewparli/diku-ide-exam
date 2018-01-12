@@ -94,7 +94,7 @@ function initBarChart1(hour) {
     .data(hour.data)
     .enter()
     .append("g")
-    .attr("id", function(d, i) { return encodeDateID(d.date.id) })
+    .attr("id", function(d, i) { return encodeDateIDAttr(d.date.id) })
     .classed("timeStep", true)
 
     // At each time step we now add the bars for each particle type
@@ -111,7 +111,7 @@ function initBarChart1(hour) {
     .attr("width", xScale.bandwidth())
     .attr("height", function(d) { return yScale(Math.abs(d.percent)) - 0.5 * height })
     .attr("class", function(d) {
-      if (this.parentNode.id == "_" + vis.default.date) { return "showBar"}
+      if (this.parentNode.id == encodeDateIDAttr(vis.default.date)) { return "showBar"}
       else { return "hideBar" }
     })
 
@@ -145,15 +145,20 @@ function handle_time_step() {
   next = step_n_times(1)
 
   // hide the current time step
-  vis.barchart_1.obj.select("#" + current)
+  vis.barchart_1.obj.select(encodeDateIDSelector(current))
+    .selectAll("rect")
     .classed("showBar", false)
     .classed("hideBar", true)
 
   // show the next time step
-  vis.barchart_1.obj.select("#" + next)
+  vis.barchart_1.obj.select(encodeDateIDSelector(next))
+    .selectAll("rect")
     .classed("hideBar", false)
     .classed("showBar", true)
 
+  vis.current_step = next
+
+  console.log(current, next, vis.current_step)
 }
 
 
@@ -163,10 +168,10 @@ function step_n_times(n) {
   return moment.utc(vis.current_step).add(n * 30,'m').format("YYYY-MM-DD HH:mm")
 }
 
-function encodeDateID(date) {
-  return "_" + date
+function encodeDateIDAttr(date) {
+  return "D_" + date.replace(' ','_').replace('-','_').replace(':','_')
 }
 
-function decodeDateID(dateID) {
-  return dateID.slice(1)
+function encodeDateIDSelector(date) {
+  return "#" + encodeDateIDAttr(date)
 }
