@@ -133,11 +133,16 @@ th {
 
 
 
+/* NEW CSS ENTRIES */
 
-.showBar {
-  fill: rgba(255,0,0,1);
-}
+.CO { fill: #e41a1c; }
+.O3 { fill: #377eb8; }
+.SO2 { fill: #4daf4a; }
+.PM10 { fill: #984ea3; }
+.PM25 { fill: #ff7f00; }
+.NOX { fill: #ffff33; }
+.NO2 { fill: #a65628; }
 
-.hideBar {
-  fill: rgba(0,0,255,0);
-}
+.barChart path { stroke: rgba(0,0,0,0); }
+
+.barChart .yAxis line { stroke: rgba(0,0,0,0.3); }

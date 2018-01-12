@@ -19,6 +19,182 @@ function main(handsJSON) {
     })
 }
 
+function initParticleField() {
+  ////////////////////////////////////////////////////////////////////////////////
+  // START OF ENTROPY CODE (Borrowed and Modified)
+  ////////////////////////////////////////////////////////////////////////////////
+  const PARTICLE_RADIUS_RANGE = [2,2]
+  const PARTICLE_VELOCITY_RANGE = [1,2]
+  const canvasHeight = 300
+  const canvasWidth = 600
+  const svgCanvas = d3.select("#canvas")
+          .attr('width', canvasWidth)
+          .attr('height', canvasHeight)
+
+
+  // var CO = d3.forceSimulation()
+  //   .alphaDecay(0)
+  //   .velocityDecay(0)
+  //   .on('tick', particleDigestCO)
+  //   .on('tick', () => { return particleDigest("CO") }  )
+  //   .force('bounce', d3.forceBounce().radius(d => d.r))
+  //   .force('container', d3.forceSurface()
+  //     .surfaces([
+  //       {from: {x:0,y:0}, to: {x:0,y:canvasHeight}},
+  //       {from: {x:0,y:canvasHeight}, to: {x:canvasWidth,y:canvasHeight}},
+  //       {from: {x:canvasWidth,y:canvasHeight}, to: {x:canvasWidth,y:0}},
+  //       {from: {x:canvasWidth,y:0}, to: {x:0,y:0}}
+  //     ])
+  //     .oneWay(true)
+  //     .radius(d => d.r)
+  //   );
+
+  // function particleDigestCO() {
+
+  //   // https://hi.stamen.com/forcing-functions-inside-d3-v4-forces-and-layout-transitions-f3e89ee02d12
+  //   // flag for stopping the simulation
+
+  //   let particle = svgCanvas.selectAll('circle.particle.CO').data(CO.nodes().map(hardLimit))
+  //   particle.exit().remove();
+  //   particle.merge(
+  //     particle.enter().append('circle')
+  //       .classed('particle', true)
+  //       .classed('CO', true)
+  //       .attr('r', d=>d.r)
+  //     )
+  //     .attr('cx', d => d.x)
+  //     .attr('cy', d => d.y);
+  // }
+
+  // var O3 = d3.forceSimulation()
+  //   .alphaDecay(0)
+  //   .velocityDecay(0)
+  //   .on('tick', particleDigestO3)
+  //   .force('bounce', d3.forceBounce().radius(d => d.r))
+  //   .force('container', d3.forceSurface()
+  //     .surfaces([
+  //       {from: {x:0,y:0}, to: {x:0,y:canvasHeight}},
+  //       {from: {x:0,y:canvasHeight}, to: {x:canvasWidth,y:canvasHeight}},
+  //       {from: {x:canvasWidth,y:canvasHeight}, to: {x:canvasWidth,y:0}},
+  //       {from: {x:canvasWidth,y:0}, to: {x:0,y:0}}
+  //     ])
+  //     .oneWay(true)
+  //     .radius(d => d.r)
+  //   );
+
+  // function particleDigestO3() {
+  //   let particle = svgCanvas.selectAll('circle.particle.O3').data(O3.nodes().map(hardLimit))
+  //   particle.exit().remove();
+  //   particle.merge(
+  //     particle.enter().append('circle')
+  //       .classed('particle', true)
+  //       .classed('O3', true)
+  //       .attr('r', d=>d.r)
+  //     )
+  //     .attr('cx', d => d.x)
+  //     .attr('cy', d => d.y);
+  // }
+
+  function onDensityChange(density, pName) {
+  // density affects the number of particles per sq px
+    console.log("onDensityChange", density, pName)
+    var n = genNodes(density, pName)
+    // NODES[pForce] = genNodes(density, pForce)
+    SIMS[pName].nodes(n)
+    console.log(SIMS)
+    // pForce.nodes(n)
+  }
+
+  function genNodes(density, pForce) {
+    console.log("genNodes", density, pForce)
+    var numParticles = Math.round(canvasWidth * canvasHeight * density)
+    var existingParticles = SIMS[pForce].nodes()
+    // console.log(SIMS[pForce.nodes()])
+    // existingParticles = pForce.nodes();
+
+    // Trim
+    if (numParticles < existingParticles.length) {
+      return existingParticles.slice(0, numParticles);
+    }
+
+    // Append
+    return [...existingParticles,
+            ...d3.range(numParticles - existingParticles.length).map(() => {
+      var angle = Math.random() * 2 * Math.PI
+      var velocity = Math.random()
+                 * (PARTICLE_VELOCITY_RANGE[1] - PARTICLE_VELOCITY_RANGE[0])
+                 + PARTICLE_VELOCITY_RANGE[0]
+
+      return {
+        x: Math.random() * canvasWidth,
+        y: Math.random() * canvasHeight,
+        vx: Math.cos(angle) * velocity,
+        vy: Math.sin(angle) * velocity,
+        r: Math.round(Math.random()
+                      * (PARTICLE_RADIUS_RANGE[1] - PARTICLE_RADIUS_RANGE[0])
+                      + PARTICLE_RADIUS_RANGE[0])
+      }
+    })];
+  }
+
+  function hardLimit(node) {
+    // Keep in canvas
+    node.x = Math.max(node.r, Math.min(canvasWidth-node.r, node.x));
+    node.y = Math.max(node.r, Math.min(canvasHeight-node.r, node.y));
+
+    return node;
+  }
+
+  function temp(particleName) {
+    return d3.forceSimulation()
+      .alphaDecay(0)
+      .velocityDecay(0)
+      .on('tick', () => { return particleDigest(particleName) })
+      .force('bounce', d3.forceBounce().radius(d => d.r))
+      .force('container', d3.forceSurface()
+        .surfaces([
+          {from: {x:0,y:0}, to: {x:0,y:canvasHeight}},
+          {from: {x:0,y:canvasHeight}, to: {x:canvasWidth,y:canvasHeight}},
+          {from: {x:canvasWidth,y:canvasHeight}, to: {x:canvasWidth,y:0}},
+          {from: {x:canvasWidth,y:0}, to: {x:0,y:0}}
+        ])
+        .oneWay(true)
+        .radius(d => d.r)
+      )
+  }
+
+  function particleDigest(particleName) {
+    let particleSelector = "circle.particle." + particleName
+    // console.log(particleSelector)
+    let nodes = SIMS[particleName].nodes().map(hardLimit)
+    let particles = svgCanvas.selectAll(particleSelector).data(nodes)
+    // console.log(nodes)
+    particles.exit().remove();
+    particles.merge(
+      particles.enter().append("circle")
+        .classed("particle", true)
+        .classed(particleName, true)
+        .attr('r', d=>d.r)
+      )
+      .attr('cx', d => d.x)
+      .attr('cy', d => d.y);
+  }
+
+  var SIMS = {
+  "CO" : temp("CO"),
+  "O3" : temp("O3")
+  }
+
+  // Init particles field
+  console.log("SIMS", temp("CO"))
+
+  onDensityChange(0.00006, "CO")
+  onDensityChange(0.00006, "O3")
+  ////////////////////////////////////////////////////////////////////////////////
+  // END
+  ////////////////////////////////////////////////////////////////////////////////
+}
+
 
 // These objects hold all the magic numbers and elements that need to be
 // accessed globally for the entire visualization.
@@ -48,6 +224,12 @@ var vis = {
 }
 
 
+
+
+
+
+
+
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
 function visualize(dataHourly, dateIndex) {
@@ -59,7 +241,9 @@ function visualize(dataHourly, dateIndex) {
   vis.data.dateIndex = dateIndex
   vis.default.data = dateIndex[vis.default.date]
 
+
   initBarChart1(dataHourly, dateIndex)
+  initParticleField()
 }
 
 
@@ -89,8 +273,30 @@ function initBarChart1(hour, dateIndex) {
   let barchart = d3.select("#barchart-1")
     .attr("width", width)
     .attr("height", height)
+    .classed("barChart", true)
   vis.barchart_1.obj = barchart
 
+  // Add the x axis
+  barchart.append("g")
+    .attr("id", "barchart_1_x_axis")
+    .classed("xAxis", true)
+    .attr("transform", "translate(20, 50)")
+    .call(d3.axisBottom(xScale))
+    // duplicate the text element for each tick
+    .selectAll(".tick")
+    .select("text")
+
+  // Add and edit the y axis
+  barchart.append("g")
+    .attr("id", "barchart_1_y_axis")
+    .classed("yAxis", true)
+    .attr("transform", "translate(20, 0)")
+    .call(d3.axisLeft(yScale))
+    // transform the given ticks into background grid lines
+    .selectAll(".tick")
+    .select("line")
+    .attr("x1", -6)
+    .attr("x2", width)
 
   barchart.append("g")
     .attr("id", "time-steps")
@@ -125,23 +331,7 @@ function initBarChart1(hour, dateIndex) {
     .attr("class", function(d) { return d.name })
     .classed("bar", true)
 
-  // Add the x axis
-  barchart.append("g")
-    .attr("id", "x")
-    .attr("transform", "translate(20, 100)")
-    .call(d3.axisBottom(xScale))
 
-  // Add and edit the y axis
-  barchart.append("g")
-    .attr("id", "y")
-    .attr("transform", "translate(20, 0)")
-    .call(d3.axisLeft(yScale))
-    // transform the given ticks into background grid lines
-    .selectAll(".tick")
-    .select("line")
-    .attr("x1", -6)
-    .attr("x2", width)
-    .style("stroke", "rgba(0,0,0,0.2)")
 
   // barchart.on("click", handle_time_step, 5)  // one step forward
   barchart.on("click", handle_it)  // use this for auto play
@@ -150,7 +340,7 @@ function initBarChart1(hour, dateIndex) {
 
 function handle_it() {
   handle_time_step()
-  d3.interval(handle_time_step, 1500)
+  // d3.interval(handle_time_step, 1500)
 }
 
 
