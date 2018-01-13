@@ -19,182 +19,6 @@ function main(handsJSON) {
     })
 }
 
-function initParticleField() {
-  ////////////////////////////////////////////////////////////////////////////////
-  // START OF ENTROPY CODE (Borrowed and Modified)
-  ////////////////////////////////////////////////////////////////////////////////
-  const PARTICLE_RADIUS_RANGE = [2,2]
-  const PARTICLE_VELOCITY_RANGE = [1,2]
-  const canvasHeight = 300
-  const canvasWidth = 600
-  const svgCanvas = d3.select("#canvas")
-          .attr('width', canvasWidth)
-          .attr('height', canvasHeight)
-
-
-  // var CO = d3.forceSimulation()
-  //   .alphaDecay(0)
-  //   .velocityDecay(0)
-  //   .on('tick', particleDigestCO)
-  //   .on('tick', () => { return particleDigest("CO") }  )
-  //   .force('bounce', d3.forceBounce().radius(d => d.r))
-  //   .force('container', d3.forceSurface()
-  //     .surfaces([
-  //       {from: {x:0,y:0}, to: {x:0,y:canvasHeight}},
-  //       {from: {x:0,y:canvasHeight}, to: {x:canvasWidth,y:canvasHeight}},
-  //       {from: {x:canvasWidth,y:canvasHeight}, to: {x:canvasWidth,y:0}},
-  //       {from: {x:canvasWidth,y:0}, to: {x:0,y:0}}
-  //     ])
-  //     .oneWay(true)
-  //     .radius(d => d.r)
-  //   );
-
-  // function particleDigestCO() {
-
-  //   // https://hi.stamen.com/forcing-functions-inside-d3-v4-forces-and-layout-transitions-f3e89ee02d12
-  //   // flag for stopping the simulation
-
-  //   let particle = svgCanvas.selectAll('circle.particle.CO').data(CO.nodes().map(hardLimit))
-  //   particle.exit().remove();
-  //   particle.merge(
-  //     particle.enter().append('circle')
-  //       .classed('particle', true)
-  //       .classed('CO', true)
-  //       .attr('r', d=>d.r)
-  //     )
-  //     .attr('cx', d => d.x)
-  //     .attr('cy', d => d.y);
-  // }
-
-  // var O3 = d3.forceSimulation()
-  //   .alphaDecay(0)
-  //   .velocityDecay(0)
-  //   .on('tick', particleDigestO3)
-  //   .force('bounce', d3.forceBounce().radius(d => d.r))
-  //   .force('container', d3.forceSurface()
-  //     .surfaces([
-  //       {from: {x:0,y:0}, to: {x:0,y:canvasHeight}},
-  //       {from: {x:0,y:canvasHeight}, to: {x:canvasWidth,y:canvasHeight}},
-  //       {from: {x:canvasWidth,y:canvasHeight}, to: {x:canvasWidth,y:0}},
-  //       {from: {x:canvasWidth,y:0}, to: {x:0,y:0}}
-  //     ])
-  //     .oneWay(true)
-  //     .radius(d => d.r)
-  //   );
-
-  // function particleDigestO3() {
-  //   let particle = svgCanvas.selectAll('circle.particle.O3').data(O3.nodes().map(hardLimit))
-  //   particle.exit().remove();
-  //   particle.merge(
-  //     particle.enter().append('circle')
-  //       .classed('particle', true)
-  //       .classed('O3', true)
-  //       .attr('r', d=>d.r)
-  //     )
-  //     .attr('cx', d => d.x)
-  //     .attr('cy', d => d.y);
-  // }
-
-  function onDensityChange(density, pName) {
-  // density affects the number of particles per sq px
-    console.log("onDensityChange", density, pName)
-    var n = genNodes(density, pName)
-    // NODES[pForce] = genNodes(density, pForce)
-    SIMS[pName].nodes(n)
-    console.log(SIMS)
-    // pForce.nodes(n)
-  }
-
-  function genNodes(density, pForce) {
-    console.log("genNodes", density, pForce)
-    var numParticles = Math.round(canvasWidth * canvasHeight * density)
-    var existingParticles = SIMS[pForce].nodes()
-    // console.log(SIMS[pForce.nodes()])
-    // existingParticles = pForce.nodes();
-
-    // Trim
-    if (numParticles < existingParticles.length) {
-      return existingParticles.slice(0, numParticles);
-    }
-
-    // Append
-    return [...existingParticles,
-            ...d3.range(numParticles - existingParticles.length).map(() => {
-      var angle = Math.random() * 2 * Math.PI
-      var velocity = Math.random()
-                 * (PARTICLE_VELOCITY_RANGE[1] - PARTICLE_VELOCITY_RANGE[0])
-                 + PARTICLE_VELOCITY_RANGE[0]
-
-      return {
-        x: Math.random() * canvasWidth,
-        y: Math.random() * canvasHeight,
-        vx: Math.cos(angle) * velocity,
-        vy: Math.sin(angle) * velocity,
-        r: Math.round(Math.random()
-                      * (PARTICLE_RADIUS_RANGE[1] - PARTICLE_RADIUS_RANGE[0])
-                      + PARTICLE_RADIUS_RANGE[0])
-      }
-    })];
-  }
-
-  function hardLimit(node) {
-    // Keep in canvas
-    node.x = Math.max(node.r, Math.min(canvasWidth-node.r, node.x));
-    node.y = Math.max(node.r, Math.min(canvasHeight-node.r, node.y));
-
-    return node;
-  }
-
-  function temp(particleName) {
-    return d3.forceSimulation()
-      .alphaDecay(0)
-      .velocityDecay(0)
-      .on('tick', () => { return particleDigest(particleName) })
-      .force('bounce', d3.forceBounce().radius(d => d.r))
-      .force('container', d3.forceSurface()
-        .surfaces([
-          {from: {x:0,y:0}, to: {x:0,y:canvasHeight}},
-          {from: {x:0,y:canvasHeight}, to: {x:canvasWidth,y:canvasHeight}},
-          {from: {x:canvasWidth,y:canvasHeight}, to: {x:canvasWidth,y:0}},
-          {from: {x:canvasWidth,y:0}, to: {x:0,y:0}}
-        ])
-        .oneWay(true)
-        .radius(d => d.r)
-      )
-  }
-
-  function particleDigest(particleName) {
-    let particleSelector = "circle.particle." + particleName
-    // console.log(particleSelector)
-    let nodes = SIMS[particleName].nodes().map(hardLimit)
-    let particles = svgCanvas.selectAll(particleSelector).data(nodes)
-    // console.log(nodes)
-    particles.exit().remove();
-    particles.merge(
-      particles.enter().append("circle")
-        .classed("particle", true)
-        .classed(particleName, true)
-        .attr('r', d=>d.r)
-      )
-      .attr('cx', d => d.x)
-      .attr('cy', d => d.y);
-  }
-
-  var SIMS = {
-  "CO" : temp("CO"),
-  "O3" : temp("O3")
-  }
-
-  // Init particles field
-  console.log("SIMS", temp("CO"))
-
-  onDensityChange(0.00006, "CO")
-  onDensityChange(0.00006, "O3")
-  ////////////////////////////////////////////////////////////////////////////////
-  // END
-  ////////////////////////////////////////////////////////////////////////////////
-}
-
 
 // These objects hold all the magic numbers and elements that need to be
 // accessed globally for the entire visualization.
@@ -224,32 +48,122 @@ var vis = {
 }
 
 
-
-
-
-
-
+var ParticleField = {}
+var Sims = {}
 
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
 function visualize(dataHourly, dateIndex) {
-  // Just a sanity check
-  // console.log("DataSet", dataHourly)
-
-  // Build up the initial state of the map visualization.
   vis.data.raw = dataHourly
   vis.data.dateIndex = dateIndex
   vis.default.data = dateIndex[vis.default.date]
-
-
   initBarChart1(dataHourly, dateIndex)
   initParticleField()
 }
 
 
+function initParticleField() {
+  ParticleField.height = 300
+  ParticleField.width = 600
+  ParticleField.radius = 2.3
+  ParticleField.velocity = 1.2
+  ParticleField.svg = d3.select("#particle_field")
+          .attr('width', ParticleField.width)
+          .attr('height', ParticleField.height)
+
+  // see: https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd
+  function onDensityChange(density, pName) {
+    Sims[pName].nodes(generateNodes(density, pName))
+  }
+
+  function generateNodes(density, pName) {
+    var nParticles = Math.round(ParticleField.width * ParticleField.height * density)
+    var existingParticles = Sims[pName].nodes()
+
+    // Trim
+    if (nParticles < existingParticles.length) {
+      return existingParticles.slice(0, nParticles);
+    }
+
+    // Append
+    return [...existingParticles,
+            ...d3.range(nParticles - existingParticles.length).map(() => {
+      var angle = Math.random() * 2 * Math.PI
+      return {
+        x: Math.random() * ParticleField.width,
+        y: Math.random() * ParticleField.height,
+        vx: Math.cos(angle) * ParticleField.velocity,
+        vy: Math.sin(angle) * ParticleField.velocity,
+        r: ParticleField.radius
+      }
+    })];
+  }
+
+  function hardLimit(node) {
+    // Keep particles inside the bounds of the particle field
+    node.x = Math.max(node.r, Math.min(ParticleField.width - node.r, node.x));
+    node.y = Math.max(node.r, Math.min(ParticleField.height - node.r, node.y));
+
+    return node;
+  }
+
+  function initForces(particleName) {
+    return d3.forceSimulation()
+      .alphaDecay(0)
+      .velocityDecay(0)
+      .on('tick', () => { return particleDigest(particleName) })
+      .force('bounce', d3.forceBounce().radius(d => d.r))
+      .force('container', d3.forceSurface()
+        .surfaces([
+          {from: {x:0,y:0}, to: {x:0,y:ParticleField.height}},
+          {from: {x:0,y:ParticleField.height}, to: {x:ParticleField.width,y:ParticleField.height}},
+          {from: {x:ParticleField.width,y:ParticleField.height}, to: {x:ParticleField.width,y:0}},
+          {from: {x:ParticleField.width,y:0}, to: {x:0,y:0}}
+        ])
+        .oneWay(true)
+        .radius(d => d.r)
+      )
+  }
+
+  function particleDigest(particleName) {
+    let particleSelector = "circle.particle." + particleName
+    // console.log(particleSelector)
+    let nodes = Sims[particleName].nodes().map(hardLimit)
+    let particles = ParticleField.svg.selectAll(particleSelector).data(nodes)
+    // console.log(nodes)
+    particles.exit().remove();
+    particles.merge(
+      particles.enter().append("circle")
+        .classed("particle", true)
+        .classed(particleName, true)
+        .attr('r', d=>d.r)
+      )
+      .attr('cx', d => d.x)
+      .attr('cy', d => d.y);
+  }
+
+  // Init particles field simulations
+  Sims.CO = initForces("CO")
+  Sims.O3 = initForces("O3")
+  Sims.SO2 = initForces("SO2")
+  Sims.PM25 = initForces("PM25")
+  Sims.PM10 = initForces("PM10")
+  Sims.NOX = initForces("NOX")
+  Sims.NO2 = initForces("NO2")
+
+  // Set the initial number of particles in the field
+  onDensityChange(0.00004, "CO")
+  onDensityChange(0.00005, "O3")
+  onDensityChange(0.00004, "SO2")
+  onDensityChange(0.00005, "PM25")
+  onDensityChange(0.00004, "PM10")
+  onDensityChange(0.00005, "NOX")
+  onDensityChange(0.00004, "NO2")
+}
+
+
 // This function sets up the main svg element for the map visualization
 function initBarChart1(hour, dateIndex) {
-
   let min = vis.data.min_percent
   let max = vis.data.max_percent
   let width = vis.barchart_1.width
