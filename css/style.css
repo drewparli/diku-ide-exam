@@ -146,3 +146,7 @@ th {
 .barChart path { stroke: rgba(0,0,0,0); }
 
 .barChart .yAxis line { stroke: rgba(0,0,0,0.3); }
+
+.barChart .barIgnore { fill: grey; }
+
+.particleIgnore { fill: white; }
