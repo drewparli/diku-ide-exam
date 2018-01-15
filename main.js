@@ -33,7 +33,7 @@ var Sims = {}
 function visualize(dataHourly, dateIndex) {
   DateIndex = dateIndex
   initBarChart1()
-  // initParticleField()
+  initParticleField()
 }
 
 function initBarChart1() {
@@ -135,15 +135,18 @@ function initBarChart1() {
 }
 
 function handle_bar_toggle() {
-  console.log(this, this.__data__.name, ParticleField.svg)
+  // console.log(this, this.__data__.name, ParticleField.svg)
   BarChart.obj.select("#" + this.id)
     .classed("barIgnore", function(d) {
-      if (this.classList.contains("barIgnore")) { return false} else { return true} })
+      if (this.classList.contains("barIgnore")) { return false} else { return true}
+    })
 
   // TODO: Turn of this particle too, this works, just need to turn on again
   d3.select("#particle_field")
     .selectAll("circle." + this.__data__.name)
-    .classed("particleIgnore", true)
+    .classed("particleIgnore", function(d) {
+      if (this.classList.contains("particleIgnore")) { return false } else { return true }
+    })
 }
 
 function handle_label_toggle() {
