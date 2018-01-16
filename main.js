@@ -9,7 +9,7 @@ function main(handsJSON) {
   var particles_EU;
 
   d3.queue()
-    .defer(d3.json, "./data/data-hourly-2.json")  // police districts
+    .defer(d3.json, "./data/data-hourly.json")  // police districts
     .defer(d3.json, "./data/data-daily.json")
     .defer(d3.json, "./data/date-index.json")
     // .await(function(errMsg, data1) {
@@ -18,11 +18,12 @@ function main(handsJSON) {
         console.log("ERROR: " + errMsg)
       } else {
         particles_daily = daily;
-        particles_EU = data1.parts;
-        console.log(data1);
+        particles_EU = hourly.parts;
+        console.log(hourly);
+        console.log(daily);
         console.log(particles_EU);
-        visualize(hourly, daily, particles_EU) // Visualize emission graph
-        visualize(hourly, index)               // Visualize particles and barchart
+        visualize(hourly, daily, particles_EU, index) // Visualize emission graph
+        // visualize(hourly, index)               // Visualize particles and barchart
       }
     })
 
@@ -80,32 +81,37 @@ var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 var ParticleField = {}
 var Sims = {}
 
-function visualize(dataHourly) {
-  // Just a sanity check
-  console.log("DataSet", dataHourly)
-
-  // Build up the initial state of the map visualization.
-  initBarChart1(dataHourly)
-}
+// function visualize(dataHourly) {
+//   // Just a sanity check
+//   console.log("DataSet", dataHourly)
+// 
+//   // Build up the initial state of the map visualization.
+//   initBarChart1(dataHourly)
+// }
 
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
-function visualize(dataHourly, dataDaily, particles_EU) {
+function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   // Just a sanity check
-  console.log("DataSet", dataHourly)
+  // console.log("DataSet", dataHourly)
 
-  // Build up the initial state of the map visualization.
-  initBarChart1(dataHourly)
-  initLineChart1(dataDaily["SO2"], particles_EU["SO2"].limit)
-}
-
-function visualize(dataHourly, dateIndex) {
   vis.data.raw = dataHourly
   vis.data.dateIndex = dateIndex
   vis.default.data = dateIndex[vis.default.date]
+
+  // Build up the initial state of the map visualization.
   initBarChart1(dataHourly, dateIndex)
+  initLineChart1(dataDaily["SO2"], particles_EU["SO2"].limit)
   initParticleField()
 }
+
+// function visualize(dataHourly, dateIndex) {
+//   vis.data.raw = dataHourly
+//   vis.data.dateIndex = dateIndex
+//   vis.default.data = dateIndex[vis.default.date]
+//   initBarChart1(dataHourly, dateIndex)
+//   initParticleField()
+// }
 
 function initParticleField() {
   ParticleField.height = 300

@@ -15,7 +15,7 @@ def get_particle(obj, particle):
 
 if __name__ == '__main__':
     # {"Recorded":"2017-01-31T23:30:00","SO2":0.462156326,"NO2":31.55625,"PM10Teom":69.2,"O3":55.08455,"CO":0.4711964,"NOx":53.44662,"PM25Teom":40.0}
-    file_name_begin = "HCAB_2017-"
+    file_name_begin = "./HCAB/HCAB_2017-"
     particles = ["SO2", "NO2", "PM10Teom", "O3", "CO", "NOx", "PM25Teom"]
     particle_dict = {"SO2": "SO2", "NO2": "NO2", "PM10Teom": "PM10", "O3": "O3", "CO": "CO", "NOx": "NOx",
                      "PM25Teom": "PM25"}
