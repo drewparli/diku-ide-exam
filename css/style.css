@@ -85,6 +85,23 @@ th {
 
 }
 
+.collapse a {
+  color: darkred;
+}
+
+.card-header {
+  padding: 0;
+}
+
+.card-header h5 {
+  margin: 0;
+}
+
+.card-header [role="button"] {
+  display: flex;
+  padding: 15px;
+}
+
 .part {
   font-style: italic;
 }
@@ -136,8 +153,8 @@ th {
 }
 
 #particle_simulation_container {
-  height: 420px;
-  width: 594px;
+  height: 562px;
+  width: 800px;
   background-image: url(../drawings/hc_minified.svg);
   background-size:100% 100%;
   -o-background-size: 100% 100%;
