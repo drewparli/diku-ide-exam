@@ -92,6 +92,8 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   // Just a sanity check
   // console.log("DataSet", dataHourly)
 
+  DateIndex = dateIndex;
+
   vis.data.raw = dataHourly
   vis.data.dateIndex = dateIndex
   vis.default.data = dateIndex[vis.default.date]
