@@ -29,7 +29,7 @@ def create_parts_obj():
 
     parts["SO2"] = dict()
     parts["SO2"]["units"] = "myg/m3"
-    parts["SO2"]["limit"] = 350
+    parts["SO2"]["limit"] = 20
 
     parts["NO2"] = dict()
     parts["NO2"]["units"] = "myg/m3"
@@ -37,7 +37,7 @@ def create_parts_obj():
 
     parts["PM10"] = dict()
     parts["PM10"]["units"] = "myg/m3"
-    parts["PM10"]["limit"] = 50
+    parts["PM10"]["limit"] = 40
 
     parts["O3"] = dict()
     parts["O3"]["units"] = "myg/m3"
