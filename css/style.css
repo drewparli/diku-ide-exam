@@ -152,16 +152,6 @@ th {
   stroke-dasharray: 2,2;
 }
 
-#particle_simulation_container {
-  height: 562px;
-  width: 800px;
-  background-image: url(../drawings/hc_minified.svg);
-  background-size:100% 100%;
-  -o-background-size: 100% 100%;
-  -webkit-background-size: 100% 100%;
-  background-size:cover;
-}
-
 .hideBar {
   fill: rgba(0,0,255,0);
 }
@@ -183,13 +173,22 @@ th {
 
 /* NEW CSS ENTRIES */
 
+circle {
+  stroke: white;
+  stroke-width: 1.2px;
+}
+
 .CO { fill: #e41a1c; }
 .O3 { fill: #377eb8; }
 .SO2 { fill: #4daf4a; }
 .PM10 { fill: #984ea3; }
 .PM25 { fill: #ff7f00; }
-.NOX { fill: #ffff33; }
-.NO2 { fill: #a65628; }
+.NOX { fill: #a65628; }
+.NO2 { fill: #ffff33; }
+
+.HCOmask {
+  background: rgb(255,255,255);
+}
 
 .barChart path { stroke: rgba(0,0,0,0); }
 
@@ -198,11 +197,47 @@ th {
 .barChart .barIgnore {
   fill: rgba(255,255,255);
   stroke: rgb(0,0,0);
-  stroke-width: 1px;
+  stroke-width: 0.5px;
+  opacity: 1;
+}
+
+.barChart .value {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.valueBox {
+  opacity: 0.4;
+}
+
+.barChart .label {
+  font-size: 12px;
+}
+
+.labelBox {
+  opacity: 0.5;
 }
 
 .particleIgnore {
   stroke: rgb(0,0,0);
   stroke-width: 1px;
   fill: rgba(255,255,255);
+}
+
+.person {
+  fill: rgba(0,0,0,0.5);
+}
+
+#controls {
+  height: 22px;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+button {
+  background: white;
+  width: auto;
+  height: 22px;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
 }
