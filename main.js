@@ -6,13 +6,12 @@ d3.select(window).on('load', main);
 // See https://github.com/d3/d3-queue for more details.
 function main() {
   d3.queue()
-    .defer(d3.json, "./data/data-hourly-2.json")  // police districts
-    .defer(d3.json, "./data/date-index.json")
-    .await(function(errMsg, data1, data2) {
+    .defer(d3.json, "./data/HCAB_2017.json")  // police districts
+    .await(function(errMsg, data1, data2, data3) {
       if (errMsg) {
         console.log("ERROR: " + errMsg)
       } else {
-        visualize(data1, data2)
+        visualize(data1)
       }
     })
 }
@@ -20,81 +19,124 @@ function main() {
 
 // These objects hold all the magic numbers and elements that need to be
 // accessed globally for the entire visualization.
+var DatePicker = null
 var BarChart = { }
-var Current = { "date": "2017-12-31 20:00" }
+var Current = { "date": "2017-01-01 00:00" }
 var Next = { "date": null }
-var Default = { "date": "2017-12-31 20:00" }
+var Default = { "date": "2017-01-01 00:00" }
 var Data = {}
 var DateIndex = {}
 var ParticleField = {}
 var Sims = {}
 
 
-function visualize(dataHourly, dateIndex) {
+function visualize(dateIndex) {
+
+  // Some JQuery code to make our bootstrap elements interact with our own elements
+  var datepicker = $("#datepicker");
+  console.log(datepicker)
+  var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+  datepicker.datepicker({
+    format: 'yyyy-mm-dd',
+    container: container,
+    autoclose: true,
+    orientation: "top left",
+    startDate: "2017-01-01",
+    endDate: "2017-12-31",
+  })
+
+  datepicker.datepicker("update", "2017-01-01")
+
+  DatePicker = datepicker
+
+  console.log(datepicker.datepicker('set', "2017-01-01"))
+
+  datepicker.datepicker().on('changeDate', handleDateChange)
+
   DateIndex = dateIndex
   initBarChart1()
   initParticleField()
+  initControls()
 }
 
 function initBarChart1() {
-  let min = -2
-  let max = 2
-  let width = 800
-  let height = 100
+  let min = 0
+  let max = 5
   let marginLR = 30
-  let marginTB = 10
+  let marginTB = 30
   let base = 30
-  let pad = 0.2
+  let pad = 0.25
+  let width = BarChart.width = 595 - marginLR
+  let height = BarChart.height = 100
   let particles = DateIndex[Default.date]
+  let labels = BarChart.labels = ["NO2", "PM10", "O3", "CO", "SO2", "PM25"]
 
   let barchart = d3.select("#barchart_frame")
     .attr("width", width + (2 * marginLR))
     .attr("height", height + (2 * marginTB) + base)
     .select("#barchart")
     .classed("barChart", true)
-    .attr("transform", "translate(30,10)")
+    .attr("transform", "translate(20,30)")
 
   BarChart.obj = barchart
 
   // Setup x and y scales
   let xScale = d3.scaleBand()
-    .domain(["CO", "O3", "SO2", "PM10", "PM25", "NOX", "NO2"])
+    .domain(labels)
     .range([0, width])
     .padding(pad)
 
   let yScale = d3.scaleLinear()
     .domain([min, max])
-    .range([0, height])
+    .range([height, 0])
+
+  BarChart.yScale = yScale
 
   // Add the x axis values
   BarChart.xAxisVals = barchart.append("g")
     .attr("id", "barchart_x_values")
     .classed("xAxis", true)
-    .attr("transform", "translate(0,100)")
+    .attr("transform", "translate(0,102)")
     .call(d3.axisBottom(xScale))
 
   BarChart.xAxisVals.selectAll("line")
     .remove()
 
+  BarChart.xAxisVals.selectAll("text")
+    .classed("value", true)
+    .attr("id", function(d) {return d})
+    .on("click", handle_bar_toggle)
+
+  BarChart.xAxisVals.selectAll("g")
+    .insert("rect")
+    .attr("id", function(d) { console.log(d); return d })
+    .attr("x", function(d) { return -xScale.bandwidth() * 0.5 })
+    .attr("y", function(d) { return 2 })
+    .attr("width", xScale.bandwidth())
+    .attr("height", function(d) { return 20})
+    .attr("class", function(d) { return d })
+    .classed("valueBox", true)
+    .lower()
+
+
   // Add the x axis labels
   BarChart.xAxisLabels = barchart.append("g")
     .attr("id", "barchart_x_labels")
     .classed("xAxis", true)
-    .attr("transform", "translate(0,114)")
+    .attr("transform", "translate(0,130)")
     .call(d3.axisBottom(xScale))
 
   BarChart.xAxisLabels.selectAll("line")
     .remove()
 
   BarChart.xAxisLabels.selectAll("text")
-    .classed("pLabel", true)
-    .on("click", handle_label_toggle)
+    .classed("label", true)
 
   // Add and edit the y axis
   barchart.append("g")
     .attr("id", "barchart_y_axis")
     .classed("yAxis", true)
-    .call(d3.axisLeft(yScale))
+    .call(d3.axisLeft(yScale).ticks(6))
     // transform the given ticks into background grid lines
     .selectAll(".tick")
     .select("line")
@@ -115,16 +157,11 @@ function initBarChart1() {
     .data(particles)
     .enter()
     .append("rect")
-    .attr("id", function(d,i) { return d.name + "_bar" })
+    .attr("id", function(d,i) { return d.name })
     .attr("x", function(d,i) { return xScale(d.name) })
-    .attr("y", function(d,i) {
-      if (d.percent < 0) { return yScale(0) }
-      else { return yScale(0 - d.percent) }
-      })
+    .attr("y", function(d,i) { return yScale(d.caqi) })
     .attr("width", xScale.bandwidth())
-    .attr("height", function(d) {
-      return yScale(Math.abs(d.percent)) - 0.5 * height
-    })
+    .attr("height", function(d) { return height - yScale(d.caqi) })
     .attr("class", function(d) { return d.name })
     .on("click", handle_bar_toggle)
 
@@ -134,37 +171,30 @@ function initBarChart1() {
   // barchart.on("click", handle_it)  // use this for auto play
 }
 
+
 function handle_bar_toggle() {
-  // console.log(this, this.__data__.name, ParticleField.svg)
-  BarChart.obj.select("#" + this.id)
+  console.log("click", this.nodeName)
+  BarChart.toggle = false
+
+  BarChart.obj.selectAll("rect#" + this.id)
     .classed("barIgnore", function(d) {
-      if (this.classList.contains("barIgnore")) { return false} else { return true}
+      console.log("t", this)
+      if (this.classList.contains("barIgnore")) {BarChart.toggle = false} else { BarChart.toggle = true}
+      return BarChart.toggle
     })
 
   // TODO: Turn of this particle too, this works, just need to turn on again
   d3.select("#particle_field")
     .selectAll("circle." + this.__data__.name)
-    .classed("particleIgnore", function(d) {
-      if (this.classList.contains("particleIgnore")) { return false } else { return true }
-    })
-}
-
-function handle_label_toggle() {
-  console.log(this)
-  BarChart.obj.select("#" + this.__data__ + "_bar")
-    .classed("barIgnore", function(d) {
-      if (this.classList.contains("barIgnore")) { return false} else { return true} })
-  // ParticleField.svg.selectAll(".particle")
-  //   .selectAll("." + this.__data__)
-  //   .classed("particleIgnore")
+    .classed("particleIgnore", function(d) { return BarChart.toggle })
 }
 
 
 function initParticleField() {
-  ParticleField.width = 800
-  ParticleField.height = 300
+  ParticleField.width = 595
+  ParticleField.height = 420
   ParticleField.radius = 2.3
-  ParticleField.velocity = 1.2
+  ParticleField.velocity = 1.4
   ParticleField.svg = d3.select("#particle_field")
           .attr('width', ParticleField.width)
           .attr('height', ParticleField.height)
@@ -182,47 +212,76 @@ function initParticleField() {
   setParticleFieldConcentration(DateIndex[Current.date])
 }
 
-
-function handle_it() {
-  handle_time_step()
-  // d3.interval(handle_time_step, 1500)
+function initControls() {
+  d3.select("#play_button")
+    .on("click", handlePlay)
+  d3.select("#pause_button")
+    .on("click", handlePause)
+  d3.select("#stop_button")
+    .on("click", handleStop)
 }
 
 
+function handleStop() {
+  ["CO", "O3", "SO2", "PM25", "PM10", "NO2"].map((p) => Sims[p].stop())
+}
+
+function handlePause() {
+  BarChart.interval.stop()
+}
+
+function handlePlay() {
+  handle_time_step()
+  BarChart.interval = d3.interval(handle_time_step, 1200)
+}
+
+function handleDateChange() {
+    new_date = this.value + Current.date.slice(10)
+    set_time_step(Current.date, new_date)
+}
+
 function handle_time_step() {
-  // cause a transformation to the next timestep
-  let yScale = vis.barchart_1.yScale
-  let height = vis.barchart_1.height
   current = Current.date
   Next.date = step_n_times(1)
 
-  // hide the current time step
+  set_time_step(current, Next.date)
+
+  DatePicker.datepicker("update", Next.date.slice(0,10))
+
+  Current.date = Next.date
+}
+
+function set_time_step(current, next) {
+
+  let yScale = BarChart.yScale
+  let height = BarChart.height
+
+  // update the bars in the barchart
   bars = BarChart.obj.select(encodeDateIDSelector(current))
     .selectAll("rect")
 
   bars.transition()
     .duration(800) // in milliseconds
     .attr("y", function(d,i) {
-      let particle = DateIndex[Next.date][i]
-      let newPercent = particle["percent"]
-      if (newPercent < 0) { return yScale(0) }
-      else { return yScale(0 - newPercent) }
+      let particle = DateIndex[next][i]
+      let new_y = particle["caqi"]
+      return yScale(new_y)
     })
     .attr("height", function(d,i) {
-      let newPercent = DateIndex[Next.date][i]["percent"]
-      return yScale(Math.abs(newPercent)) - 0.5 * height
+      let particle = DateIndex[next][i]
+      let new_height = particle["caqi"]
+      return height - yScale(new_height)
     })
 
   BarChart.obj.select(encodeDateIDSelector(current))
-    .attr("id", encodeDateIDAttr(Next.date))
+    .attr("id", encodeDateIDAttr(next))
 
-  setBarChartConcentration(BarChart.xAxisVals, DateIndex[Next.date])
+  setBarChartConcentration(BarChart.xAxisVals, DateIndex[next])
 
   // Update the concentration of each particle type in the field
-  setParticleFieldConcentration(DateIndex[Next.date])
-
-  Current.date = Next.date
+  setParticleFieldConcentration(DateIndex[next])
 }
+
 
 
 /* Some useful helper functions */
@@ -239,14 +298,20 @@ function encodeDateIDSelector(date) {
 }
 
 function scaleConcentration(value) {
-  return 0.00003 * value
+  return 0.0000005 * value
+}
+
+function roundTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
 }
 
 function setBarChartConcentration(selection, values) {
   selection.selectAll(".tick")
     .select("text")
     .data(values)
-    .text(function(d) { return d.percent } )
+    .text(function(d) {
+        c = d.value
+        if (c == "null") {return "missing"} else {return roundTwo(c)} } )
 }
 
 function setParticleFieldConcentration(particles) {
@@ -332,8 +397,10 @@ function particleDigest(particleName) {
     particles.enter().append("circle")
       .classed("particle", true)
       .classed(particleName, true)
-      .attr('r', d=>d.r)
-    )
+      .classed("particleIgnore", function() { return BarChart.toggle })
+      .attr('r', function (d) {
+        if (particleName == "PM10" || particleName == "O3" || particleName == "NO2")  {return d.r * 1.5}
+        else {return d.r } }))
     .attr('cx', d => d.x)
     .attr('cy', d => d.y);
 }

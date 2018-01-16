@@ -135,13 +135,22 @@ th {
 
 /* NEW CSS ENTRIES */
 
+circle {
+  stroke: white;
+  stroke-width: 1.2px;
+}
+
 .CO { fill: #e41a1c; }
 .O3 { fill: #377eb8; }
 .SO2 { fill: #4daf4a; }
 .PM10 { fill: #984ea3; }
 .PM25 { fill: #ff7f00; }
-.NOX { fill: #ffff33; }
-.NO2 { fill: #a65628; }
+.NOX { fill: #a65628; }
+.NO2 { fill: #ffff33; }
+
+.HCOmask {
+  background: rgb(255,255,255);
+}
 
 .barChart path { stroke: rgba(0,0,0,0); }
 
@@ -150,7 +159,25 @@ th {
 .barChart .barIgnore {
   fill: rgba(255,255,255);
   stroke: rgb(0,0,0);
-  stroke-width: 1px;
+  stroke-width: 0.5px;
+  opacity: 1;
+}
+
+.barChart .value {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.valueBox {
+  opacity: 0.4;
+}
+
+.barChart .label {
+  font-size: 12px;
+}
+
+.labelBox {
+  opacity: 0.5;
 }
 
 .particleIgnore {
@@ -158,3 +185,22 @@ th {
   stroke-width: 1px;
   fill: rgba(255,255,255);
 }
+
+.person {
+  fill: rgba(0,0,0,0.5);
+}
+
+#controls {
+  height: 22px;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+button {
+  background: white;
+  width: auto;
+  height: 22px;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
