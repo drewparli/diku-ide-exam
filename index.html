@@ -16,6 +16,9 @@
     <!-- D3 Library Scripts -->
     <script type="text/javascript" src="d3/d3.js"></script>
     <script type="text/javascript" src="d3/d3-scale-chromatic.v1.min.js"></script>
+    <script type="text/javascript" src="d3/d3-force-bounce.min.js"></script>
+    <script type="text/javascript" src="d3/d3-force-surface.min.js"></script>
+
 
     <!-- IDE Visualization Script  -->
     <script type="text/javascript" src="main.js"></script>
@@ -80,7 +83,8 @@
         <div class="col-sm-8" style="background: white;">
             <div><h1>Title Here</h1></div>
             <div id="streetSim">
-                <img width="500px" src="jagtvej.png">
+                <!-- <img width="500px" height="300px" src="jagtvej.png"> -->
+                <svg id="particle_field"></svg>
             </div>
             <div>
                 <svg id="barchart-1"></svg>
