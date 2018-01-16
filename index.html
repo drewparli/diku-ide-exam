@@ -33,44 +33,44 @@
     <script type="text/javascript" src="bootstrap/popper.min.js" ></script>
     <script type="text/javascript" src="bootstrap/bootstrap.min.js" ></script>
     <script type="text/javascript" src="moment-with-locales.js"></script>
-	<script type="text/javascript" src="bootstrap/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="bootstrap/bootstrap-datepicker.min.js"></script>
 
-	<script>
-	$(document).ready(function(){
-      var date_input=$('input[id="date"]'); //our date input has the id "date"
-      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-      date_input.datepicker({
-        format: 'yyyy-mm-dd',
-        container: container,
-        autoclose: true,
-		orientation: "top left",
-        startDate: "2017-01-01",
-        endDate: "2017-12-31",
+    <script>
+      $(document).ready(function(){
+        var date_input=$('input[id="date"]'); //our date input has the id "date"
+        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+          format: 'yyyy-mm-dd',
+          container: container,
+          autoclose: true,
+          orientation: "top left",
+          startDate: "2017-01-01",
+          endDate: "2017-12-31",
+        })
       })
-    })
     </script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap-iso.css" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap-datepicker3.css"/>
 
-	<!-- Date picker -->
+    <!-- Date picker -->
     <div class="bootstrap-iso">
       <div class="col-md-3">
         <form class="form-horizontal">
           <img src="calendar_icon.png" height="22" width="22">
-		  <input id="date" placeholder="YYYY-MM-DD" type="text" readonly="true"/>
+          <input id="date" placeholder="YYYY-MM-DD" type="text" readonly="true"/>
         </form>
       </div>
     </div>
 
     <!-- Time picker -->
-	<div>
-	  <form class="form-horizontal">
-	    <img src="alarm_clock_icon.png" height="22" width="22">
-	    <span id="time_txt">00:00</span>
-		<div class="slider-wrapper">
-	      <input id="time" type="range" min="0" max="47" value="0" style="width: 300px;"/>
+    <div>
+      <form class="form-horizontal">
+        <img src="alarm_clock_icon.png" height="22" width="22">
+        <span id="time_txt">00:00</span>
+        <div class="slider-wrapper">
+          <input id="time" type="range" min="0" max="47" value="0" style="width: 300px;"/>
         </div>
       </form>
     </div>
@@ -79,106 +79,109 @@
 
     <!-- This is the overall container for the two columns -->
     <div class="row" style="height:740px;">
-        <!-- Container for the left-hand side visualization area -->
-        <div class="col-sm-8" style="background: white;">
-            <div><h1>Title Here</h1></div>
-            <div id="streetSim">
-                <!-- <img width="500px" height="300px" src="jagtvej.png"> -->
-                <svg id="particle_field"></svg>
-            </div>
-            <div>
-                <svg id="barchart-1"></svg>
-            </div>
-			<div>
-                <svg id="linechart-1"></svg>
-            </div>
-			<div class="btn-group">
-                <button id="SO2">SO2</button>
-                <button id="NO2">NO2</button>
-                <button id="PM10">PM10</button>
-				<button id="O3">O3</button>
-                <button id="CO">CO</button>
-				<button id="NOx">NOx</button>
-                <button id="PM25">PM25</button>
-            </div>
-			<div id="linechart-tooltip"></div>
+      <!-- Container for the left-hand side visualization area -->
+      <div class="col-sm-8" style="background: white;">
+        <div><h1>Title Here</h1></div>
+        <div id="streetSim">
+          <!-- <img width="500px" height="300px" src="jagtvej.png"> -->
+          <svg width="594" height="420">
+            <svg id="particle_field"></svg>
+              <!-- <use xlink:href="drawings/hc_minified.svg#hc"></use> -->
+          </svg>
         </div>
-
-        <!-- Container for the right-hand side text accordion -->
-        <div class="col-sm-4" style="max-height:500px;">
-            <div id="accordion" role="tablist">
-
-                <!-- Text for the guided story -->
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingOne">
-                        <h5 class="mb-0">
-                        <a data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">
-                        Story
-                        </a>
-                        </h5>
-                    </div>
-                    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body" style="height:500px;overflow-y: scroll;">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Text about different particle types -->
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingTwo">
-                        <h5 class="mb-0">
-                        <a class="collapsed" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
-                        Particles
-                        </a>
-                    </h5>
-                    </div>
-                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                        <div class="card-body" style="height:500px;overflow-y: scroll;">
-                            <h3>Carbon monoxide (CO)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060">Wikipedia page</a>
-
-                            <h3>Nitric oxide (NO)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Nitric_oxide&oldid=814499616">Wikipedia page</a>
-
-                            <h3>Nitrogen dioxide (NO2)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Nitrogen_dioxide&oldid=817446638">Wikipedia page</a>
-
-                            <h3>Nitrogen oxides (NO + NO2 = NOx)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Nitrogen&oldid=818513757">Wikipedia page</a>
-
-                            <h3>Ozone (O3)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576">Wikipedia page</a>
-
-                            <h3>Particulates < 10µm (PM10)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
-
-                            <h3>Particulates < 2.5µm (PM2.5)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
-
-                            <h3>Sulfur dioxide (SO2)</h3>
-                            <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276">Wikipedia page</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Text for sources and references -->
-                <div class="card">
-                    <div class="card-header" role="tab" id="headingThree">
-                        <h5 class="mb-0">
-                        <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
-                        Sources
-                        </a>
-                    </h5>
-                    </div>
-                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                        <div class="card-body" style="height:500px;overflow-y: scroll;">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <svg id="barchart-1"></svg>
         </div>
+        <div>
+          <svg id="linechart-1"></svg>
+        </div>
+        <div class="btn-group">
+          <button id="SO2">SO2</button>
+          <button id="NO2">NO2</button>
+          <button id="PM10">PM10</button>
+          <button id="O3">O3</button>
+          <button id="CO">CO</button>
+          <button id="NOx">NOx</button>
+          <button id="PM25">PM25</button>
+        </div>
+        <div id="linechart-tooltip"></div>
+      </div>
+
+      <!-- Container for the right-hand side text accordion -->
+      <div class="col-sm-4" style="max-height:500px;">
+        <div id="accordion" role="tablist">
+
+          <!-- Text for the guided story -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingOne">
+              <h5 class="mb-0">
+                <a data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">
+                  Story
+                </a>
+              </h5>
+            </div>
+            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+
+          <!-- Text about different particle types -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingTwo">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
+                  Particles
+                </a>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+                <h3>Carbon monoxide (CO)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060">Wikipedia page</a>
+
+                <h3>Nitric oxide (NO)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Nitric_oxide&oldid=814499616">Wikipedia page</a>
+
+                <h3>Nitrogen dioxide (NO2)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Nitrogen_dioxide&oldid=817446638">Wikipedia page</a>
+
+                <h3>Nitrogen oxides (NO + NO2 = NOx)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Nitrogen&oldid=818513757">Wikipedia page</a>
+
+                <h3>Ozone (O3)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576">Wikipedia page</a>
+
+                <h3>Particulates < 10µm (PM10)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
+
+                <h3>Particulates < 2.5µm (PM2.5)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
+
+                <h3>Sulfur dioxide (SO2)</h3>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276">Wikipedia page</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text for sources and references -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingThree">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
+                  Sources
+                </a>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

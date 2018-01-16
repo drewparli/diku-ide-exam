@@ -163,6 +163,40 @@ th {
   fill: rgba(0,0,255,0);
 }
 
+#particle_field {
+  z-index: 2;
+}
+
+/*
+.hc {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 600px;
+  height: 300px;
+  z-index: -1;
+}
+*/
+
+#streetSim {
+  height: 420px;
+  width: 594px;
+  background-image: url(../drawings/hc_minified.svg);
+  background-size:100% 100%;
+  -o-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-size:cover;
+}
+
+/*
+.hc use {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}
+*/
+
 .barChart .yAxis line { stroke: rgba(0,0,0,0.3); }
 
 .barChart path { stroke: rgba(0,0,0,0); }

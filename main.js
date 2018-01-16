@@ -114,8 +114,8 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
 // }
 
 function initParticleField() {
-  ParticleField.height = 300
-  ParticleField.width = 600
+  ParticleField.height = 420
+  ParticleField.width = 594
   ParticleField.radius = 2.3
   ParticleField.velocity = 1.2
   ParticleField.svg = d3.select("#particle_field")
