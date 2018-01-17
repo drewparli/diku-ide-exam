@@ -385,12 +385,18 @@ function initLineChart1(dataset, eu_limit) {
 
   var yMax = d3.max(dataset, function(d) { return d.value; });
   yMax = Math.max(yMax, eu_limit);
+  yMax = (eu_limit == yMax) ? eu_limit + 1 : yMax;
 
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
     .range([vis.linechart_1.height, 0])
     .nice();
   vis.linechart_1.yScale = yScale;
+
+  var area = d3.area()
+    .x(function(d) { return vis.linechart_1.xScale(d.date); })
+    .y0(vis.linechart_1.height)
+    .y1(function(d) { return vis.linechart_1.yScale(d.value); });
 
   // define the line
   var valueline = d3.line()
@@ -408,8 +414,8 @@ function initLineChart1(dataset, eu_limit) {
   // Add the valueline path.
   linechart.append("path")
     .data([dataset])
-    .attr("class", "line")
-    .attr("d", valueline);
+    .attr("class", "area")
+    .attr("d", area);
 
   linechart.append("path")
     .data([[{"date":date_ranges[0], "value":eu_limit}, {"date":date_ranges[1], "value":eu_limit}]])
@@ -486,12 +492,18 @@ function updateLinegraph(dataset, eu_limit) {
 
   var yMax = d3.max(dataset, function(d) { return d.value; });
   yMax = Math.max(yMax, eu_limit);
+  yMax = (eu_limit == yMax) ? eu_limit + 1 : yMax;
 
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
     .range([vis.linechart_1.height, 0])
     .nice();
   vis.linechart_1.yScale = yScale;
+
+  var area = d3.area()
+    .x(function(d) { return vis.linechart_1.xScale(d.date); })
+    .y0(vis.linechart_1.height)
+    .y1(function(d) { return yScale(d.value); });
 
   // define the line
   var valueline = d3.line()
@@ -502,9 +514,9 @@ function updateLinegraph(dataset, eu_limit) {
   var linechart = d3.select("#linechart-1").transition();
 
   // Make the changes
-  linechart.select(".line")   // change the line
+  linechart.select(".area")   // change the line
     .duration(750)
-    .attr("d", valueline(dataset));
+    .attr("d", area(dataset));
 
   linechart.select(".line_eu")
     .duration(750)

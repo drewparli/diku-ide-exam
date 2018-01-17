@@ -177,6 +177,12 @@ th {
   stroke-width: 1.5px;
 }
 
+.area {
+  fill: grey;
+  stroke: grey;
+  stroke-width: 1.5px;
+}
+
 .hideBar {
   fill: rgba(0,0,255,0);
 }

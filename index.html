@@ -47,6 +47,11 @@
           startDate: "2017-01-01",
           endDate: "2017-12-31",
         })
+
+        $(".nav a").on("click", function(){
+          $(".nav").find(".active").removeClass("active");
+          $(this).parent().addClass("active");
+        });
       })
     </script>
 
@@ -54,56 +59,68 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap-iso.css" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap-datepicker3.css"/>
 
-    <!-- Date picker -->
-    <div class="bootstrap-iso">
-      <div class="col-md-3">
-        <form class="form-horizontal">
-          <img src="calendar_icon.png" height="22" width="22">
-          <input id="date" placeholder="YYYY-MM-DD" type="text" readonly="true"/>
-        </form>
-      </div>
-    </div>
-
-    <!-- Time picker -->
-    <div>
-      <form class="form-horizontal">
-        <img src="alarm_clock_icon.png" height="22" width="22">
-        <span id="time_txt">00:00</span>
-        <div class="slider-wrapper">
-          <input id="time" type="range" min="0" max="47" value="0" style="width: 300px;"/>
-        </div>
-      </form>
-    </div>
-
-    <div id="slider"></div>
-
     <!-- This is the overall container for the two columns -->
     <div class="row" style="height:740px;">
       <!-- Container for the left-hand side visualization area -->
       <div class="col-sm-8" style="background: white;">
-        <div><h1>Title Here</h1></div>
-        <div id="particle_simulation_container">
-          <!-- <img width="500px" height="300px" src="jagtvej.png"> -->
-          <svg id="particle_field"></svg>
+        <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#menu1" data-toggle="tab">Title 1 Here</a></li>
+            <li><a href="#menu2" data-toggle="tab">Title 2 Here</a></li>
+          </ul>
+          <div class="tab-content" >
+		  </div>
+          <div id="menu1" class="tab-pane active">
+            <!-- Date picker -->
+            <div class="bootstrap-iso">
+              <div class="col-md-3">
+                <form class="form-horizontal">
+                  <img src="calendar_icon.png" height="22" width="22">
+                  <input id="date" placeholder="YYYY-MM-DD" type="text" readonly="true"/>
+                </form>
+              </div>
+            </div>
+
+            <!-- Time picker -->
+            <div>
+              <form class="form-horizontal">
+                <img src="alarm_clock_icon.png" height="22" width="22">
+                <span id="time_txt">00:00</span>
+                <div class="slider-wrapper">
+                  <input id="time" type="range" min="0" max="47" value="0" style="width: 300px;"/>
+                </div>
+              </form>
+            </div>
+
+            <div id="slider">
+            </div>
+            <div id="particle_simulation_container">
+              <!-- <img width="500px" height="300px" src="jagtvej.png"> -->
+              <svg id="particle_field"></svg>
+            </div>
+            <div id="barchart_container">
+            </div>
+            <svg id="barchart_frame">
+              <g id="barchart"></g>
+            </svg>
+          </div>
+          <div id="menu2" class="tab-pane">
+            <div>
+              <svg id="linechart-1"></svg>
+            </div>
+            <div class="btn-group">
+              <button id="SO2">SO2</button>
+              <button id="NO2">NO2</button>
+              <button id="PM10">PM10</button>
+              <button id="O3">O3</button>
+              <button id="CO">CO</button>
+              <button id="NOx">NOx</button>
+              <button id="PM25">PM25</button>
+            </div>
+            <div id="linechart-tooltip">
+            </div>
+          </div>
         </div>
-        <div id="barchart_container">
-        </div>
-        <svg id="barchart_frame">
-          <g id="barchart"></g>
-        </svg>
-        <div>
-          <svg id="linechart-1"></svg>
-        </div>
-        <div class="btn-group">
-          <button id="SO2">SO2</button>
-          <button id="NO2">NO2</button>
-          <button id="PM10">PM10</button>
-          <button id="O3">O3</button>
-          <button id="CO">CO</button>
-          <button id="NOx">NOx</button>
-          <button id="PM25">PM25</button>
-        </div>
-        <div id="linechart-tooltip"></div>
       </div>
 
       <!-- Container for the right-hand side text accordion -->
