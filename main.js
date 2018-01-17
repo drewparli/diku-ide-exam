@@ -342,11 +342,32 @@ function set_time_step(current, next) {
 
   // Update the concentration of each particle type in the field
   setParticleFieldConcentration(DateIndex[next])
+
+  flashWarningIfHigh(DateIndex[next])
 }
 
 function updateTime() {
   var id = d3.select("#time").node().value;
   d3.select("#time_txt").text(getTimeByIndex(id));
+
+  animateTimeFrame(getTimeByIndex(id))
+}
+
+function animateTimeFrame(time) {
+  var color = "#fff"
+  var hour = Number(time.slice(0,2))
+
+  if (hour > 22 || hour <= 3)
+    color = "#001318"
+  if ((hour <= 22 && hour > 21) || (hour > 3 && hour <= 4))
+    color = "#CC7D00"
+  if ((hour <= 21 && hour > 19) || (hour > 4 && hour <= 8))
+    color = "#00BCE4"
+  if (hour <= 19 && hour > 8)
+    color = "#99EDFF"
+
+  d3.select("#sky")
+    .attr("fill",color)
 }
 
 
@@ -425,6 +446,34 @@ function setParticleFieldConcentration(particles) {
     value = particles[i].value
     c = scaleConcentration(parseFloat(value))
     onDensityChange(c, pName)
+  }
+}
+
+function flashWarningIfHigh(values) {
+  var text = ""
+  var superWarningValues = values.filter(w => w.caqi == 5)
+  if (superWarningValues.length > 0) {
+    var valueNames = superWarningValues.map(w => w.name)
+    text = "WARNING: VERY HIGH concentration of " + valueNames.join(", ") + "!"
+  }
+  else {
+    var warningValues = values.filter(w => w.caqi == 4)
+    if (warningValues.length > 0) {
+      var valueNames = warningValues.map(w => w.name)
+      text = "WARNING: High concentration of " + valueNames.join(", ")
+    }
+  }
+
+  if (text != "") {
+    d3.select("#warning_top")
+      .attr("visibility", "visibile")
+
+    d3.select("#warning_text")
+      .html(text)
+  }
+  else {
+    d3.select("#warning_top")
+      .attr("visibility", "hidden")
   }
 }
 
