@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="280mm" height="25mm" version="1.1" viewBox="0 0 280 25" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<metadata>
+<rdf:RDF>
+<cc:Work rdf:about="">
+<dc:format>image/svg+xml</dc:format>
+<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+<dc:title/>
+</cc:Work>
+</rdf:RDF>
+</metadata>
+<g transform="translate(0,-272)" fill="#d4aa00">
+<rect y="272" width="279.78" height="25" ry="4.6772"/>
+<rect y="272" width="279.78" height="25" ry="4.6772"/>
+<rect x="2.8564" y="273.75" width="274.06" height="21.498" ry="4.0221" stroke="#000" stroke-width="1.817"/>
+</g>
+<g>
+<path d="m9.3549 20.512c-1.0263-0.004448-1.4499-0.043204-2.2036-0.51972-0.43334-0.64821-0.57102-1.0489-0.33597-1.5119l7.1225-12.048c0.57975-0.91846 1.2816-1.7384 1.9844-1.7954 0.82878-0.018674 1.5951 0.93735 2.1734 1.7954l6.9453 11.765c0.27082 0.88093 0.25618 1.0776-0.32737 1.8484-0.64523 0.5037-1.264 0.5571-2.224 0.56123z" fill="none" stroke="#000" stroke-width=".8"/>
+<circle cx="15.964" cy="18.096" r="1"/>
+<path d="m15.965 16.648c-0.24162-0.07198-0.53702-0.16482-0.68532-0.72782l-0.54548-7.0393c0.14124-0.75124 0.61364-1.0258 1.1812-1.1339 0.51936 0.11986 1.0045 0.31663 1.2776 0.99076l-0.51782 7.1815c-0.21332 0.53131-0.41495 0.66857-0.71013 0.72877z" stroke="#000" stroke-width=".26458px"/>
+</g>
+<text x="27.450521" y="15.871875" fill="#000000" font-family="sans-serif" font-size="10.583px" letter-spacing="0px" stroke-width=".26458" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="27.450521" y="15.871875" stroke-width=".26458">WARNING: High concentration of _ in the air!</tspan></text>
+</svg>
