@@ -5,7 +5,6 @@ d3.select(window).on('load', main);
 // the visualization function since d3.json is a async call.
 // See https://github.com/d3/d3-queue for more details.
 function main(handsJSON) {
-
   d3.queue()
     .defer(d3.json, "./data/data-hourly.json")  // police districts
     .defer(d3.json, "./data/data-daily.json")
@@ -19,16 +18,6 @@ function main(handsJSON) {
         visualize(hourly, daily, particles_EU, HCAB) // Visualize emission graph
       }
     })
-
-  d3.select("#time").on("input", updateTime);
-
-  d3.select("#SO2").on("click", function() { updateLinegraph(particles_daily["SO2"], particles_EU["SO2"].limit); });
-  d3.select("#NO2").on("click", function() { updateLinegraph(particles_daily["NO2"], particles_EU["NO2"].limit); });
-  d3.select("#PM10").on("click", function() { updateLinegraph(particles_daily["PM10"], particles_EU["PM10"].limit); });
-  d3.select("#O3").on("click", function() { updateLinegraph(particles_daily["O3"], particles_EU["O3"].limit); });
-  d3.select("#CO").on("click", function() { updateLinegraph(particles_daily["CO"], particles_EU["CO"].limit); });
-  d3.select("#NOx").on("click", function() { updateLinegraph(particles_daily["NOx"], particles_EU["NOx"].limit); });
-  d3.select("#PM25").on("click", function() { updateLinegraph(particles_daily["PM25"], particles_EU["PM25"].limit); });
 }
 
 
@@ -89,11 +78,23 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   })
 
   // d3 code to create our visualizations
+
   DateIndex = dateIndex;
   initBarChart()
   initParticleField()
   initControls()
-  initLineChart1(dataDaily["SO2"], particles_EU["SO2"].limit)
+
+
+  // d3.select("#time").on("input", updateTime);
+  // d3.select("#SO2").on("click", function() { updateLinegraph(particles_daily["SO2"], particles_EU["SO2"].limit); });
+  // d3.select("#NO2").on("click", function() { updateLinegraph(particles_daily["NO2"], particles_EU["NO2"].limit); });
+  // d3.select("#PM10").on("click", function() { updateLinegraph(particles_daily["PM10"], particles_EU["PM10"].limit); });
+  // d3.select("#O3").on("click", function() { updateLinegraph(particles_daily["O3"], particles_EU["O3"].limit); });
+  // d3.select("#CO").on("click", function() { updateLinegraph(particles_daily["CO"], particles_EU["CO"].limit); });
+  // d3.select("#NOx").on("click", function() { updateLinegraph(particles_daily["NOx"], particles_EU["NOx"].limit); });
+  // d3.select("#PM25").on("click", function() { updateLinegraph(particles_daily["PM25"], particles_EU["PM25"].limit); });
+
+  initLineChart(dataDaily["SO2"], particles_EU["SO2"].limit)
 }
 
 // This function sets up the main svg element for the map visualization
@@ -207,23 +208,6 @@ function initBarChart() {
   // barchart.on("click", handle_time_step, 5)  // one step forward
   // barchart.on("click", handle_it)  // use this for auto play
 }
-
-
-// function handle_bar_toggle() {
-//   BarChart.toggle = false
-
-//   BarChart.obj.selectAll("rect#" + this.id)
-//     .classed("barIgnore", function(d) {
-//       console.log("t", this)
-//       if (this.classList.contains("barIgnore")) {BarChart.toggle = false} else { BarChart.toggle = true}
-//       return BarChart.toggle
-//     })
-
-//   // TODO: Turn of this particle too, this works, just need to turn on again
-//   d3.select("#particle_field")
-//     .selectAll("circle." + this.__data__.name)
-//     .classed("particleIgnore", function(d) { return BarChart.toggle })
-// }
 
 function initParticleField() {
   ParticleField.width = 595
@@ -367,8 +351,9 @@ function animateTimeFrame(time) {
 
 
 
-
-/* Some useful helper functions */
+////////////////////////////////////////////////////////////////////////////////
+// HELPER FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////
 function step_n_times(n) {
   return moment.utc(Current.date).add(n * 30,'m').format("YYYY-MM-DD HH:mm")
 }
@@ -474,7 +459,18 @@ function flashWarningIfHigh(values) {
   }
 }
 
-function initLineChart1(dataset, eu_limit) {
+function initLineChart(dataset, eu_limit) {
+
+  // Add functionality to the predefined HTML elements
+  d3.select("#time").on("input", updateTime);
+  d3.select("#SO2").on("click", function() { updateLinegraph(particles_daily["SO2"], particles_EU["SO2"].limit); });
+  d3.select("#NO2").on("click", function() { updateLinegraph(particles_daily["NO2"], particles_EU["NO2"].limit); });
+  d3.select("#PM10").on("click", function() { updateLinegraph(particles_daily["PM10"], particles_EU["PM10"].limit); });
+  d3.select("#O3").on("click", function() { updateLinegraph(particles_daily["O3"], particles_EU["O3"].limit); });
+  d3.select("#CO").on("click", function() { updateLinegraph(particles_daily["CO"], particles_EU["CO"].limit); });
+  d3.select("#NOx").on("click", function() { updateLinegraph(particles_daily["NOx"], particles_EU["NOx"].limit); });
+  d3.select("#PM25").on("click", function() { updateLinegraph(particles_daily["PM25"], particles_EU["PM25"].limit); });
+
   // format the data
   dataset.forEach(function(d) {
     d.date = new Date(d.date);
@@ -636,8 +632,11 @@ function updateLinegraph(dataset, eu_limit) {
     });
 }
 
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
-// THIS IS BORROWED CODE
+// BORROWED CODE
 // see: https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd
 ////////////////////////////////////////////////////////////////////////////////
 function onDensityChange(density, pName) {
