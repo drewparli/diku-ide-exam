@@ -308,15 +308,14 @@ function initLineChart(dataset, eu_limit) {
       return d;
     });
 
-  var tooltip = d3.select("#linechart-tooltip");
   var tooltipLine = linechart.append("line");
 
   var tipBox = linechart.append("rect")
     .attr("width", vis.linechart_1.width)
     .attr("height", vis.linechart_1.height)
     .attr("opacity", 0)
-    .on("mousemove", function() { drawTooltip(vis.linechart_1.dataset, tipBox, tooltipLine, tooltip); })
-    .on("mouseout", function() { removeTooltip(tooltip, tooltipLine); });
+    .on("mousemove", function() { drawTooltip(vis.linechart_1.dataset, tipBox, tooltipLine); })
+    .on("mouseout", function() { removeTooltip(tooltipLine); });
 }
 
 
@@ -461,7 +460,7 @@ function getDateIndex(first, second) {
   var firstDate = new Date(first);
   var secondDate = new Date(second);
 
-  var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))) - 1;
+  var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
   return diffDays;
 }
 
@@ -539,7 +538,7 @@ function flashWarningIfHigh(values) {
 
 
 
-function drawTooltip(dataset, tipBox, tooltipLine, tooltip) {
+function drawTooltip(dataset, tipBox, tooltipLine) {
   var date_start = d3.min(dataset, function(d) { return d.date; });
   var date = vis.linechart_1.xScale.invert(d3.mouse(tipBox.node())[0]);
   var curr_date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -551,11 +550,23 @@ function drawTooltip(dataset, tipBox, tooltipLine, tooltip) {
     .attr("y1", 0)
     .attr("y2", vis.linechart_1.height);
 
-  tooltip.text("Date: " + formDate(dataset[date_id].date) + ", Value: " + formatNumber(dataset[date_id].value))
-    .style("display", "block");
+  d3.select("#linechart-tooltip-box")
+    .attr("x", vis.linechart_1.width - vis.linechart_1.margin - 80)
+	.attr("y", vis.linechart_1.margin)
+	.style("background-color", "green")
+	.style("display", "block")
+	.raise();
+
+  d3.select("#linechart-tooltip-date")
+    .text("Date: " + formDate(dataset[date_id].date));
+
+  d3.select("#linechart-tooltip-value")
+    .text("Value: " + formatNumber(dataset[date_id].value));
 }
 
-function removeTooltip(tooltip, tooltipLine) {
+function removeTooltip(tooltipLine) {
+  tooltip = d3.select("#linechart-tooltip-box")
+  
   if (tooltip) {
     tooltip.style("display", "none");
   }
