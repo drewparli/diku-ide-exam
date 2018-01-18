@@ -18,9 +18,16 @@ function main(handsJSON) {
         visualize(hourly, daily, particles_EU, HCAB) // Visualize emission graph
       }
     })
+
+d3.select("#time").on("input", updateTime);
+// d3.select("#SO2").on("click", function() { updateLinegraph(particles_daily["SO2"], particles_EU["SO2"].limit); });
+// d3.select("#NO2").on("click", function() { updateLinegraph(particles_daily["NO2"], particles_EU["NO2"].limit); });
+// d3.select("#PM10").on("click", function() { updateLinegraph(particles_daily["PM10"], particles_EU["PM10"].limit); });
+// d3.select("#O3").on("click", function() { updateLinegraph(particles_daily["O3"], particles_EU["O3"].limit); });
+// d3.select("#CO").on("click", function() { updateLinegraph(particles_daily["CO"], particles_EU["CO"].limit); });
+// d3.select("#NOX").on("click", function() { updateLinegraph(particles_daily["NOx"], particles_EU["NOx"].limit); });
+// d3.select("#PM25").on("click", function() { updateLinegraph(particles_daily["PM25"], particles_EU["PM25"].limit); });
 }
-
-
 
 // These objects hold all the magic numbers and elements that need to be
 // accessed globally for the entire visualization.
@@ -83,17 +90,6 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   initBarChart()
   initParticleField()
   initControls()
-
-
-  // d3.select("#time").on("input", updateTime);
-  // d3.select("#SO2").on("click", function() { updateLinegraph(particles_daily["SO2"], particles_EU["SO2"].limit); });
-  // d3.select("#NO2").on("click", function() { updateLinegraph(particles_daily["NO2"], particles_EU["NO2"].limit); });
-  // d3.select("#PM10").on("click", function() { updateLinegraph(particles_daily["PM10"], particles_EU["PM10"].limit); });
-  // d3.select("#O3").on("click", function() { updateLinegraph(particles_daily["O3"], particles_EU["O3"].limit); });
-  // d3.select("#CO").on("click", function() { updateLinegraph(particles_daily["CO"], particles_EU["CO"].limit); });
-  // d3.select("#NOx").on("click", function() { updateLinegraph(particles_daily["NOx"], particles_EU["NOx"].limit); });
-  // d3.select("#PM25").on("click", function() { updateLinegraph(particles_daily["PM25"], particles_EU["PM25"].limit); });
-
   initLineChart(dataDaily["SO2"], particles_EU["SO2"].limit)
 }
 
@@ -240,11 +236,103 @@ function initControls() {
     .on("click", handleStop)
 }
 
+function initLineChart(dataset, eu_limit) {
+  // Add functionality to the predefined HTML elements
+  buttons = d3.select("#linechart-buttons")
+  buttons.select("#SO2").on("click", updateLinegraph)
+  buttons.select("#NO2").on("click", updateLinegraph)
+  buttons.select("#PM10").on("click", updateLinegraph)
+  buttons.select("#O3").on("click", updateLinegraph)
+  buttons.select("#CO").on("click", updateLinegraph)
+  // buttons.select("#NOx").on("click", updateLinegraph)
+  buttons.select("#PM25").on("click", updateLinegraph)
+
+  // format the data
+  dataset.forEach(function(d) {
+    d.date = new Date(d.date);
+  });
+  vis.linechart_1.dataset = dataset;
+
+  var date_ranges = d3.extent(dataset, function(d) { return d.date; });
+
+  var xScale = d3.scaleTime()
+    .domain(date_ranges)
+    .range([0, vis.linechart_1.width]);
+  vis.linechart_1.xScale = xScale;
+
+  var yMax = d3.max(dataset, function(d) { return d.value; });
+  yMax = Math.max(yMax, eu_limit);
+  yMax = (eu_limit == yMax) ? eu_limit + 1 : yMax;
+
+  var yScale = d3.scaleLinear()
+    .domain([0, yMax])
+    .range([vis.linechart_1.height, 0])
+    .nice();
+  vis.linechart_1.yScale = yScale;
+
+  var area = d3.area()
+    .x(function(d) { return vis.linechart_1.xScale(d.date); })
+    .y0(vis.linechart_1.height)
+    .y1(function(d) { return vis.linechart_1.yScale(d.value); });
+
+  // define the line
+  var valueline = d3.line()
+    .x(function(d) { return xScale(d.date); })
+    .y(function(d) { return yScale(d.value); });
+
+  // appends a 'group' element to 'linechart'
+  // moves the 'group' element to the top left margin
+  var linechart = d3.select("#linechart-1")
+    .attr("width", vis.linechart_1.width + 2 * vis.linechart_1.margin)
+    .attr("height", vis.linechart_1.height + 2 * vis.linechart_1.margin)
+    .append("g")
+    .attr("transform", "translate(" + vis.linechart_1.margin + "," + vis.linechart_1.margin + ")");
+
+  // Add the valueline path.
+  linechart.append("path")
+    .data([dataset])
+    .attr("class", "area")
+    .attr("d", area);
+
+  linechart.append("path")
+    .data([[{"date":date_ranges[0], "value":eu_limit}, {"date":date_ranges[1], "value":eu_limit}]])
+    .attr("class", "line_eu")
+    .attr("stroke", "red")
+    .attr("stroke-width", 1.5)
+    .attr("d", valueline);
+
+  // Add the X Axis
+  linechart.append("g")
+    .attr("class", "x-axis")
+    .attr("transform", "translate(0," + vis.linechart_1.height + ")")
+    .call(d3.axisBottom(xScale).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat("%b")));
+
+  // Add the Y Axis
+  linechart.append("g")
+    .attr("class", "y-axis")
+    .call(d3.axisLeft(yScale).ticks(5))
+    .selectAll('text')
+    .text(function(d) {
+      return d;
+    });
+
+  var tooltip = d3.select("#linechart-tooltip");
+  var tooltipLine = linechart.append("line");
+
+  var tipBox = linechart.append("rect")
+    .attr("width", vis.linechart_1.width)
+    .attr("height", vis.linechart_1.height)
+    .attr("opacity", 0)
+    .on("mousemove", function() { drawTooltip(vis.linechart_1.dataset, tipBox, tooltipLine, tooltip); })
+    .on("mouseout", function() { removeTooltip(tooltip, tooltipLine); });
+}
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // d3 HANDLERS
 ////////////////////////////////////////////////////////////////////////////////
-
 function handle_bar_toggle() {
   BarChart.toggle = false
 
@@ -289,6 +377,13 @@ function handle_time_step() {
 
   Current.date = Next.date
 }
+
+
+
+
+
+
+
 
 function set_time_step(current, next) {
 
@@ -459,97 +554,7 @@ function flashWarningIfHigh(values) {
   }
 }
 
-function initLineChart(dataset, eu_limit) {
 
-  // Add functionality to the predefined HTML elements
-  d3.select("#time").on("input", updateTime);
-  d3.select("#SO2").on("click", function() { updateLinegraph(particles_daily["SO2"], particles_EU["SO2"].limit); });
-  d3.select("#NO2").on("click", function() { updateLinegraph(particles_daily["NO2"], particles_EU["NO2"].limit); });
-  d3.select("#PM10").on("click", function() { updateLinegraph(particles_daily["PM10"], particles_EU["PM10"].limit); });
-  d3.select("#O3").on("click", function() { updateLinegraph(particles_daily["O3"], particles_EU["O3"].limit); });
-  d3.select("#CO").on("click", function() { updateLinegraph(particles_daily["CO"], particles_EU["CO"].limit); });
-  d3.select("#NOx").on("click", function() { updateLinegraph(particles_daily["NOx"], particles_EU["NOx"].limit); });
-  d3.select("#PM25").on("click", function() { updateLinegraph(particles_daily["PM25"], particles_EU["PM25"].limit); });
-
-  // format the data
-  dataset.forEach(function(d) {
-    d.date = new Date(d.date);
-  });
-  vis.linechart_1.dataset = dataset;
-
-  var date_ranges = d3.extent(dataset, function(d) { return d.date; });
-
-  var xScale = d3.scaleTime()
-    .domain(date_ranges)
-    .range([0, vis.linechart_1.width]);
-  vis.linechart_1.xScale = xScale;
-
-  var yMax = d3.max(dataset, function(d) { return d.value; });
-  yMax = Math.max(yMax, eu_limit);
-  yMax = (eu_limit == yMax) ? eu_limit + 1 : yMax;
-
-  var yScale = d3.scaleLinear()
-    .domain([0, yMax])
-    .range([vis.linechart_1.height, 0])
-    .nice();
-  vis.linechart_1.yScale = yScale;
-
-  var area = d3.area()
-    .x(function(d) { return vis.linechart_1.xScale(d.date); })
-    .y0(vis.linechart_1.height)
-    .y1(function(d) { return vis.linechart_1.yScale(d.value); });
-
-  // define the line
-  var valueline = d3.line()
-    .x(function(d) { return xScale(d.date); })
-    .y(function(d) { return yScale(d.value); });
-
-  // appends a 'group' element to 'linechart'
-  // moves the 'group' element to the top left margin
-  var linechart = d3.select("#linechart-1")
-    .attr("width", vis.linechart_1.width + 2 * vis.linechart_1.margin)
-    .attr("height", vis.linechart_1.height + 2 * vis.linechart_1.margin)
-    .append("g")
-    .attr("transform", "translate(" + vis.linechart_1.margin + "," + vis.linechart_1.margin + ")");
-
-  // Add the valueline path.
-  linechart.append("path")
-    .data([dataset])
-    .attr("class", "area")
-    .attr("d", area);
-
-  linechart.append("path")
-    .data([[{"date":date_ranges[0], "value":eu_limit}, {"date":date_ranges[1], "value":eu_limit}]])
-    .attr("class", "line_eu")
-    .attr("stroke", "red")
-    .attr("stroke-width", 1.5)
-    .attr("d", valueline);
-
-  // Add the X Axis
-  linechart.append("g")
-    .attr("class", "x-axis")
-    .attr("transform", "translate(0," + vis.linechart_1.height + ")")
-    .call(d3.axisBottom(xScale).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat("%b")));
-
-  // Add the Y Axis
-  linechart.append("g")
-    .attr("class", "y-axis")
-    .call(d3.axisLeft(yScale).ticks(5))
-    .selectAll('text')
-    .text(function(d) {
-      return d;
-    });
-
-  var tooltip = d3.select("#linechart-tooltip");
-  var tooltipLine = linechart.append("line");
-
-  var tipBox = linechart.append("rect")
-    .attr("width", vis.linechart_1.width)
-    .attr("height", vis.linechart_1.height)
-    .attr("opacity", 0)
-    .on("mousemove", function() { drawTooltip(vis.linechart_1.dataset, tipBox, tooltipLine, tooltip); })
-    .on("mouseout", function() { removeTooltip(tooltip, tooltipLine); });
-}
 
 function drawTooltip(dataset, tipBox, tooltipLine, tooltip) {
   var date_start = d3.min(dataset, function(d) { return d.date; });
@@ -577,7 +582,16 @@ function removeTooltip(tooltip, tooltipLine) {
   }
 }
 
-function updateLinegraph(dataset, eu_limit) {
+// function updateLinegraph(dataset, eu_limit) {
+function updateLinegraph() {
+
+  console.log(this.id, typeof(this.id))
+
+  dataset = particles_daily[this.id]
+  eu_limit = particles_EU[this.id].limit
+
+  console.log(dataset, eu_limit)
+
   // format the data
   dataset.forEach(function(d) {
     d.date = new Date(d.date);
