@@ -18,15 +18,6 @@ function main(handsJSON) {
         visualize(hourly, daily, particles_EU, HCAB) // Visualize emission graph
       }
     })
-
-d3.select("#time").on("input", updateTime);
-// d3.select("#SO2").on("click", function() { updateLinegraph(particles_daily["SO2"], particles_EU["SO2"].limit); });
-// d3.select("#NO2").on("click", function() { updateLinegraph(particles_daily["NO2"], particles_EU["NO2"].limit); });
-// d3.select("#PM10").on("click", function() { updateLinegraph(particles_daily["PM10"], particles_EU["PM10"].limit); });
-// d3.select("#O3").on("click", function() { updateLinegraph(particles_daily["O3"], particles_EU["O3"].limit); });
-// d3.select("#CO").on("click", function() { updateLinegraph(particles_daily["CO"], particles_EU["CO"].limit); });
-// d3.select("#NOX").on("click", function() { updateLinegraph(particles_daily["NOx"], particles_EU["NOx"].limit); });
-// d3.select("#PM25").on("click", function() { updateLinegraph(particles_daily["PM25"], particles_EU["PM25"].limit); });
 }
 
 // These objects hold all the magic numbers and elements that need to be
@@ -234,6 +225,7 @@ function initControls() {
     .on("click", handlePause)
   d3.select("#stop_button")
     .on("click", handleStop)
+  d3.select("#time").on("input", updateTime);
 }
 
 function initLineChart(dataset, eu_limit) {
