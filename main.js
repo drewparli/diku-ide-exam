@@ -67,7 +67,7 @@ var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 // It is called after the data files are loaded.
 function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   // JQuery code to make our bootstrap date picker work
-  var datepicker = $("#datepicker");
+  var datepicker = $("#datepicker")
   console.log(datepicker)
   var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
   datepicker.datepicker({
@@ -209,21 +209,21 @@ function initBarChart() {
 }
 
 
-function handle_bar_toggle() {
-  BarChart.toggle = false
+// function handle_bar_toggle() {
+//   BarChart.toggle = false
 
-  BarChart.obj.selectAll("rect#" + this.id)
-    .classed("barIgnore", function(d) {
-      console.log("t", this)
-      if (this.classList.contains("barIgnore")) {BarChart.toggle = false} else { BarChart.toggle = true}
-      return BarChart.toggle
-    })
+//   BarChart.obj.selectAll("rect#" + this.id)
+//     .classed("barIgnore", function(d) {
+//       console.log("t", this)
+//       if (this.classList.contains("barIgnore")) {BarChart.toggle = false} else { BarChart.toggle = true}
+//       return BarChart.toggle
+//     })
 
-  // TODO: Turn of this particle too, this works, just need to turn on again
-  d3.select("#particle_field")
-    .selectAll("circle." + this.__data__.name)
-    .classed("particleIgnore", function(d) { return BarChart.toggle })
-}
+//   // TODO: Turn of this particle too, this works, just need to turn on again
+//   d3.select("#particle_field")
+//     .selectAll("circle." + this.__data__.name)
+//     .classed("particleIgnore", function(d) { return BarChart.toggle })
+// }
 
 function initParticleField() {
   ParticleField.width = 595
@@ -256,6 +256,26 @@ function initControls() {
     .on("click", handleStop)
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// d3 HANDLERS
+////////////////////////////////////////////////////////////////////////////////
+
+function handle_bar_toggle() {
+  BarChart.toggle = false
+
+  BarChart.obj.selectAll("rect#" + this.id)
+    .classed("barIgnore", function(d) {
+      console.log("t", this)
+      if (this.classList.contains("barIgnore")) {BarChart.toggle = false} else { BarChart.toggle = true}
+      return BarChart.toggle
+    })
+
+  // TODO: Turn of this particle too, this works, just need to turn on again
+  d3.select("#particle_field")
+    .selectAll("circle." + this.__data__.name)
+    .classed("particleIgnore", function(d) { return BarChart.toggle })
+}
 
 function handleStop() {
   ["CO", "O3", "SO2", "PM25", "PM10", "NO2"].map((p) => Sims[p].stop())
@@ -342,6 +362,10 @@ function animateTimeFrame(time) {
   d3.select("#sky")
     .attr("fill",color)
 }
+
+
+
+
 
 
 /* Some useful helper functions */
