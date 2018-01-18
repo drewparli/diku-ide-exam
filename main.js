@@ -36,15 +36,13 @@ var Sims = {}
 // VIKS GLOBAL VARIABLES
 var particles_daily;
 var particles_EU;
-var vis = {
-  "linechart_1": {
+var LineChart = {
   "dataset": null,
   "margin": 25,
   "width": 500,
   "height": 300,
   "xScale": null,
   "yScale": null
-  }
 }
 
 var parseTime = d3.timeParse("%Y-%m-%d");
@@ -243,14 +241,14 @@ function initLineChart(dataset, eu_limit) {
   dataset.forEach(function(d) {
     d.date = new Date(d.date);
   });
-  vis.linechart_1.dataset = dataset;
+  LineChart.dataset = dataset;
 
   var date_ranges = d3.extent(dataset, function(d) { return d.date; });
 
   var xScale = d3.scaleTime()
     .domain(date_ranges)
-    .range([0, vis.linechart_1.width]);
-  vis.linechart_1.xScale = xScale;
+    .range([0, LineChart.width]);
+  LineChart.xScale = xScale;
 
   var yMax = d3.max(dataset, function(d) { return d.value; });
   yMax = Math.max(yMax, eu_limit);
@@ -258,14 +256,14 @@ function initLineChart(dataset, eu_limit) {
 
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
-    .range([vis.linechart_1.height, 0])
+    .range([LineChart.height, 0])
     .nice();
-  vis.linechart_1.yScale = yScale;
+  LineChart.yScale = yScale;
 
   var area = d3.area()
-    .x(function(d) { return vis.linechart_1.xScale(d.date); })
-    .y0(vis.linechart_1.height)
-    .y1(function(d) { return vis.linechart_1.yScale(d.value); });
+    .x(function(d) { return LineChart.xScale(d.date); })
+    .y0(LineChart.height)
+    .y1(function(d) { return LineChart.yScale(d.value); });
 
   // define the line
   var valueline = d3.line()
@@ -275,10 +273,10 @@ function initLineChart(dataset, eu_limit) {
   // appends a 'group' element to 'linechart'
   // moves the 'group' element to the top left margin
   var linechart = d3.select("#linechart-1")
-    .attr("width", vis.linechart_1.width + 2 * vis.linechart_1.margin)
-    .attr("height", vis.linechart_1.height + 2 * vis.linechart_1.margin)
+    .attr("width", LineChart.width + 2 * LineChart.margin)
+    .attr("height", LineChart.height + 2 * LineChart.margin)
     .append("g")
-    .attr("transform", "translate(" + vis.linechart_1.margin + "," + vis.linechart_1.margin + ")");
+    .attr("transform", "translate(" + LineChart.margin + "," + LineChart.margin + ")");
 
   // Add the valueline path.
   linechart.append("path")
@@ -296,7 +294,7 @@ function initLineChart(dataset, eu_limit) {
   // Add the X Axis
   linechart.append("g")
     .attr("class", "x-axis")
-    .attr("transform", "translate(0," + vis.linechart_1.height + ")")
+    .attr("transform", "translate(0," + LineChart.height + ")")
     .call(d3.axisBottom(xScale).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat("%b")));
 
   // Add the Y Axis
@@ -311,10 +309,10 @@ function initLineChart(dataset, eu_limit) {
   var tooltipLine = linechart.append("line");
 
   var tipBox = linechart.append("rect")
-    .attr("width", vis.linechart_1.width)
-    .attr("height", vis.linechart_1.height)
+    .attr("width", LineChart.width)
+    .attr("height", LineChart.height)
     .attr("opacity", 0)
-    .on("mousemove", function() { drawTooltip(vis.linechart_1.dataset, tipBox, tooltipLine); })
+    .on("mousemove", function() { drawTooltip(LineChart.dataset, tipBox, tooltipLine); })
     .on("mouseout", function() { removeTooltip(tooltipLine); });
 }
 
@@ -540,19 +538,19 @@ function flashWarningIfHigh(values) {
 
 function drawTooltip(dataset, tipBox, tooltipLine) {
   var date_start = d3.min(dataset, function(d) { return d.date; });
-  var date = vis.linechart_1.xScale.invert(d3.mouse(tipBox.node())[0]);
+  var date = LineChart.xScale.invert(d3.mouse(tipBox.node())[0]);
   var curr_date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   var date_id = getDateIndex(date_start, curr_date);
 
   tooltipLine.attr("stroke", "blue")
-    .attr("x1", vis.linechart_1.xScale(curr_date))
-    .attr("x2", vis.linechart_1.xScale(curr_date))
+    .attr("x1", LineChart.xScale(curr_date))
+    .attr("x2", LineChart.xScale(curr_date))
     .attr("y1", 0)
-    .attr("y2", vis.linechart_1.height);
+    .attr("y2", LineChart.height);
 
   d3.select("#linechart-tooltip-box")
-    .attr("x", vis.linechart_1.width - vis.linechart_1.margin - 80)
-	.attr("y", vis.linechart_1.margin)
+    .attr("x", LineChart.width - LineChart.margin - 80)
+	.attr("y", LineChart.margin)
 	.style("background-color", "white")
 	.style("display", "block")
 	.raise();
@@ -590,14 +588,14 @@ function updateLinegraph() {
   dataset.forEach(function(d) {
     d.date = new Date(d.date);
   });
-  vis.linechart_1.dataset = dataset;
+  LineChart.dataset = dataset;
 
   var date_ranges = d3.extent(dataset, function(d) { return d.date; });
 
   var xScale = d3.scaleTime()
     .domain(date_ranges)
-    .range([0, vis.linechart_1.width]);
-  vis.linechart_1.xScale = xScale;
+    .range([0, LineChart.width]);
+  LineChart.xScale = xScale;
 
   var yMax = d3.max(dataset, function(d) { return d.value; });
   yMax = Math.max(yMax, eu_limit);
@@ -605,18 +603,18 @@ function updateLinegraph() {
 
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
-    .range([vis.linechart_1.height, 0])
+    .range([LineChart.height, 0])
     .nice();
-  vis.linechart_1.yScale = yScale;
+  LineChart.yScale = yScale;
 
   var area = d3.area()
-    .x(function(d) { return vis.linechart_1.xScale(d.date); })
-    .y0(vis.linechart_1.height)
+    .x(function(d) { return LineChart.xScale(d.date); })
+    .y0(LineChart.height)
     .y1(function(d) { return yScale(d.value); });
 
   // define the line
   var valueline = d3.line()
-    .x(function(d) { return vis.linechart_1.xScale(d.date); })
+    .x(function(d) { return LineChart.xScale(d.date); })
     .y(function(d) { return yScale(d.value); });
 
   // Select the section we want to apply our changes to
