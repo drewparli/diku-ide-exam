@@ -372,11 +372,9 @@ function handle_time_step() {
 
 
 
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////
+// HELPER FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////
 function set_time_step(current, next) {
 
   let yScale = BarChart.yScale
@@ -434,13 +432,6 @@ function animateTimeFrame(time) {
     .attr("fill",color)
 }
 
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-// HELPER FUNCTIONS
-////////////////////////////////////////////////////////////////////////////////
 function step_n_times(n) {
   return moment.utc(Current.date).add(n * 30,'m').format("YYYY-MM-DD HH:mm")
 }
@@ -642,13 +633,16 @@ function updateLinegraph() {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// BORROWED CODE
-// see: https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd
+// ADAPTED CODE - ENTROPY EXAMPLE
+// see https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd
+// This code was borrowed to visualize the particle field, however new
+// parameters have been added to allow the code to be used in a more general
+// manner. Also, certain portions of the code have been simplified due to the
+// values used in our implementation.
 ////////////////////////////////////////////////////////////////////////////////
 function onDensityChange(density, pName) {
   Sims[pName].nodes(generateNodes(density, pName))
 }
-
 
 function generateNodes(density, pName) {
   var nParticles = Math.round(ParticleField.width * ParticleField.height * density)
@@ -682,12 +676,11 @@ function hardLimit(node) {
   return node;
 }
 
-
 function initForces(particleName) {
   return d3.forceSimulation()
     .alphaDecay(0)
     .velocityDecay(0)
-    .on('tick', () => { return particleDigest(particleName) })
+    .on('tick', () => { return particleDigest(particleName) })  // This is one of the biggest updates I made
     .force('bounce', d3.forceBounce().radius(d => d.r))
     .force('container', d3.forceSurface()
       .surfaces([
@@ -700,7 +693,6 @@ function initForces(particleName) {
       .radius(d => d.r)
     )
 }
-
 
 function particleDigest(particleName) {
   let particleSelector = "circle.particle." + particleName
