@@ -9,6 +9,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-for-tabs.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-datepicker3.css">
     <link rel="stylesheet" href="css/bootstrap-iso.css">
 
@@ -57,38 +58,190 @@
   <body>
     <!-- This is the overall container for the two columns -->
     <div class="row" style="height:740px;">
+
+      <!-- Container for the right-hand side text accordion -->
+      <div class="col-sm-6" style="max-height:500px;">
+        <div id="accordion" role="tablist">
+
+          <!-- Text for the guided story -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingOne">
+              <h5 class="mb-0">
+                <a data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">
+                  Story
+                </a>
+              </h5>
+            </div>
+            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+
+          <!-- Text about different particle types -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingTwo">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
+                  Particles
+                </a>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+
+                There is a distinction between core polutants and other
+                polutants.  Without core polutants, an index value could not be
+                calculated. For city background measurements, the core
+                polutants are NO2, O3 and PM10 while the other polutants are
+                PM2.5, CO and SO2.
+
+                <hr>
+
+                <h4>Core Polutants</h4>
+
+                <h5>Nitrogen dioxide (NO2)</h5>
+
+                <p>Nitrogen dioxicde is one of several nitrogen oxides. NO 2 is
+                an intermediate in the industrial synthesis of nitric acid,
+                millions of tons of which are produced each year. At higher
+                temperatures it is a reddish-brown gas that has a
+                characteristic sharp, biting odor and is a prominent air
+                pollutant.</p>
+
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide">Wikipedia page</a>
+
+                <h5>Ozone (O3)</h5>
+
+                <p>Ground-level ozone (O3), unlike other pollutants mentioned,
+                is not emitted directly into the atmosphere, but is a secondary
+                pollutant produced by reaction between nitrogen dioxide (NO2),
+                hydrocarbons and sunlight. Ozone levels are not as high in
+                urban areas (where high levels of NO are emitted from vehicles)
+                as in rural areas. Sunlight provides the energy to initiate
+                ozone formation; consequently, high levels of ozone are
+                generally observed during hot, still sunny, summertime
+                weather.</p>
+
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576">Wikipedia page</a>
+
+                <h5>Particulate PM10</h5>
+
+                <p>Airborne particulate matter varies widely in its physical
+                and chemical composition, source and particle size. PM10
+                particles (the fraction of particulates in air of very small
+                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
+                current concern, as they are small enough to penetrate deep
+                into the lungs and so potentially pose significant health
+                risks. Larger particles meanwhile, are not readily inhaled, and
+                are removed relatively efficiently from the air by
+                sedimentation. The principal source of airborne PM10 and PM2.5
+                matter in European cities is road traffic emissions,
+                particularly from diesel vehicles. The limit values are very
+                often exceeded in European cities.</p>
+
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
+
+                <hr>
+
+                <h4>Other Polutants</h4>
+
+                <h5>Carbon monoxide (CO)</h5>
+
+                <p>CO is an odourless, tasteless and colourless gas produced by
+                the incomplete burning of materials which contain carbon,
+                including most transport fuels. CO is toxic, acting by reaction
+                with haemoglobin and reducing its capacity for oxygen transport
+                in the blood. Even in busy urban centres, CO concentrations
+                rarely exceed health related standards.</p>
+
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060">Wikipedia page</a>
+
+
+                <h5>Particulate PM2.5</h5>
+
+                <p>Airborne particulate matter varies widely in its physical
+                and chemical composition, source and particle size. PM10
+                particles (the fraction of particulates in air of very small
+                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
+                current concern, as they are small enough to penetrate deep
+                into the lungs and so potentially pose significant health
+                risks. Larger particles meanwhile, are not readily inhaled, and
+                are removed relatively efficiently from the air by
+                sedimentation. The principal source of airborne PM10 and PM2.5
+                matter in European cities is road traffic emissions,
+                particularly from diesel vehicles. The limit values are very
+                often exceeded in European cities.</p>
+
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
+
+                <h5>Sulfur dioxide (SO2)</h5>
+
+                <p>Fossil fuels contain traces of sulphur compounds, and SO2 is
+                produced when they are burnt. The majority of the SO2 emitted
+                to the air is from power generation, and the contribution from
+                transport sources is small (shipping being an exception).
+                Exposure to SO2 can damage health by its action on the
+                bronchial system. Sulphuric acid generated from atmospheric
+                reactions of SO2 is the main constituent of acid rain, and
+                ammonium sulphate particles are the most abundant secondary
+                particles found in air.</p>
+
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276">Wikipedia page</a>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Text for Common Air Quality Index -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingThree">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
+                  Common Air Quality Index
+                </a>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+                <img src="caqi-grid.png">
+                <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">link</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text for sources and references -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingFour">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseThree">
+                  Sources
+                </a>
+              </h5>
+            </div>
+            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+                <ul>
+                  <li><a href="https://www.eea.europa.eu/themes/air/intro">EEA - Air Pollution</a></li>
+                  <li><a href="http://www.airqualitynow.eu/pollution_home.php">Air Quality in Europe</a></li>
+                  <li><a href="http://envs.au.dk/en/knowledge/air/monitoring/">Department of Environmental Science - Air Quality Monitoring</a></li>
+                  <li><a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">Common Air Quality Index</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Container for the left-hand side visualization area -->
-      <div class="col-sm-8" style="background: white;">
+      <div class="col-sm-6" style="background: white;">
         <div class="tabbable">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#menu1" data-toggle="tab">Title 1 Here</a></li>
             <li><a href="#menu2" data-toggle="tab">Title 2 Here</a></li>
           </ul>
           <div class="tab-content" >
-          </div>
-
             <div id="menu1" class="tab-pane active">
-              <!-- Date picker -->
-              <div class="bootstrap-iso">
-                <div class="col-md-3">
-                  <form class="form-horizontal">
-                    <img src="calendar_icon.png" height="22" width="22">
-                    <input id="date" placeholder="YYYY-MM-DD" type="text" readonly="true"/>
-                  </form>
-                </div>
-              </div>
-
-              <!-- Time picker -->
-              <div>
-                <form class="form-horizontal">
-                  <img src="alarm_clock_icon.png" height="22" width="22">
-                  <span id="time_txt">00:00</span>
-                  <div class="slider-wrapper">
-                    <input id="time" type="range" min="0" max="47" value="0" style="width: 300px;"/>
-                  </div>
-                </form>
-              </div>
-
               <!-- Particle image area -->
               <div id="particle_simulation_container">
                 <svg id="particle_field" style="background: lightgrey;">
@@ -370,6 +523,26 @@
                       <polygon points="0,4 0,14, 9,14 9,4" transform="translate(2,-2)"></polygon>
                     </svg>
                   </button>
+                  <!-- Date picker -->
+                  <div class="bootstrap-iso">
+                    <div class="col-md-3">
+                      <form class="form-horizontal">
+                        <img src="calendar_icon.png" height="20" width="20">
+                        <input id="date" placeholder="YYYY-MM-DD" type="text" readonly="true"/>
+                      </form>
+                    </div>
+                  </div>
+
+                  <!-- Time picker -->
+                  <div>
+                    <form class="form-horizontal">
+                      <img src="alarm_clock_icon.png" height="20" width="20">
+                      <span id="time_txt">00:00</span>
+                      <div class="slider-wrapper">
+                        <input id="time" type="range" min="0" max="47" value="0" style="width: 300px;"/>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
 
@@ -380,11 +553,9 @@
                 </svg>
               </div>
             </div>
-
-            <!-- Line chart -->
-
-            <div id="menu2" class="tab-pane active">
+            <div id="menu2" class="tab-pane">
               <div>
+                <!-- Line chart -->			  
                 <svg id="linechart-1"></svg>
               </div>
               <div class="btn-group">
@@ -397,180 +568,6 @@
                 <button id="PM25">PM25</button>
               </div>
               <div id="linechart-tooltip"></div>
-            </div>
-        </div>
-      </div>
-
-      <!-- Container for the right-hand side text accordion -->
-      <div class="col-sm-4" style="max-height:500px;">
-        <div id="accordion" role="tablist">
-
-          <!-- Text for the guided story -->
-          <div class="card">
-            <div class="card-header" role="tab" id="headingOne">
-              <h5 class="mb-0">
-                <a data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="true" aria-controls="collapseOne">
-                  Story
-                </a>
-              </h5>
-            </div>
-            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-              </div>
-            </div>
-          </div>
-
-          <!-- Text about different particle types -->
-          <div class="card">
-            <div class="card-header" role="tab" id="headingTwo">
-              <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
-                  Particles
-                </a>
-              </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
-
-                There is a distinction between core polutants and other
-                polutants.  Without core polutants, an index value could not be
-                calculated. For city background measurements, the core
-                polutants are NO2, O3 and PM10 while the other polutants are
-                PM2.5, CO and SO2.
-
-                <hr>
-
-                <h4>Core Polutants</h4>
-
-                <h5>Nitrogen dioxide (NO2)</h5>
-
-                <p>Nitrogen dioxicde is one of several nitrogen oxides. NO 2 is
-                an intermediate in the industrial synthesis of nitric acid,
-                millions of tons of which are produced each year. At higher
-                temperatures it is a reddish-brown gas that has a
-                characteristic sharp, biting odor and is a prominent air
-                pollutant.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide">Wikipedia page</a>
-
-                <h5>Ozone (O3)</h5>
-
-                <p>Ground-level ozone (O3), unlike other pollutants mentioned,
-                is not emitted directly into the atmosphere, but is a secondary
-                pollutant produced by reaction between nitrogen dioxide (NO2),
-                hydrocarbons and sunlight. Ozone levels are not as high in
-                urban areas (where high levels of NO are emitted from vehicles)
-                as in rural areas. Sunlight provides the energy to initiate
-                ozone formation; consequently, high levels of ozone are
-                generally observed during hot, still sunny, summertime
-                weather.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576">Wikipedia page</a>
-
-                <h5>Particulate PM10</h5>
-
-                <p>Airborne particulate matter varies widely in its physical
-                and chemical composition, source and particle size. PM10
-                particles (the fraction of particulates in air of very small
-                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
-                current concern, as they are small enough to penetrate deep
-                into the lungs and so potentially pose significant health
-                risks. Larger particles meanwhile, are not readily inhaled, and
-                are removed relatively efficiently from the air by
-                sedimentation. The principal source of airborne PM10 and PM2.5
-                matter in European cities is road traffic emissions,
-                particularly from diesel vehicles. The limit values are very
-                often exceeded in European cities.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
-
-                <hr>
-
-                <h4>Other Polutants</h4>
-
-                <h5>Carbon monoxide (CO)</h5>
-
-                <p>CO is an odourless, tasteless and colourless gas produced by
-                the incomplete burning of materials which contain carbon,
-                including most transport fuels. CO is toxic, acting by reaction
-                with haemoglobin and reducing its capacity for oxygen transport
-                in the blood. Even in busy urban centres, CO concentrations
-                rarely exceed health related standards.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060">Wikipedia page</a>
-
-
-                <h5>Particulate PM2.5</h5>
-
-                <p>Airborne particulate matter varies widely in its physical
-                and chemical composition, source and particle size. PM10
-                particles (the fraction of particulates in air of very small
-                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
-                current concern, as they are small enough to penetrate deep
-                into the lungs and so potentially pose significant health
-                risks. Larger particles meanwhile, are not readily inhaled, and
-                are removed relatively efficiently from the air by
-                sedimentation. The principal source of airborne PM10 and PM2.5
-                matter in European cities is road traffic emissions,
-                particularly from diesel vehicles. The limit values are very
-                often exceeded in European cities.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
-
-                <h5>Sulfur dioxide (SO2)</h5>
-
-                <p>Fossil fuels contain traces of sulphur compounds, and SO2 is
-                produced when they are burnt. The majority of the SO2 emitted
-                to the air is from power generation, and the contribution from
-                transport sources is small (shipping being an exception).
-                Exposure to SO2 can damage health by its action on the
-                bronchial system. Sulphuric acid generated from atmospheric
-                reactions of SO2 is the main constituent of acid rain, and
-                ammonium sulphate particles are the most abundant secondary
-                particles found in air.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276">Wikipedia page</a>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Text for Common Air Quality Index -->
-          <div class="card">
-            <div class="card-header" role="tab" id="headingThree">
-              <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
-                  Common Air Quality Index
-                </a>
-              </h5>
-            </div>
-            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
-                <img src="caqi-grid.png">
-                <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">link</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Text for sources and references -->
-          <div class="card">
-            <div class="card-header" role="tab" id="headingFour">
-              <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseThree">
-                  Sources
-                </a>
-              </h5>
-            </div>
-            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
-                <ul>
-                  <li><a href="https://www.eea.europa.eu/themes/air/intro">EEA - Air Pollution</a></li>
-                  <li><a href="http://www.airqualitynow.eu/pollution_home.php">Air Quality in Europe</a></li>
-                  <li><a href="http://envs.au.dk/en/knowledge/air/monitoring/">Department of Environmental Science - Air Quality Monitoring</a></li>
-                  <li><a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">Common Air Quality Index</a></li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>
