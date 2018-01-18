@@ -553,7 +553,7 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
   d3.select("#linechart-tooltip-box")
     .attr("x", vis.linechart_1.width - vis.linechart_1.margin - 80)
 	.attr("y", vis.linechart_1.margin)
-	.style("background-color", "green")
+	.style("background-color", "white")
 	.style("display", "block")
 	.raise();
 
