@@ -5,8 +5,6 @@ d3.select(window).on('load', main);
 // the visualization function since d3.json is a async call.
 // See https://github.com/d3/d3-queue for more details.
 function main(handsJSON) {
-  var particles_daily;
-  var particles_EU;
 
   d3.queue()
     .defer(d3.json, "./data/data-hourly.json")  // police districts
@@ -34,44 +32,10 @@ function main(handsJSON) {
 }
 
 
-var parseTime = d3.timeParse("%Y-%m-%d");
-var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
 // These objects hold all the magic numbers and elements that need to be
 // accessed globally for the entire visualization.
-var vis = {
-  "current_step": "2017-12-31 20:00",
-  "data": {
-    "max_value": null,
-    "min_value": null,
-    "max_percent": 2,
-    "min_percent": -2,
-    "raw": null,
-    "dateIndex": null
-  },
-  "default": {
-    "date": "2017-12-31 20:00",
-    "data": null
-  },
-  "barchart_1": {
-    "obj": null,
-    "margin": 20,
-    "width": 500,
-    "height": 100,
-    "barpad": 0.2,
-    "xScale": null,
-    "yScale": null
-  },
-  "linechart_1": {
-  "dataset": null,
-  "margin": 25,
-  "width": 500,
-  "height": 300,
-  "xScale": null,
-  "yScale": null
-  }
-}
-
+// DREWS GLOBAL VARIABLES
 var DatePicker = null
 var BarChart = { }
 var Current = { "date": "2017-01-01 00:00" }
@@ -82,19 +46,27 @@ var DateIndex = {}
 var ParticleField = {}
 var Sims = {}
 
+// VIKS GLOBAL VARIABLES
+var particles_daily;
+var particles_EU;
+var vis = {
+  "linechart_1": {
+  "dataset": null,
+  "margin": 25,
+  "width": 500,
+  "height": 300,
+  "xScale": null,
+  "yScale": null
+  }
+}
+
+var parseTime = d3.timeParse("%Y-%m-%d");
+var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
+
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
 function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
-  // Just a sanity check
-  // console.log("DataSet", dataHourly)
-
-  DateIndex = dateIndex;
-
-  vis.data.raw = dataHourly
-  vis.data.dateIndex = dateIndex
-  vis.default.data = dateIndex[vis.default.date]
-
-  // Some JQuery code to make our bootstrap elements interact with our own elements
+  // JQuery code to make our bootstrap date picker work
   var datepicker = $("#datepicker");
   console.log(datepicker)
   var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
@@ -106,23 +78,26 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
     startDate: "2017-01-01",
     endDate: "2017-12-31",
   })
-
   datepicker.datepicker("update", "2017-01-01")
-
+  datepicker.datepicker().on('changeDate', handleDateChange)
   DatePicker = datepicker
 
-  console.log(datepicker.datepicker('set', "2017-01-01"))
+  // JQuery code to make our bootstrap tabs work
+  $(".nav a").on("click", function() {
+    $(".nav").find(".active").removeClass("active")
+    $(this).parent().addClass("active")
+  })
 
-  datepicker.datepicker().on('changeDate', handleDateChange)
-
-  initBarChart1()
+  // d3 code to create our visualizations
+  DateIndex = dateIndex;
+  initBarChart()
   initParticleField()
   initControls()
   initLineChart1(dataDaily["SO2"], particles_EU["SO2"].limit)
 }
 
 // This function sets up the main svg element for the map visualization
-function initBarChart1() {
+function initBarChart() {
   let min = 0
   let max = 5
   let marginLR = 30
@@ -172,7 +147,7 @@ function initBarChart1() {
 
   BarChart.xAxisVals.selectAll("g")
     .insert("rect")
-    .attr("id", function(d) { console.log(d); return d })
+    .attr("id", function(d) { return d })
     .attr("x", function(d) { return -xScale.bandwidth() * 0.5 })
     .attr("y", function(d) { return 2 })
     .attr("width", xScale.bandwidth())
@@ -180,7 +155,6 @@ function initBarChart1() {
     .attr("class", function(d) { return d })
     .classed("valueBox", true)
     .lower()
-
 
   // Add the x axis labels
   BarChart.xAxisLabels = barchart.append("g")
@@ -236,7 +210,6 @@ function initBarChart1() {
 
 
 function handle_bar_toggle() {
-  console.log("click", this.nodeName)
   BarChart.toggle = false
 
   BarChart.obj.selectAll("rect#" + this.id)
