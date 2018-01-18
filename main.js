@@ -65,12 +65,12 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   // JQuery code to make our bootstrap date picker work
   var datepicker = $("#datepicker")
   console.log(datepicker)
-  var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+  var container=$('.inpute-group').length>0 ? $('.input-group').parent() : "body";
   datepicker.datepicker({
     format: 'yyyy-mm-dd',
     container: container,
     autoclose: true,
-    orientation: "top left",
+    orientation: "top right",
     startDate: "2017-01-01",
     endDate: "2017-12-31",
   })

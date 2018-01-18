@@ -490,7 +490,9 @@
                 </svg>
 
                 <!-- Control/Button Panel -->
-                <div id="controls">
+                <div style="width: 600px; overflow: hidden;">
+
+                <div id="controls" style="float:left;">
                   <button id="play_button" type="button">
                     <svg width=15px height=15px>
                       <polygon points="0,0 0,15, 12.5,7.5" transform="translate(2,0)"></polygon>
@@ -507,19 +509,7 @@
                       <polygon points="0,4 0,14, 9,14 9,4" transform="translate(2,-2)"></polygon>
                     </svg>
                   </button>
-
-                  <!-- Date Picker -->
-                  <div class="bootstrap-iso">
-                    <div class="col-md-3">
-                      <form class="form-horizontal">
-                        <img src="calendar_icon.png" height="20" width="20">
-                        <input id="datepicker" placeholder="YYYY-MM-DD" type="text" readonly="true"/>
-                      </form>
-                    </div>
-                  </div>
-
-                  <!-- Time Picker -->
-                  <div>
+                  <!-- <div>
                     <form class="form-horizontal">
                       <img src="alarm_clock_icon.png" height="20" width="20">
                       <span id="time_txt">00:00</span>
@@ -527,8 +517,31 @@
                         <input id="time" type="range" min="0" max="47" value="0" style="width: 300px;"/>
                       </div>
                     </form>
-                  </div>
+                  </div> -->
                 </div>
+
+                <div class="bootstrap-iso" style="float:left;">
+                    <div class="col-md-3">
+                      <form class="form-horizontal">
+
+                        <!-- <img src="calendar_icon.png" height="20" width="20"> -->
+                        <div class="input-group">
+
+                          <!-- Date Picker -->
+                          <input id="datepicker" placeholder="YYYY-MM-DD" type="text" readonly="true" size="10" style="text-align: center;" />
+
+                          <!-- Time Picker -->
+                          <span id="time_txt" class="input-group-addon" style="background-color: white; border: 0px; line-height: 0px; padding-left: 20px;">00:00</span>
+                          <input id="time" type="range" min="0" max="47" value="0" style="width: 200px;"/>
+                        </div>
+                        <!-- </div> -->
+
+                      </form>
+                    </div>
+                  </div>
+
+                </div>
+
               </div>
 
               <!-- Bar Chart Area -->
