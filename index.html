@@ -916,53 +916,53 @@
               </div>
 
               <!-- Control/Button Panel -->
-              <div style="width: 505px; height: 40px; margin: 0 auto; padding-top: 5px;">
+              <div style="width: 100%; height: 40px; margin: 0 auto; padding-top: 5px;">
 
-                <div id="controls" style="float:left;">
-                  <div>
-                    <button id="play_button" type="button" style="height:30px; width:30px;float:left;">
-                      <svg width=20px height=20px>
-                        <polygon points="0,0 0,15, 12.5,7.5" transform="translate(2,5)"></polygon>
-                      </svg>
-                    </button>
+                <div style="display:table; margin: 0 auto;">
+                  <div id="controls" style="float:left;">
+                    <div>
+                      <button id="play_button" type="button" style="height:30px; width:30px;float:left;">
+                        <svg width=20px height=20px>
+                          <polygon points="0,0 0,15, 12.5,7.5" transform="translate(2,5)"></polygon>
+                        </svg>
+                      </button>
 
-                    <button id="pause_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;">
-                      <svg width=20px height=20px>
-                        <polygon points="0,0 0,15, 4,15 4,0" transform="translate(2,5)"></polygon>
-                        <polygon points="0,0 0,15, 4,15 4,0" transform="translate(9,5)"></polygon>
-                      </svg>
-                    </button>
+                      <button id="pause_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;">
+                        <svg width=20px height=20px>
+                          <polygon points="0,0 0,15, 4,15 4,0" transform="translate(2,5)"></polygon>
+                          <polygon points="0,0 0,15, 4,15 4,0" transform="translate(9,5)"></polygon>
+                        </svg>
+                      </button>
 
-                    <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
-                      <svg width=20px height=20px>
-                        <polygon points="0,0 0,15, 15,15 15,0" transform="translate(1,5)"></polygon>
-                      </svg>
-                    </button>
+                      <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
+                        <svg width=20px height=20px>
+                          <polygon points="0,0 0,15, 15,15 15,0" transform="translate(1,5)"></polygon>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="bootstrap-iso" style="float:left;">
+                    <div class="col-md-3">
+                      <form class="form-horizontal">
+
+                        <!-- <img src="calendar_icon.png" height="20" width="20"> -->
+                        <div class="input-group">
+
+                          <!-- Date Picker -->
+                          <input id="datepicker" placeholder="YYYY-MM-DD" type="text" readonly="true" size="10" style="text-align: center;" />
+
+                          <!-- Time Picker -->
+                          <span id="time_txt" class="input-group-addon" style="background-color: white; border: 0px; line-height: 0px; padding-left: 20px;">00:00</span>
+                          <input id="time" type="range" min="0" max="47" value="0" style="width: 200px;"/>
+                        </div>
+                        <!-- </div> -->
+
+                      </form>
                   </div>
                 </div>
-
-                <div class="bootstrap-iso" style="float:left;">
-                  <div class="col-md-3">
-                    <form class="form-horizontal">
-
-                      <!-- <img src="calendar_icon.png" height="20" width="20"> -->
-                      <div class="input-group">
-
-                        <!-- Date Picker -->
-                        <input id="datepicker" placeholder="YYYY-MM-DD" type="text" readonly="true" size="10" style="text-align: center;" />
-
-                        <!-- Time Picker -->
-                        <span id="time_txt" class="input-group-addon" style="background-color: white; border: 0px; line-height: 0px; padding-left: 20px;">00:00</span>
-                        <input id="time" type="range" min="0" max="47" value="0" style="width: 200px;"/>
-                      </div>
-                      <!-- </div> -->
-
-                    </form>
-                </div>
               </div>
-
             </div>
-
             </div>
 
             <!-- Bar Chart Area -->
