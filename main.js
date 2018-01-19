@@ -15,8 +15,10 @@ function main(handsJSON) {
       } else {
         particles_daily = daily;
         particles_EU = hourly.parts;
+
 		console.log(particles_daily);
-        visualize(hourly, daily, particles_EU, HCAB) // Visualize emission graph
+		
+        visualize(daily, particles_EU, HCAB) // Visualize emission graph
       }
     })
 }
@@ -29,10 +31,13 @@ var BarChart = { }
 var Current = { "date": "2017-01-01 00:00" }
 var Next = { "date": null }
 var Default = { "date": "2017-01-01 00:00" }
+var Final = { "date": "2017-12-31 23:30" }
 var Data = {}
 var DateIndex = {}
 var ParticleField = {}
 var Sims = {}
+
+var div =  null
 
 // VIKS GLOBAL VARIABLES
 var particles_daily;
@@ -68,10 +73,9 @@ var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
-function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
+function visualize(dataDaily, particles_EU, dateIndex) {
   // JQuery code to make our bootstrap date picker work
   var datepicker = $("#datepicker")
-  console.log(datepicker)
   var container=$('.inpute-group').length>0 ? $('.input-group').parent() : "body";
   datepicker.datepicker({
     format: 'yyyy-mm-dd',
@@ -85,6 +89,10 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   datepicker.datepicker().on('changeDate', handleDateChange)
   DatePicker = datepicker
 
+  div = d3.select('body').append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);
+
   // JQuery code to make our bootstrap tabs work
   $(".nav a").on("click", function() {
     $(".nav").find(".active").removeClass("active")
@@ -97,6 +105,7 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   initBarChart()
   initParticleField()
   initControls()
+  initHeatMap()
   initLineChart(dataDaily["SO2"], QualityIndex.SO2)
 }
 
@@ -275,17 +284,17 @@ function initLineChart(dataset, eu_limit) {
 
   var tick_values = [0]
   for (i = 0; i < eu_limit.length; i++) {
-	if (eu_limit[i] <= yMax) {
+    if (eu_limit[i] <= yMax) {
       tick_values.push(eu_limit[i]);
-	}
+    }
   };
-  
+
   yMax = tick_values[tick_values.length-1]
-  
+
   if (tick_values[tick_values.length-1] == eu_limit[4]) {
     tick_values.pop()
   }
-  
+
   console.log(yMax)
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
@@ -321,31 +330,31 @@ function initLineChart(dataset, eu_limit) {
     .data([dataset_very_high])
     .attr("class", "area_very_high")
     .attr("d", area)
-	.style("fill", "#DB4A36");
+    .style("fill", "#DB4A36");
 
   linechart.append("path")
     .data([dataset_high])
     .attr("class", "area_high")
     .attr("d", area)
-	.style("fill", "#E88D3F");
-	
+    .style("fill", "#E88D3F");
+
   linechart.append("path")
     .data([dataset_medium])
     .attr("class", "area_medium")
     .attr("d", area)
-	.style("fill", "#FFD966");
+    .style("fill", "#FFD966");
 
   linechart.append("path")
     .data([dataset_low])
     .attr("class", "area_low")
     .attr("d", area)
-	.style("fill", "#A4B963");	
+    .style("fill", "#A4B963");
 
   linechart.append("path")
     .data([dataset_very_low])
     .attr("class", "area_very_low")
     .attr("d", area)
-	.style("fill", "#2B9B5C");	
+    .style("fill", "#2B9B5C");
 
   linechart.append("path")
     .data([dataset])
@@ -354,9 +363,9 @@ function initLineChart(dataset, eu_limit) {
 
   // Title
   linechart.append("text")
-    .attr("x", (LineChart.width / 2))             
+    .attr("x", (LineChart.width / 2))
     .attr("y", 0 - (LineChart.margin / 2))
-    .attr("text-anchor", "middle")  
+    .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .text("Daily Air Pollution in 2017");
 
@@ -666,10 +675,10 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
 
   d3.select("#linechart-tooltip-box")
     .attr("x", LineChart.width - 3.7 * LineChart.margin)
-	.attr("y", 1.5 * LineChart.margin)
-	.style("background-color", "white")
-	.style("display", "block")
-	.raise();
+    .attr("y", 1.5 * LineChart.margin)
+    .style("background-color", "white")
+    .style("display", "block")
+    .raise();
 
   d3.select("#linechart-tooltip-date")
     .text("Date: " + formDate(dataset[date_id].date));
@@ -715,17 +724,17 @@ function updateLinegraph() {
 
   var tick_values = [0]
   for (i = 0; i < eu_limit.length; i++) {
-	if (eu_limit[i] <= yMax) {
+    if (eu_limit[i] <= yMax) {
       tick_values.push(eu_limit[i]);
-	}
+    }
   };
-  
+
   yMax = tick_values[tick_values.length-1]
-  
+
   if (tick_values[tick_values.length-1] == eu_limit[4]) {
     tick_values.pop()
   }
-  
+
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
     .range([LineChart.height, 0])
@@ -760,22 +769,22 @@ function updateLinegraph() {
   linechart.select(".area_high")
     .duration(750)
     .attr("d", area(dataset_high));
-	
+
   // Add the valueline path.
   linechart.select(".area_medium")
     .duration(750)
     .attr("d", area(dataset_medium));
-	
+
   // Add the valueline path.
   linechart.select(".area_low")
     .duration(750)
-    .attr("d", area(dataset_low));	
+    .attr("d", area(dataset_low));
 
   // Add the valueline path.
   linechart.select(".area_very_low")
     .duration(750)
-    .attr("d", area(dataset_very_low));	
-  
+    .attr("d", area(dataset_very_low));
+
   // Make the changes
   linechart.select(".area")   // change the line
     .duration(750)
@@ -841,6 +850,138 @@ function updateLinegraphInfo(particle) {
 	d3.select("#linechart-high").text("NaN")
 	d3.select("#linechart-very-high").text("NaN")
   }
+}
+
+function initHeatMap(data) {
+  var loop_end = new Date(Final.date).getTime()
+
+  var day_id = 0
+  var i = 0
+  var x_start = 80; y_start = 60
+  var x_stride = 10; y_stride = 1.5
+  var d = Default.date
+  var day_g = null
+
+  x = x_start
+  y = y_start
+
+  var heatmap = d3.select('#heatmap')
+
+  heatmap.append('text')
+    .text('Highest index for each half hour in 2017')
+    .attr('transform', 'translate(170,' + '40)')
+    .attr('style', 'font-size:16px;')
+
+  // heat map computation and y axis
+  while (new Date(d).getTime() < loop_end) {
+    var day_data = DateIndex[d]
+    var caqis = day_data.map(w => w.caqi)
+    var max_caqi = Math.max.apply(null, caqis)
+    if (i % 48 == 0) {
+      x = x_start
+      y += y_stride
+      var day_id_string = "day_" + day_id
+      day_g = d3.select('#heatmap').append('g')
+              .attr('id', day_id_string)
+      if (i % (48*16) == 0) {
+        day_g.append('text')
+          .attr('transform', function(d) {
+            off = 70 + ((i/48) * y_stride)
+            return 'translate(35,' + off + ')'
+          })
+          .text(function() {
+            return get_date(d)
+          })
+      }
+      day_id++
+    }
+    else {
+        x += x_stride
+    }
+    day_g.append('rect')
+      .attr('id', day_id_string)
+      .attr('x', x)
+      .attr('y', y)
+      .attr('fill', '#fff')
+      .attr('width', 10)
+      .attr('height', 1.50)
+      .attr('data-date', get_time(d))
+      .attr('fill', get_color(max_caqi))
+      .on('mouseover', function() {
+        var date = $(this).attr('data-date');
+        div.transition()
+          .duration(0)
+          .style("opacity", .9)
+        div.html(date)
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 20) + "px");
+       })
+     .on('mouseout', function() {
+       div.transition()
+         .duration(500)
+         .style("opacity", 0);
+       })
+
+    i++
+    d = heat_step(d,1)
+  }
+
+  var hour_g = heatmap.append('g')
+  // x axis comes last
+  for (j = 0; j < 48; j++) {
+    hour_g.append('text')
+      .text(function (d)
+      {
+        if (j % 4 == 0) return (j/2) + ''
+      })
+      .attr('transform', function(d)
+      {
+        var off = x_start+(j*x_stride)
+        return "translate(" + off + "," + (y+15) + ')'
+      })
+  }
+
+  heatmap.append('text')
+    .text('Time of day')
+    .attr('transform', 'translate(280,' + (y+40) + ')')
+
+  heatmap.append('text')
+    .text('Date')
+    .attr('transform', 'translate(15,300), rotate(-90)')
+}
+
+function heat_step(date,n) {
+  return moment.utc(date).add(30*n,'m').format("YYYY-MM-DD HH:mm")
+}
+
+function get_date(date) {
+  return moment.utc(date).format("MM-DD")
+}
+
+function get_time(date) {
+  return moment.utc(date).format("YYYY-MM-DD HH:mm")
+}
+
+function get_color(caqi) {
+  var color = ""
+  switch (caqi) {
+    case 1:
+      color = "#2b9b5c"
+      break
+    case 2:
+      color = "#a4b963"
+      break
+    case 3:
+      color = "#ffd966"
+      break
+    case 4:
+      color = "#e88d3f"
+      break
+    case 5:
+      color = "#db4a36"
+      break
+  }
+  return color
 }
 
 
