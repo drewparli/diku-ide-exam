@@ -6,14 +6,17 @@ d3.select(window).on('load', main);
 // See https://github.com/d3/d3-queue for more details.
 function main(handsJSON) {
   d3.queue()
-    .defer(d3.json, "./data/data-hourly.json")  // police districts
+    .defer(d3.json, "./data/data-hourly.json")
     .defer(d3.json, "./data/data-daily.json")
-    .defer(d3.json, "./data/HCAB_2017.json")  // police districts
-    .await(function(errMsg, hourly, daily, HCAB) {
+    .defer(d3.json, "./data/HCAB_2017.json")
+	.defer(d3.json, "./data/data-by-particles-hourly.json")
+    .await(function(errMsg, hourly, daily, HCAB, hourlyParticles) {
       if (errMsg) {
         console.log("ERROR: " + errMsg)
       } else {
         particles_daily = daily;
+		particles_hourly_by_date = hourlyParticles;
+		console.log(hourlyParticles);
         visualize(daily, HCAB) // Visualize emission graph
       }
     })
@@ -38,6 +41,7 @@ var div =  null
 // VIKS GLOBAL VARIABLES
 var particles_daily;
 var particles_EU;
+var particles_hourly_by_date;
 var LineChart = {
   "dataset": null,
   "margin": 25,
@@ -45,6 +49,17 @@ var LineChart = {
   "height": 300,
   "xScale": null,
   "yScale": null
+}
+var BarChartParticleDay = {
+  "dataset": null,
+  "margin": 25,
+  "width": 500,
+  "height": 150,
+  "xScale": null,
+  "yScale": null,
+  "startDate": "2017-01-01",
+  "startParticle": "PM10",
+  "currParticle": "PM10"
 }
 
 // [very low, low, medium, high, very high (just set for line chart although it is infinity)]
@@ -106,6 +121,7 @@ function visualize(dataDaily, dateIndex) {
   initControls()
   initHeatMap()
   initLineChart(dataDaily["PM10"], QualityIndex.PM10)
+  initBarchartParticleForDay()
 }
 
 // This function sets up the main svg element for the map visualization
@@ -371,11 +387,12 @@ function initLineChart(dataset, eu_limit) {
 
   // Title
   linechart.append("text")
+    .attr("id", "linechart-info-title")
     .attr("x", (LineChart.width / 2))
     .attr("y", 0 - (LineChart.margin / 2))
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
-    .text("Daily Air Pollution in 2017");
+    .text("Daily PM10 concentration in 2017 (adjusted daily average)");
 
   // Add the X Axis
   linechart.append("g")
@@ -411,7 +428,78 @@ function initLineChart(dataset, eu_limit) {
     .on("mouseout", function() { removeTooltip(tooltipLine); });
 }
 
+function initBarchartParticleForDay() {
+  var hourly_data = particles_hourly_by_date[BarChartParticleDay.startParticle][BarChartParticleDay.startDate];
 
+  var xScale = d3.scaleLinear()
+    .domain([0, hourly_data.length])
+    .range([0, BarChartParticleDay.width]);
+  BarChartParticleDay.xScale = xScale;
+
+  var yMax = d3.max(hourly_data, function(d) { return d; });
+
+  var yScale = d3.scaleLinear()
+    .domain([0, yMax])
+    .range([BarChartParticleDay.height, 0])
+    .nice();
+  BarChartParticleDay.yScale = yScale;
+
+  // appends a 'group' element to 'linechart'
+  // moves the 'group' element to the top left margin
+  var barchart = d3.select("#barchart-particle-day")
+    .attr("width", BarChartParticleDay.width + 2 * BarChartParticleDay.margin)
+    .attr("height", BarChartParticleDay.height + 3 * BarChartParticleDay.margin)
+    .append("g")
+    .attr("transform", "translate(" + (2 * BarChartParticleDay.margin) + "," + BarChartParticleDay.margin + ")");
+
+  // append the rectangles for the bar chart
+  barchart.selectAll("rect")
+    .data(hourly_data)
+    .enter()
+	.append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d, i) { return xScale(i); })
+    .attr("width", BarChartParticleDay.width / hourly_data.length)
+    .attr("y", function(d) { return yScale(d); })
+    .attr("height", function(d) { return BarChartParticleDay.height - yScale(d); });
+
+  // Title
+  barchart.append("text")
+    .attr("id", "barchart-info-title")
+    .attr("x", (BarChartParticleDay.width / 2))
+    .attr("y", 0 - (BarChartParticleDay.margin / 2))
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .text("Hourly PM10 concentration (Date: 2017-Jan-01)");
+
+  // Add the X Axis
+  barchart.append("g")
+    .attr("class", "x-axis")
+    .attr("transform", "translate(0," + BarChartParticleDay.height + ")")
+    .call(d3.axisBottom(xScale).tickValues([6, 12, 18, 24, 30, 36, 42]))
+    .selectAll('text')
+    .text(function(d) {
+      return d/2 + ":00";
+	});
+
+  // Add the Y Axis
+  barchart.append("g")
+    .attr("class", "y-axis")
+    .call(d3.axisLeft(yScale).ticks(3))
+    .selectAll('text')
+    .text(function(d) {
+      return d;
+    });
+
+  // Text label for the Y axis
+  barchart.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -BarChartParticleDay.margin)
+    .attr("x", -BarChartParticleDay.height/2)
+    .attr("dy", "-1em")
+    .style("text-anchor", "middle")
+    .text("Concentration (µg/m³)");
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -680,14 +768,21 @@ function flashWarningIfHigh(values) {
   }
 }
 
-
-
 function drawTooltip(dataset, tipBox, tooltipLine) {
   var date_start = d3.min(dataset, function(d) { return d.date; });
   var date = LineChart.xScale.invert(d3.mouse(tipBox.node())[0]);
   var curr_date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   var date_id = getDateIndex(date_start, curr_date);
+  var date_formatted = formDate(dataset[date_id].date);
+  var month = date.getMonth() + 1;
+  month = (month < 10) ? "0" + month : month;
+  var day = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+  var date_str = date.getFullYear() + "-" + month + "-" + day;
+  var hourly_data = particles_hourly_by_date[BarChartParticleDay.currParticle][date_str];
+  var title = "Hourly " + BarChartParticleDay.currParticle + " concentration (Date: " + date_formatted + ")";
 
+  drawBarchartParticleForDay(hourly_data, title)
+  
   tooltipLine.attr("stroke", "#0052FF")
     .attr("x1", LineChart.xScale(curr_date))
     .attr("x2", LineChart.xScale(curr_date))
@@ -702,7 +797,7 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
     .raise();
 
   d3.select("#linechart-tooltip-date")
-    .text("Date: " + formDate(dataset[date_id].date));
+    .text("Date: " + date_formatted);
 
   d3.select("#linechart-tooltip-value")
     .text("Value: " + formatNumber(dataset[date_id].value));
@@ -718,11 +813,56 @@ function removeTooltip(tooltipLine) {
   if (tooltipLine) {
     tooltipLine.attr("stroke", "none");
   }
+  
+  var hourly_data = particles_hourly_by_date[BarChartParticleDay.currParticle][BarChartParticleDay.startDate];
+  var title = "Hourly " + BarChartParticleDay.currParticle + " concentration (Date: 2017-Jan-01)";
+  drawBarchartParticleForDay(hourly_data, title)
+}
+
+function drawBarchartParticleForDay(hourly_data, title) {
+  d3.select("#barchart-info-title").text(title);
+
+  var yMax = d3.max(hourly_data, function(d) { return d; });
+
+  var yScale = d3.scaleLinear()
+    .domain([0, yMax])
+    .range([BarChartParticleDay.height, 0])
+    .nice();
+  BarChartParticleDay.yScale = yScale;
+
+  // Select the section we want to apply our changes to
+  var barchart = d3.select("#barchart-particle-day");
+
+  // Update all rects
+  barchart.selectAll("rect")
+   .data(hourly_data)
+   .transition()
+   .duration(750)  // <-- Now this is new!
+   .attr("y", function(d) {
+        return yScale(d);
+   })
+   .attr("height", function(d) {
+        return BarChartParticleDay.height - yScale(d);
+   });
+
+  barchart.select(".y-axis") // change the y axis
+    .transition()
+	.duration(750)
+    .call(d3.axisLeft(yScale).ticks(3))
+    .selectAll('text')
+    .text(function(d) {
+      return d;
+    });
 }
 
 function updateLinegraph() {
   updateLinegraphInfo(this.id)
 
+  BarChartParticleDay.currParticle = this.id
+  var hourly_data = particles_hourly_by_date[BarChartParticleDay.currParticle][BarChartParticleDay.startDate];
+  var title = "Hourly " + BarChartParticleDay.currParticle + " concentration (Date: 2017-Jan-01)";
+  drawBarchartParticleForDay(hourly_data, title)
+  
   dataset = particles_daily[this.id]
   eu_limit = QualityIndex[this.id]
 		  console.log("dataset", dataset);
@@ -821,49 +961,49 @@ function updateLinegraph() {
 
 function updateLinegraphInfo(particle) {
   if (particle == "SO2") {
-	d3.select("#linechart-info-particle").text("SO2")
+	d3.select("#linechart-info-title").text("Daily SO2 concentration in 2017")
 	d3.select("#linechart-very-low").text("0 - 50")
 	d3.select("#linechart-low").text("50 - 100")
 	d3.select("#linechart-medium").text("100 - 350")
 	d3.select("#linechart-high").text("350 - 500")
 	d3.select("#linechart-very-high").text(">500")
   } else if (particle == "NO2") {
-	d3.select("#linechart-info-particle").text("NO2")
+	d3.select("#linechart-info-title").text("Daily NO2 concentration in 2017")
 	d3.select("#linechart-very-low").text("0 - 50")
 	d3.select("#linechart-low").text("50 - 100")
 	d3.select("#linechart-medium").text("100 - 200")
 	d3.select("#linechart-high").text("200 - 400")
 	d3.select("#linechart-very-high").text(">400")
   } else if (particle == "PM10") {
-	d3.select("#linechart-info-particle").text("PM10 (adjusted daily average)")
+	d3.select("#linechart-info-title").text("Daily PM10 concentration in 2017 (adjusted daily average)")
 	d3.select("#linechart-very-low").text("0 - 15")
 	d3.select("#linechart-low").text("15 - 30")
 	d3.select("#linechart-medium").text("30 - 50")
 	d3.select("#linechart-high").text("50 - 100")
 	d3.select("#linechart-very-high").text(">100")
   } else if (particle == "O3") {
-	d3.select("#linechart-info-particle").text("O3")
+	d3.select("#linechart-info-title").text("Daily O3 concentration in 2017")
 	d3.select("#linechart-very-low").text("0 - 60")
 	d3.select("#linechart-low").text("60 - 120")
 	d3.select("#linechart-medium").text("120 - 180")
 	d3.select("#linechart-high").text("180 - 240")
 	d3.select("#linechart-very-high").text(">240") // "O3": [60, 120, 180, 240, 300],
   } else if (particle == "CO") {
-    d3.select("#linechart-info-particle").text("CO")
+    d3.select("#linechart-info-title").text("Daily CO concentration in 2017")
 	d3.select("#linechart-very-low").text("0 - 5000")
 	d3.select("#linechart-low").text("5000 - 7500")
 	d3.select("#linechart-medium").text("7500- 10000")
 	d3.select("#linechart-high").text("10000 - 20000")
 	d3.select("#linechart-very-high").text(">20000") // "CO": [5000, 7500, 10000, 20000, 30000],
   } else if (particle == "PM25") {
-    d3.select("#linechart-info-particle").text("PM25 (adjusted daily average)")
+    d3.select("#linechart-info-title").text("Daily PM25 concentration in 2017 (adjusted daily average)")
 	d3.select("#linechart-very-low").text("0 - 10")
 	d3.select("#linechart-low").text("10 - 20")
 	d3.select("#linechart-medium").text("20 - 30")
 	d3.select("#linechart-high").text("30 - 60")
 	d3.select("#linechart-very-high").text(">60")
   } else {
-	d3.select("#linechart-info-particle").text("Undefined")
+	d3.select("#linechart-info-title").text("Undefined")
 	d3.select("#linechart-very-low").text("NaN")
 	d3.select("#linechart-low").text("NaN")
 	d3.select("#linechart-medium").text("NaN")
