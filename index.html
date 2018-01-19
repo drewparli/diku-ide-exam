@@ -59,13 +59,28 @@
             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body">
                 <div class="card-body-text">
-                  <p>In Denmark, air pollution is an ongoing problem in many urban areas, as exposure to high concentrations of airborne particulates can significantly influence the health of citizens. Research as shown that long term exposure can lead to heart and respiratory diseases, as well as strokes and lung cancer. More specifically, researchers have concluded that a mere 10 &mu;g/m3 increase in airborne particulate matter (PM10) reduces life expectancy by 0.64 years (95% CI: 0.21, 1.07) [<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">1</a>].</p>
+                    <p>In Denmark, air pollution is an ongoing problem in many urban areas, as exposure to high concentrations of airborne particulates can significantly influence the health of citizens. Research as shown that long term exposure can lead to heart and respiratory diseases, as well as strokes and lung cancer. More specifically, researchers have concluded that a mere 10 &mu;g/m3 increase in airborne particulate matter (PM10) reduces life expectancy by 0.64 years (95% CI: 0.21, 1.07) [<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">1</a>].</p>
+                </div>
 
-                  <h1>The Dataset</h1>
-                  <hr>
-                  <p>In accordance with international conventions such as the Climate Convention and the Geneva Convention on Long-Range Transboundary Air Pollution, the concentrations of specific air particulates are monitored at various intervals across Denmark at specific monitoring stations. Aarhus University's <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a> manages the reporting of such data both in Denmark and to the European Union's <a href="https://www.eea.europa.eu/themes/air" target="_blank">European Environment Agency</a> (EEA).</p>
+              </div>
+            </div>
+          </div>
 
-                  <p>The data gathered at each monitoring station is dependent on the location and purpose of the station. In general a single station will monitor one of two different conditions:
+          <div class="card">
+            <div class="card-header" role="tab" id="headingFive">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseFive" role="button" aria-expanded="false" aria-controls="collapseFive">
+                  The Dataset
+                </a>
+              </h5>
+            </div>
+            <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive" data-parent="#accordion">
+              <div class="card-body">
+                <div class="card-body-text">
+                    <p>In accordance with international conventions such as the Climate Convention and the Geneva Convention on Long-Range Transboundary Air Pollution, the concentrations of specific air particulates are monitored at various intervals across Denmark at specific monitoring stations. Aarhus University's <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a> manages the reporting of such data both in Denmark and to the European Union's <a href="https://www.eea.europa.eu/themes/air" target="_blank">European Environment Agency</a> (EEA).</p>
+
+                    <h2>Monitoring Stations</h2>
+                    <p>The data gathered at each monitoring station is dependent on the location and purpose of the station. In general a single station will monitor one of two different conditions:
 
                   <ul>
                     <li><i>Roadside conditions</i>
@@ -78,25 +93,21 @@
                   <h2>H. C. Ørsted Institutet</h2>
                   <p>For this visualization specifically, we used the data gathered at the H. C. Ørsted Institutet roof top monitoring station for 2017. It is station no. 1259, as seen in the image below, and is atop a flat roof, seven story building at the University of Copenhagen. The area is open with trees between the university institutes. The distance to the Jagtvej street station (no. 1257) is around 300 meters and there are several streets with traffic densities above 5,000 vehicles per day within a few kilometres.</p>
 
-                  <div style="width: 60%; max-width: 350px; margin: 30px auto;">
-                    <img id="station-map" width="100%" align="middle" src="cph-stations.png"/>
-                    <p style="margin:0;">HCØ (1259) station located at 12d33'41" E, 55d42'1" N</p>
-                  </div>
-                  </p>
+                    <div style="width: 60%; max-width: 350px; margin: 30px auto;">
+                        <img id="station-map" width="100%" align="middle" src="cph-stations.png"/>
+                        <p style="margin:0;">HCØ (1259) station located at 12d33'41" E, 55d42'1" N</br><i>-- from the Department of Environmental Science</i></p>
+                    </div>
+                    </p>
 
                   <h2>Measurements</h2>
                   <p>The monitoring station measures the following: nitrogen dioxide (NO2), ozone (O3), airborne particulates (PM10 and PM25), carbon monoxide (CO) and sulfur dioxide (SO2). Measurements are recorded every half hour, on the hour and at half past the hour. This means we get a very dense dataset for the concentration levels across the entire year, i.e., approximately 17,520 data points for each particle for the entire year.<p>
 
-                  <h2>Source</h2>
-                  <p>Initially, we looked at using the dataset provided on the Copenhagen Open Data website. However, this dataset was rather small, only containing information for a single year. Therefore, we contacted the Department of Environmental Science and requested access to the full dataset, to which they agreed. In fact, we were given access to all data from 2017-2000, however the consistency of the data, measurement methods and types of particles measured across this period presented many challenges in terms of trying to reconcile the data. Therefore, given the restricted time frame of this project, we chose to focus only on the most recent years worth of data. </p>
+                  <h2>Gathering the Dataset</h2>
+                  <p>Initially, we looked at using the dataset provided on the <a href="http://data.kk.dk/dataset/luftforurening" target="_blank">Open Data Copenhagen</a> website. However, this dataset was rather small, only containing information for a single year. Therefore, we contacted the Department of Environmental Science and requested access to the full dataset, to which they agreed. In fact, we were given API access to all data from 2017-2000, however the consistency of the data, measurement methods and types of particles measured across this period presented many challenges in terms of trying to reconcile the data. Therefore, given the restricted time frame of this project, we chose to focus only on the most recent years worth of data, i.e., 2017.</p>
 
-
-
-
-
-
+                  <h2>Preprocessing the Dataset</h2>
+                  <p>In order to reduce the load time of the visualization, we preprocessed the data in Python. Essentially, this meant augmenting the existing data measurements with statistical data, e.g., the common air quality index value and daily average. Additionally, in order to reduce the number of elements in the simulation visualization, we created a hash table by date, so that it was easy to update elements based on a date change.</p>
                 </div>
-
               </div>
             </div>
           </div>
@@ -236,26 +247,30 @@
           <div class="card">
             <div class="card-header" role="tab" id="headingFour">
               <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseThree">
+                <a class="collapsed" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseFour">
                   Sources
                 </a>
               </h5>
             </div>
             <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" data-parent="#accordion">
               <div class="card-body">
-                <ul>
-                  <li><a href="https://www.eea.europa.eu/themes/air/intro">EEA - Air Pollution</a></li>
-                  <li><a href="http://www.airqualitynow.eu/pollution_home.php">Air Quality in Europe</a></li>
-                  <li><a href="http://envs.au.dk/en/knowledge/air/monitoring/">Department of Environmental Science - Air Quality Monitoring</a></li>
-                  <li><a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">Common Air Quality Index</a></li>
+                <div class="card-body-text">
 
-                  [1] Ebenstein, A., Fan, M., Greenstone, M., He, G., & Zhou, M. (2017). "<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">New evidence on the impact of sustained exposure to air pollution on life expectancy from China’s Huai River Policy.</a>" <i>Proceedings of the National Academy of Sciences</i>, 114(39), 10384-10389.
-                </ul>
+                  <p>[1] Ebenstein, A., Fan, M., Greenstone, M., He, G., & Zhou, M. (2017). "<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">New evidence on the impact of sustained exposure to air pollution on life expectancy from China’s Huai River Policy.</a>" <i>Proceedings of the National Academy of Sciences</i>, 114(39), 10384-10389.</p>
+
+                  <p>[2] <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a></p>
+
+                  <p>[3] <a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">Air Quality in Europe</a></p>
+                  <p>[4] <a href="http://envs.au.dk/en/knowledge/air/monitoring/" target="_blank">Department of Environmental Science - Air Quality Monitoring</a></p>
+                  <p>[5] <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">Common Air Quality Index</a></p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+
       <!-- Container for the right-hand side visualization area -->
       <div class="col-sm-6" style="background: white;">
         <div class="tabbable">
@@ -1021,16 +1036,15 @@
           </div>
 
           <div id="menu2" class="tab-pane" style="width: 600px; margin: 0 auto;">
-
-            <!-- Line chart -->
-            <div>
-              <svg id="linechart-1" style="display: block; margin: 0 auto; padding-top:20px;">
-                <foreignobject id="linechart-tooltip-box" class="node" x="46" y="22" width="130" height="50">
-                <div id="linechart-tooltip-date" style="background:white; padding-left:5px;"></div>
-                <div id="linechart-tooltip-value" style="background:white; padding-left:5px;"></div>
-                </foreignobject>
-              </svg>
-            </div>
+              <!-- Line chart -->
+              <div>
+                <svg id="linechart-1" style="display: block; margin: 0 auto; padding-top:20px;">
+                  <foreignobject id="linechart-tooltip-box" class="node" x="46" y="22" width="130" height="50">
+                    <div id="linechart-tooltip-date" style="background:white; padding-left:5px;"></div>
+                    <div id="linechart-tooltip-value" style="background:white; padding-left:5px;"></div>
+                  </foreignobject>
+				        </svg>
+              </div>
 
             <!-- Line Chart Buttons -->
             <div id="linechart-buttons" class="btn-group" style="width: 475px; display: block; margin: 15px auto;">
