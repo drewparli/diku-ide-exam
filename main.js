@@ -14,11 +14,7 @@ function main(handsJSON) {
         console.log("ERROR: " + errMsg)
       } else {
         particles_daily = daily;
-        particles_EU = hourly.parts;
-
-		console.log(particles_daily);
-
-        visualize(daily, particles_EU, HCAB) // Visualize emission graph
+        visualize(daily, HCAB) // Visualize emission graph
       }
     })
 }
@@ -73,7 +69,7 @@ var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
-function visualize(dataDaily, particles_EU, dateIndex) {
+function visualize(dataDaily, dateIndex) {
   // JQuery code to make our bootstrap date picker work
   var datepicker = $("#datepicker")
   var container=$('.inpute-group').length>0 ? $('.input-group').parent() : "body";
