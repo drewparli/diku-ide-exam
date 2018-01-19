@@ -46,6 +46,16 @@ var LineChart = {
   "yScale": null
 }
 
+// [very low, low, medium, high, very high (just set for line chart although it is infinity)]
+var QualityIndex = {
+  "SO2": [50, 100, 350, 500, 650],
+  "NO2": [50, 100, 200, 400, 600],
+  "PM10": [15, 30, 50, 100, 160],
+  "O3": [60, 120, 180, 240, 300],
+  "CO": [5000, 7500, 10000, 20000, 30000],
+  "PM25": [10, 20, 30, 60, 90]
+}
+
 var TimeIntervals = [
   "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
   "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
@@ -86,8 +96,8 @@ function visualize(dataDaily, particles_EU, dateIndex) {
   initBarChart()
   initParticleField()
   initControls()
-  initLineChart(dataDaily["SO2"], particles_EU["SO2"].limit)
   initHeatMap()
+  initLineChart(dataDaily["SO2"], QualityIndex.SO2)
 }
 
 // This function sets up the main svg element for the map visualization
@@ -260,10 +270,23 @@ function initLineChart(dataset, eu_limit) {
     .range([0, LineChart.width]);
   LineChart.xScale = xScale;
 
-  var yMax = d3.max(dataset, function(d) { return d.value; });
-  yMax = Math.max(yMax, eu_limit);
-  yMax = (eu_limit == yMax) ? eu_limit + 1 : yMax;
+  var yMax = 2 * d3.max(dataset, function(d) { return d.value; });
+  yMax = Math.max(yMax, eu_limit[1]);
 
+  var tick_values = [0]
+  for (i = 0; i < eu_limit.length; i++) {
+    if (eu_limit[i] <= yMax) {
+      tick_values.push(eu_limit[i]);
+    }
+  };
+
+  yMax = tick_values[tick_values.length-1]
+
+  if (tick_values[tick_values.length-1] == eu_limit[4]) {
+    tick_values.pop()
+  }
+
+  console.log(yMax)
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
     .range([LineChart.height, 0])
@@ -275,6 +298,12 @@ function initLineChart(dataset, eu_limit) {
     .y0(LineChart.height)
     .y1(function(d) { return LineChart.yScale(d.value); });
 
+  var dataset_very_high = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[4])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[4])}];
+  var dataset_high = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[3])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[3])}];
+  var dataset_medium = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[2])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[2])}];
+  var dataset_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[1])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[1])}];
+  var dataset_very_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[0])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[0])}];
+
   // define the line
   var valueline = d3.line()
     .x(function(d) { return xScale(d.date); })
@@ -284,22 +313,52 @@ function initLineChart(dataset, eu_limit) {
   // moves the 'group' element to the top left margin
   var linechart = d3.select("#linechart-1")
     .attr("width", LineChart.width + 2 * LineChart.margin)
-    .attr("height", LineChart.height + 2 * LineChart.margin)
+    .attr("height", LineChart.height + 3 * LineChart.margin)
     .append("g")
-    .attr("transform", "translate(" + LineChart.margin + "," + LineChart.margin + ")");
+    .attr("transform", "translate(" + (2 * LineChart.margin) + "," + LineChart.margin + ")");
 
-  // Add the valueline path.
+  linechart.append("path")
+    .data([dataset_very_high])
+    .attr("class", "area_very_high")
+    .attr("d", area)
+    .style("fill", "#DB4A36");
+
+  linechart.append("path")
+    .data([dataset_high])
+    .attr("class", "area_high")
+    .attr("d", area)
+    .style("fill", "#E88D3F");
+
+  linechart.append("path")
+    .data([dataset_medium])
+    .attr("class", "area_medium")
+    .attr("d", area)
+    .style("fill", "#FFD966");
+
+  linechart.append("path")
+    .data([dataset_low])
+    .attr("class", "area_low")
+    .attr("d", area)
+    .style("fill", "#A4B963");
+
+  linechart.append("path")
+    .data([dataset_very_low])
+    .attr("class", "area_very_low")
+    .attr("d", area)
+    .style("fill", "#2B9B5C");
+
   linechart.append("path")
     .data([dataset])
     .attr("class", "area")
     .attr("d", area);
 
-  linechart.append("path")
-    .data([[{"date":date_ranges[0], "value":eu_limit}, {"date":date_ranges[1], "value":eu_limit}]])
-    .attr("class", "line_eu")
-    .attr("stroke", "red")
-    .attr("stroke-width", 1.5)
-    .attr("d", valueline);
+  // Title
+  linechart.append("text")
+    .attr("x", (LineChart.width / 2))
+    .attr("y", 0 - (LineChart.margin / 2))
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .text("Daily Air Pollution in 2017");
 
   // Add the X Axis
   linechart.append("g")
@@ -310,11 +369,20 @@ function initLineChart(dataset, eu_limit) {
   // Add the Y Axis
   linechart.append("g")
     .attr("class", "y-axis")
-    .call(d3.axisLeft(yScale).ticks(5))
+    .call(d3.axisLeft(yScale).tickValues(tick_values))
     .selectAll('text')
     .text(function(d) {
       return d;
     });
+
+  // Text label for the Y axis
+  linechart.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -LineChart.margin)
+    .attr("x", -LineChart.height/2)
+    .attr("dy", "-1em")
+    .style("text-anchor", "middle")
+    .text("Concentration (µg/m³)");
 
   var tooltipLine = linechart.append("line");
 
@@ -590,15 +658,15 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
   var curr_date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   var date_id = getDateIndex(date_start, curr_date);
 
-  tooltipLine.attr("stroke", "blue")
+  tooltipLine.attr("stroke", "#0052FF")
     .attr("x1", LineChart.xScale(curr_date))
     .attr("x2", LineChart.xScale(curr_date))
     .attr("y1", 0)
     .attr("y2", LineChart.height);
 
   d3.select("#linechart-tooltip-box")
-    .attr("x", LineChart.width - LineChart.margin - 80)
-    .attr("y", LineChart.margin)
+    .attr("x", LineChart.width - 3.7 * LineChart.margin)
+    .attr("y", 1.5 * LineChart.margin)
     .style("background-color", "white")
     .style("display", "block")
     .raise();
@@ -624,13 +692,8 @@ function removeTooltip(tooltipLine) {
 
 // function updateLinegraph(dataset, eu_limit) {
 function updateLinegraph() {
-
-  console.log(this.id, typeof(this.id))
-
   dataset = particles_daily[this.id]
-  eu_limit = particles_EU[this.id].limit
-
-  console.log(dataset, eu_limit)
+  eu_limit = QualityIndex[this.id]
 
   // format the data
   dataset.forEach(function(d) {
@@ -645,9 +708,21 @@ function updateLinegraph() {
     .range([0, LineChart.width]);
   LineChart.xScale = xScale;
 
-  var yMax = d3.max(dataset, function(d) { return d.value; });
-  yMax = Math.max(yMax, eu_limit);
-  yMax = (eu_limit == yMax) ? eu_limit + 1 : yMax;
+  var yMax = 2 * d3.max(dataset, function(d) { return d.value; });
+  yMax = Math.max(yMax, eu_limit[1]);
+
+  var tick_values = [0]
+  for (i = 0; i < eu_limit.length; i++) {
+    if (eu_limit[i] <= yMax) {
+      tick_values.push(eu_limit[i]);
+    }
+  };
+
+  yMax = tick_values[tick_values.length-1]
+
+  if (tick_values[tick_values.length-1] == eu_limit[4]) {
+    tick_values.pop()
+  }
 
   var yScale = d3.scaleLinear()
     .domain([0, yMax])
@@ -668,18 +743,45 @@ function updateLinegraph() {
   // Select the section we want to apply our changes to
   var linechart = d3.select("#linechart-1").transition();
 
+  var dataset_very_high = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[4])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[4])}];
+  var dataset_high = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[3])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[3])}];
+  var dataset_medium = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[2])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[2])}];
+  var dataset_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[1])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[1])}];
+  var dataset_very_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[0])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[0])}];
+
+    // Add the valueline path.
+  linechart.select(".area_very_high")
+    .duration(750)
+    .attr("d", area(dataset_very_high));
+
+  // Add the valueline path.
+  linechart.select(".area_high")
+    .duration(750)
+    .attr("d", area(dataset_high));
+
+  // Add the valueline path.
+  linechart.select(".area_medium")
+    .duration(750)
+    .attr("d", area(dataset_medium));
+
+  // Add the valueline path.
+  linechart.select(".area_low")
+    .duration(750)
+    .attr("d", area(dataset_low));
+
+  // Add the valueline path.
+  linechart.select(".area_very_low")
+    .duration(750)
+    .attr("d", area(dataset_very_low));
+
   // Make the changes
   linechart.select(".area")   // change the line
     .duration(750)
     .attr("d", area(dataset));
 
-  linechart.select(".line_eu")
-    .duration(750)
-    .attr("d", valueline([{"date":date_ranges[0], "value":eu_limit}, {"date":date_ranges[1], "value":eu_limit}]));
-
   linechart.select(".y-axis") // change the y axis
     .duration(750)
-    .call(d3.axisLeft(yScale).ticks(5))
+    .call(d3.axisLeft(yScale).tickValues(tick_values))
     .selectAll('text')
     .text(function(d) {
       return d;
@@ -691,29 +793,20 @@ function initHeatMap(data) {
 
   var day_id = 0
   var i = 0
-  var x_start = 40; y_start = 25
+  var x_start = 80; y_start = 60
   var x_stride = 10; y_stride = 1.5
   var d = Default.date
   var day_g = null
 
-  hour_g = d3.select('#heatmap').append('g')
-
-  // x axis comes first
-  for (j = 0; j < 48; j++) {
-    hour_g.append('text')
-      .text(function (d)
-      {
-        if (j % 4 == 0) return (j/2) + ""
-      })
-      .attr("transform", function(d)
-      {
-        var off = x_start+(j*x_stride)
-        return "translate(" + off + ",20)"
-      })
-  }
-
   x = x_start
   y = y_start
+
+  var heatmap = d3.select('#heatmap')
+
+  heatmap.append('text')
+    .text('Highest index for each half hour in 2017')
+    .attr('transform', 'translate(170,' + '40)')
+    .attr('style', 'font-size:16px;')
 
   // heat map computation and y axis
   while (new Date(d).getTime() < loop_end) {
@@ -729,9 +822,8 @@ function initHeatMap(data) {
       if (i % (48*16) == 0) {
         day_g.append('text')
           .attr('transform', function(d) {
-            console.log(i)
-            off = x_start + ((i/48) * y_stride)
-            return 'translate(0,' + off + ')'
+            off = 70 + ((i/48) * y_stride)
+            return 'translate(35,' + off + ')'
           })
           .text(function() {
             return get_date(d)
@@ -754,6 +846,29 @@ function initHeatMap(data) {
     i++
     d = heat_step(d,1)
   }
+
+  var hour_g = heatmap.append('g')
+  // x axis comes last
+  for (j = 0; j < 48; j++) {
+    hour_g.append('text')
+      .text(function (d)
+      {
+        if (j % 4 == 0) return (j/2) + ''
+      })
+      .attr('transform', function(d)
+      {
+        var off = x_start+(j*x_stride)
+        return "translate(" + off + "," + (y+15) + ')'
+      })
+  }
+
+  heatmap.append('text')
+    .text('Time of day')
+    .attr('transform', 'translate(280,' + (y+40) + ')')
+
+  heatmap.append('text')
+    .text('Date')
+    .attr('transform', 'translate(15,300), rotate(-90)')
 }
 
 function heat_step(date,n) {
