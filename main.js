@@ -575,7 +575,11 @@ function decodeDateID(dateID) {
 // }
 
 function formatNumber(number) {
-  return parseFloat(Math.round(number * 1000) / 1000).toFixed(3);
+  if (number == 0) {
+    return "missing";
+  } else {
+    return parseFloat(Math.round(number * 1000) / 1000).toFixed(3);
+  }
 }
 
 function getDateIndex(first, second) {

@@ -16,9 +16,8 @@ def get_particle(obj, particle):
 if __name__ == '__main__':
     # {"Recorded":"2017-01-31T23:30:00","SO2":0.462156326,"NO2":31.55625,"PM10Teom":69.2,"O3":55.08455,"CO":0.4711964,"NOx":53.44662,"PM25Teom":40.0}
     file_name_begin = "./HCAB/HCAB_2017-"
-    particles = ["SO2", "NO2", "PM10Teom", "O3", "CO", "NOx", "PM25Teom"]
-    particle_dict = {"SO2": "SO2", "NO2": "NO2", "PM10Teom": "PM10", "O3": "O3", "CO": "CO", "NOx": "NOx",
-                     "PM25Teom": "PM25"}
+    particles = ["SO2", "NO2", "PM10Teom", "O3", "CO", "PM25Teom"]
+    particle_dict = {"SO2": "SO2", "NO2": "NO2", "PM10Teom": "PM10", "O3": "O3", "CO": "CO", "PM25Teom": "PM25"}
     date_dict = dict()
     particle_daily = dict()
 
@@ -52,17 +51,20 @@ if __name__ == '__main__':
 
     for date in sorted(date_dict.keys()):
         for particle in particle_dict.values():
+            date_obj = dict()
+            date_obj["date"] = date
+
             if particle in date_dict[date]:
-                date_obj = dict()
-                date_obj["date"] = date
                 date_obj["value"] = sum(date_dict[date][particle]) / len(date_dict[date][particle])
 
                 if particle == "CO":
                     date_obj["value"] *= 1000
+            else:
+                date_obj["value"] = 0
 
-                list = particle_daily[particle]
-                list.append(date_obj)
-                particle_daily[particle] = list
+            list = particle_daily[particle]
+            list.append(date_obj)
+            particle_daily[particle] = list
 
     with open("data-daily.json", "w") as f:
         f.write(json.dumps(particle_daily))
