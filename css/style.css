@@ -281,8 +281,10 @@ circle {
 .NOX { fill: #a65628; }
 .NO2 { fill: #ffff33; }
 
-.HCOmask {
-  background: rgb(255,255,255);
+.speechBubble {
+  stroke: black;
+  stroke-width: 1;
+  fill: white;
 }
 
 .barChart path { stroke: rgba(0,0,0,0); }
@@ -326,7 +328,7 @@ circle {
 }
 
 .person {
-  fill: rgba(0,0,0,0.5);
+  fill: rgba(0,0,0,1);
 }
 
 #controls {

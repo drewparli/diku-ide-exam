@@ -540,7 +540,6 @@ function set_time_step(current, next) {
   flashWarningIfHigh(DateIndex[next])
 }
 
-
 function animateSky(time) {
   var color = "#fff"
   var hour = Number(time.slice(0,2))
@@ -558,7 +557,6 @@ function animateSky(time) {
     .attr("fill",color)
 }
 
-
 function step_n_times(n) {
   return moment.utc(Current.date).add(n * 30,'m').format("YYYY-MM-DD HH:mm")
 }
@@ -570,14 +568,6 @@ function encodeDateIDAttr(date) {
 function decodeDateID(dateID) {
   return dateID.slice(1)
 }
-
-// function getTimeByIndex(id) {
-//   var data_all = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
-//                   "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-//                   "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
-//                   "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
-//   return data_all[id];
-// }
 
 function formatNumber(number) {
   if (number == 0) {
@@ -621,12 +611,31 @@ function roundTwo(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
 
+function setYearsLost() {
+  // for each 10 mirco-grams/m3 increase, loose 0.64 years
+  let msg = ""
+
+  if (Current.pm10 < 15.0) {
+    msg = "0.0 years!"
+  } else {
+    var n = (Current.pm10 - 15.0) / 10.0
+    msg = roundTwo(0.64 * n) + " years!"
+  }
+
+  d3.select("#man-years")
+    .data([msg])
+    .text(function(d) { return msg })
+}
+
 function setBarChartConcentration(selection, values) {
   selection.selectAll(".tick")
     .select("text")
     .data(values)
     .text(function(d) {
         c = d.value
+        // setup the speech bubble value here
+        if (d.name == "PM10") { Current.pm10 = c }
+        setYearsLost()
         if (c == "null") {return "missing"} else {return roundTwo(c)} } )
 }
 
@@ -708,7 +717,6 @@ function removeTooltip(tooltipLine) {
   }
 }
 
-// function updateLinegraph(dataset, eu_limit) {
 function updateLinegraph() {
   updateLinegraphInfo(this.id)
 
@@ -769,7 +777,7 @@ function updateLinegraph() {
   var dataset_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[1])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[1])}];
   var dataset_very_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[0])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[0])}];
 
-    // Add the valueline path.
+  // Add the valueline path.
   linechart.select(".area_very_high")
     .duration(750)
     .attr("d", area(dataset_very_high));
