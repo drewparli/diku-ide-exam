@@ -123,7 +123,7 @@ function initBarChart() {
     .attr("height", height + (2 * marginTB) + base)
     .select("#barchart")
     .classed("barChart", true)
-    .attr("transform", "translate(65,30)")
+    .attr("transform", "translate(65,10)")
 
   BarChart.obj = barchart
 
@@ -163,6 +163,7 @@ function initBarChart() {
     .attr("height", function(d) { return 20})
     .attr("class", function(d) { return d })
     .classed("valueBox", true)
+    .on("click", handle_bar_toggle)
     .lower()
 
   // Add the x axis labels
@@ -187,13 +188,13 @@ function initBarChart() {
   // transform the given ticks into background grid lines
   BarChart.yAxisLabels.selectAll(".tick")
     .select("line")
-    .attr("x1", -6)
+    .attr("x1", function(d,i) { if (i < 1) { return -60 } else { return -6 } })
     .attr("x2", width)
 
   BarChart.yAxisLabels.selectAll("text")
-    .data(["", "Very Low","Low","Medium","High","Very High"])
+    .data(["(μg/m3)", "Very Low","Low","Medium","High","Very High"])
     .text(function(d) { return d })
-
+    .attr("dy", function(d,i) { if (i < 1) { return "1.8em" } else { return "0.32em" } })
 
   barchart.append("g")
     .attr("id", "time-steps")
@@ -215,9 +216,6 @@ function initBarChart() {
     .attr("width", xScale.bandwidth())
     .attr("height", function(d) { return height - yScale(d.caqi) })
     .attr("class", function(d) { return d.name })
-    // .style("fill", "rgb(255,255,255)")
-    // .style("stroke-width", 1)
-    // .style("stroke", "black")
     .on("click", handle_bar_toggle)
 
   setBarChartConcentration(BarChart.xAxisVals, DateIndex[Current.date])
