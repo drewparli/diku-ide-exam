@@ -352,38 +352,72 @@ function handleStop() {
 }
 
 function handlePause() {
-  BarChart.interval.stop()
-  BarChart.play = false
+  pause()
 }
 
 function handlePlay() {
   if (BarChart.play) {
     return
   } else {
-    BarChart.play = true
-    do_time_step()
-    BarChart.interval = d3.interval(do_time_step, 1200)
+    play()
   }
 }
 
 function handleDateChange() {
-  new_date = this.value + Current.date.slice(10)
-  set_time_step(Current.date, new_date)
+  next = this.value + Current.date.slice(10)
+  changeTime(Current.date, next)
 }
 
 function handleTimeChange() {
-  console.log(getTime())
+  next = Current.date.slice(0,11) + getTime()
+  changeTime(Current.date, next)
 }
+
+function changeTime(current, next) {
+  console.log(Current.date, next)
+  if (BarChart.play) {
+    pause()
+    set_time_step(Current.date, next)
+    Current.date = moment.utc(next).format("YYYY-MM-DD HH:mm")
+    play()
+  } else {
+    set_time_step(Current.date, next)
+    Current.date = moment.utc(next).format("YYYY-MM-DD HH:mm")
+  }
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
+function play() {
+  BarChart.play = true
+  do_time_step()
+  BarChart.interval = d3.interval(do_time_step, 1200)
+}
+
+function pause() {
+  BarChart.interval.stop()
+  BarChart.play = false
+}
+
+function getTime() {
+  return TimeIntervals[d3.select("#time").node().value]
+}
+
+function setTime(date) {
+  time = date.slice(11)
+  new_v = TimeIntervals.indexOf(time)
+  d3.select("#time").node().value = new_v
+  d3.select("#time_txt").text(time)
+  animateSky(time)
+}
+
 function do_time_step() {
   current = Current.date
   Next.date = step_n_times(1)
-
   set_time_step(current, Next.date)
-
   Current.date = Next.date
 }
 
@@ -393,6 +427,9 @@ function set_time_step(current, next) {
   let height = BarChart.height
 
   DatePicker.datepicker("update", next.slice(0,10))
+  setTime(next)
+
+
 
   // update the bars in the barchart
   bars = BarChart.obj.select(encodeDateIDSelector(current))
@@ -415,24 +452,11 @@ function set_time_step(current, next) {
     .attr("id", encodeDateIDAttr(next))
 
   setBarChartConcentration(BarChart.xAxisVals, DateIndex[next])
-
-  // Update the concentration of each particle type in the field
   setParticleFieldConcentration(DateIndex[next])
 
   flashWarningIfHigh(DateIndex[next])
 }
 
-function getTime() {
-  return TimeIntervals[d3.select("#time").node().value]
-}
-
-function updateTime() {
-  var id = d3.select("#time").node().value
-  var time = getTimeByIndex(id)
-  d3.select("#time_txt").text(time)
-  animateSky(time)
-  return time
-}
 
 function animateSky(time) {
   var color = "#fff"
@@ -587,7 +611,7 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
 
 function removeTooltip(tooltipLine) {
   tooltip = d3.select("#linechart-tooltip-box")
-  
+
   if (tooltip) {
     tooltip.style("display", "none");
   }
