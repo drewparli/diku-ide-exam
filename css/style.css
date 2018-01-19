@@ -185,12 +185,17 @@ th {
 .card-header a {
   font-family: 'Playfair Display', serif;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal;
 }
 
 .card-header a:hover {
   text-decoration: none;
+}
+
+.card-body {
+  max-height: 530px;
+  overflow-y: scroll;
 }
 
 .card-body-text p {

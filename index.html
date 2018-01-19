@@ -8,7 +8,7 @@
     <title>IDE Exam</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display|Roboto|Ubuntu" rel="stylesheet">
+    <link href="css/google-font.css" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -44,7 +44,7 @@
     <div class="row" style="height:740px;">
 
       <!-- Container for the left-hand side text accordion -->
-      <div class="col-sm-6" style="max-height:500px;">
+      <div class="col-sm-6">
         <div id="accordion" role="tablist">
 
           <!-- Text for the guided story -->
@@ -57,7 +57,7 @@
               </h5>
             </div>
             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
+              <div class="card-body">
                 <div class="card-body-text">
                     <p>In Denmark, air pollution is an ongoing problem in many urban areas, as exposure to high concentrations of airborne particulates can significantly influence the health of citizens. Research as shown that long term exposure can lead to heart and respiratory diseases, as well as strokes and lung cancer. More specifically, researchers have concluded that a mere 10 &mu;g/m3 increase in airborne particulate matter (PM10) reduces life expectancy by 0.64 years (95% CI: 0.21, 1.07) [<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">1</a>].</p>
 
@@ -84,7 +84,11 @@
                     </div>
                     </p>
 
+                    <h2>Measurements</h2>
+                    <p>The monitoring station measures the following: nitrogen dioxide (NO2), ozone (O3), airborne particulates (PM10 and PM25), carbon monoxide (CO) and sulfur dioxide (SO2). Measurements are recorded every half hour, on the hour and at half past the hour. This means we get a very dense dataset for the concentration levels across the entire year, i.e., approximately 17,520 data points for each particle for the entire year.<p>
 
+                    <h2>Source</h2>
+                    <p>Initially, we looked at using the dataset provided on the Copenhagen Open Data website. However, this dataset was rather small, only containing information for a single year. Therefore, we contacted the Department of Environmental Science and requested access to the full dataset, to which they agreed. In fact, we were given access to all data from 2017-2000, however the consistency of the data, measurement methods and types of particles measured across this period presented many challenges in terms of trying to reconcile the data. Therefore, given the restricted time frame of this project, we chose to focus only on the most recent years worth of data. </p>
 
 
 
@@ -107,7 +111,7 @@
               </h5>
             </div>
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
+              <div class="card-body">
                 There is a distinction between core polutants and other
                 polutants.  Without core polutants, an index value could not be
                 calculated. For city background measurements, the core
@@ -221,7 +225,7 @@
               </h5>
             </div>
             <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
+              <div class="card-body">
                 <img src="caqi-grid.png">
                 <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">link</a>
               </div>
@@ -238,7 +242,7 @@
               </h5>
             </div>
             <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
+              <div class="card-body">
                 <ul>
                   <li><a href="https://www.eea.europa.eu/themes/air/intro">EEA - Air Pollution</a></li>
                   <li><a href="http://www.airqualitynow.eu/pollution_home.php">Air Quality in Europe</a></li>
