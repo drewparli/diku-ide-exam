@@ -168,9 +168,8 @@ th {
 }
 
 .area {
-  fill: grey;
-  stroke: grey;
-  stroke-width: 1.5px;
+  fill: #171717;
+  stroke: none;
 }
 
 .hideBar {
