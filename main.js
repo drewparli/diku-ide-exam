@@ -34,6 +34,8 @@ var DateIndex = {}
 var ParticleField = {}
 var Sims = {}
 
+var div =  null
+
 // VIKS GLOBAL VARIABLES
 var particles_daily;
 var particles_EU;
@@ -83,6 +85,10 @@ function visualize(dataDaily, particles_EU, dateIndex) {
   datepicker.datepicker("update", "2017-01-01")
   datepicker.datepicker().on('changeDate', handleDateChange)
   DatePicker = datepicker
+
+  div = d3.select('body').append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);
 
   // JQuery code to make our bootstrap tabs work
   $(".nav a").on("click", function() {
@@ -841,7 +847,22 @@ function initHeatMap(data) {
       .attr('fill', '#fff')
       .attr('width', 10)
       .attr('height', 1.50)
+      .attr('data-date', get_time(d))
       .attr('fill', get_color(max_caqi))
+      .on('mouseover', function() {
+        var date = $(this).attr('data-date');
+        div.transition()
+          .duration(0)
+          .style("opacity", .9)
+        div.html(date)
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 20) + "px");
+       })
+     .on('mouseout', function() {
+       div.transition()
+         .duration(500)
+         .style("opacity", 0);
+       })
 
     i++
     d = heat_step(d,1)
@@ -877,6 +898,10 @@ function heat_step(date,n) {
 
 function get_date(date) {
   return moment.utc(date).format("MM-DD")
+}
+
+function get_time(date) {
+  return moment.utc(date).format("YYYY-MM-DD HH:mm")
 }
 
 function get_color(caqi) {
