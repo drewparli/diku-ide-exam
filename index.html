@@ -59,7 +59,26 @@
             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body">
                 <div class="card-body-text">
-                    <p>In Denmark, air pollution is an ongoing problem in many urban areas, as exposure to high concentrations of airborne particulates can significantly influence the health of citizens. Research as shown that long term exposure can lead to heart and respiratory diseases, as well as strokes and lung cancer. More specifically, researchers have concluded that a mere 10 &mu;g/m3 increase in airborne particulate matter (PM10) reduces life expectancy by 0.64 years (95% CI: 0.21, 1.07) [<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">1</a>].</p>
+                    <p>In Denmark, air pollution is an ongoing problem in many urban areas, as exposure to high concentrations of airborne particulates can significantly influence the health of citizens. Research as shown that long term exposure can lead to heart and respiratory diseases, as well as strokes and lung cancer. More specifically, researchers have concluded that an increase of only 10 &mu;g/m3 in airborne particulate matter (PM10) can reduce life expectancy by 0.64 years (95% CI: 0.21, 1.07) [<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">1</a>].</p>
+
+                    <p>Unfortunately, particle concentration data is rather boring, and often people are not sure what terms like nitrogen dioxide or &mu;g/m3 mean. Therefore, the aim of our project is to present this data in a more approachable manner.<p>
+
+                    <p>To acheive this goal, we translated the quantitative data gathered from an air pollutant monitoring station in Copenhagen, Denmark to more approachable and comparable qualitative data using the Common Air Quality Index (CAQI) developed by the EU's Citeair project. This allows us to speak in general terms about the quality of the air in the area, instead of hoping that a view has enough domain knowledge to make their own interpretations about the data. More information about the index and its scoring is presented in <i>The Common Air Quality Index</i> section.
+
+                    The following sections describe the intent of three visualizations on the right-hand side and how they might be used.
+
+                    <h2>Exploring Hourly Particle Concentrations</h2>
+                    <hr>
+                    <p></p>
+
+                    <h2>Exploring Daily Particle Concentrations</h2>
+                    <hr>
+                    <p></p>
+
+                    <h2>A Year of Particle Concentrations at a Glance</h2>
+                    <hr>
+                    <p></p>
+
                 </div>
 
               </div>
@@ -80,6 +99,7 @@
                     <p>In accordance with international conventions such as the Climate Convention and the Geneva Convention on Long-Range Transboundary Air Pollution, the concentrations of specific air particulates are monitored at various intervals across Denmark at specific monitoring stations. Aarhus University's <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a> manages the reporting of such data both in Denmark and to the European Union's <a href="https://www.eea.europa.eu/themes/air" target="_blank">European Environment Agency</a> (EEA).</p>
 
                     <h2>Monitoring Stations</h2>
+                    <hr>
                     <p>The data gathered at each monitoring station is dependent on the location and purpose of the station. In general a single station will monitor one of two different conditions:
 
                   <ul>
@@ -91,6 +111,7 @@
                   </ul>
 
                   <h2>H. C. Ørsted Institutet</h2>
+                  <hr>
                   <p>For this visualization specifically, we used the data gathered at the H. C. Ørsted Institutet roof top monitoring station for 2017. It is station no. 1259, as seen in the image below, and is atop a flat roof, seven story building at the University of Copenhagen. The area is open with trees between the university institutes. The distance to the Jagtvej street station (no. 1257) is around 300 meters and there are several streets with traffic densities above 5,000 vehicles per day within a few kilometres.</p>
 
                     <div style="width: 60%; max-width: 350px; margin: 30px auto;">
@@ -100,14 +121,39 @@
                     </p>
 
                   <h2>Measurements</h2>
-                  <p>The monitoring station measures the following: nitrogen dioxide (NO2), ozone (O3), airborne particulates (PM10 and PM25), carbon monoxide (CO) and sulfur dioxide (SO2). Measurements are recorded every half hour, on the hour and at half past the hour. This means we get a very dense dataset for the concentration levels across the entire year, i.e., approximately 17,520 data points for each particle for the entire year.<p>
+                  <hr>
+                  <p>The monitoring station measures the following: nitrogen dioxide (NO2), ozone (O3), airborne particulates (PM10 and PM25), carbon monoxide (CO) and sulfur dioxide (SO2). Measurements are recorded every half hour, on the hour and at half past the hour. This means we get a very dense dataset for the concentration levels across the entire year, i.e., approximately 17,520 data points for each particle for the entire year. See more information about each particle type in the <i>Particles</i> section.<p>
 
                   <h2>Gathering the Dataset</h2>
+                  <hr>
                   <p>Initially, we looked at using the dataset provided on the <a href="http://data.kk.dk/dataset/luftforurening" target="_blank">Open Data Copenhagen</a> website. However, this dataset was rather small, only containing information for a single year. Therefore, we contacted the Department of Environmental Science and requested access to the full dataset, to which they agreed. In fact, we were given API access to all data from 2017-2000, however the consistency of the data, measurement methods and types of particles measured across this period presented many challenges in terms of trying to reconcile the data. Therefore, given the restricted time frame of this project, we chose to focus only on the most recent years worth of data, i.e., 2017.</p>
 
                   <h2>Preprocessing the Dataset</h2>
+                  <hr>
                   <p>In order to reduce the load time of the visualization, we preprocessed the data in Python. Essentially, this meant augmenting the existing data measurements with statistical data, e.g., the common air quality index value and daily average. Additionally, in order to reduce the number of elements in the simulation visualization, we created a hash table by date, so that it was easy to update elements based on a date change.</p>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text for Common Air Quality Index -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingThree">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
+                  The Common Air Quality Index
+                </a>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body">
+                In 2004, the Common Information to European Air (<a href="http://citeair.rec.org/home.html" target="_blank">Citeair</a>) was started with the goal of developing an efficient means to collect, present and compare air quality data across a multitude of sites in the EU. As a result, the Common Air Quality Index (<a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">CAQI</a>) was developed.
+
+                As previously mentioned, the monitoring station we selected is a background station, therefore the values on the left-hand side of the chart below determine the index value for each particle type.
+                <div style="width: 90%; margin: 30px auto;">
+                  <img src="caqi-grid.png">
+                </div>
+
               </div>
             </div>
           </div>
@@ -222,23 +268,6 @@
 
                 <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276">Wikipedia page</a>
 
-              </div>
-            </div>
-          </div>
-
-          <!-- Text for Common Air Quality Index -->
-          <div class="card">
-            <div class="card-header" role="tab" id="headingThree">
-              <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
-                  Common Air Quality Index
-                </a>
-              </h5>
-            </div>
-            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-              <div class="card-body">
-                <img src="caqi-grid.png">
-                <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">link</a>
               </div>
             </div>
           </div>
