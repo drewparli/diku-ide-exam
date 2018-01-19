@@ -63,7 +63,7 @@
 
                     <p>Unfortunately, particle concentration data is rather boring, and often people are not sure what terms like nitrogen dioxide or &mu;g/m3 mean. Therefore, the aim of our project is to present this data in a more approachable manner.<p>
 
-                    <p>To acheive this goal, we translated the quantitative data gathered from an air pollutant monitoring station in Copenhagen, Denmark to more approachable and comparable qualitative data using the Common Air Quality Index (CAQI) developed by the EU's Citeair project. This allows us to speak in general terms about the quality of the air in the area, instead of hoping that a view has enough domain knowledge to make their own interpretations about the data. More information about the index and its scoring is presented in <i>The Common Air Quality Index</i> section.
+                    <p>To acheive this goal, we translated the quantitative data gathered from an air pollutant monitoring station in Copenhagen, Denmark to more approachable and comparable qualitative data using the Common Air Quality Index (CAQI) developed by the EU's Citeair project. This allows us to speak in general terms about the quality of the air in the area, instead of hoping that a viewer has enough domain knowledge to make their own interpretations about the data. More information about the index and its scoring is presented in <i>The Common Air Quality Index</i> section.
 
                     In all, we present three different visualizations of the data, each working at a different time scale: hourly, daily and yearly. The following sections describe the intent of these three visualizations  and how they might be used.
 
@@ -79,7 +79,11 @@
 
                     <h2>Average Daily Quality</h2>
                     <hr>
-                    <p></p>
+                    <p>The Average Daily Quality visualization lets the viewer inspect a specific particle. It consists of 2 graphs: a line graph and a bar chart.</p>
+
+                    <p>The line graph represents the daily average for a specific particle. Since the dataset provided information about particles’ concentration every 30 minutes, a Python program was written to calculate the average concentration for each day. In the line graph missing values are identified as 0. The ticks on a y-axis are set according to the Common Air Quality Index for a background station. Each value range is colored with respect to an index class to better illustrate the current situation. When the viewer hovers on the line chart, he/she can see the exact average for that day.</p>
+			
+                    <p>In addition to this, the hovering updates the bar chart with hourly measured values for that day. This lets the viewer understand which period in day is responsible for an increase in concentration. When the viewer is outside the line chart, the first day in the year, 1st of January (2017), is shown on a bar chart.</p>
 
                     <h2>Yearly Highs</h2>
                     <hr>
