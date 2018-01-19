@@ -113,7 +113,7 @@ function visualize(dataDaily, particles_EU, dateIndex) {
 function initBarChart() {
   let min = 0
   let max = 5
-  let marginLR = 30
+  let marginLR = 70
   let marginTB = 30
   let base = 30
   let pad = 0.25
@@ -127,7 +127,7 @@ function initBarChart() {
     .attr("height", height + (2 * marginTB) + base)
     .select("#barchart")
     .classed("barChart", true)
-    .attr("transform", "translate(20,30)")
+    .attr("transform", "translate(65,30)")
 
   BarChart.obj = barchart
 
@@ -139,7 +139,7 @@ function initBarChart() {
 
   let yScale = d3.scaleLinear()
     .domain([min, max])
-    .range([height, 0])
+    .range([height+1, 0])
 
   BarChart.yScale = yScale
 
@@ -183,15 +183,21 @@ function initBarChart() {
     .classed("label", true)
 
   // Add and edit the y axis
-  barchart.append("g")
+  BarChart.yAxisLabels = barchart.append("g")
     .attr("id", "barchart_y_axis")
     .classed("yAxis", true)
-    .call(d3.axisLeft(yScale).ticks(6))
-    // transform the given ticks into background grid lines
-    .selectAll(".tick")
+    .call(d3.axisLeft(yScale).ticks(7))
+
+  // transform the given ticks into background grid lines
+  BarChart.yAxisLabels.selectAll(".tick")
     .select("line")
     .attr("x1", -6)
     .attr("x2", width)
+
+  BarChart.yAxisLabels.selectAll("text")
+    .data(["", "Very Low","Low","Medium","High","Very High"])
+    .text(function(d) { return d })
+
 
   barchart.append("g")
     .attr("id", "time-steps")
@@ -213,6 +219,9 @@ function initBarChart() {
     .attr("width", xScale.bandwidth())
     .attr("height", function(d) { return height - yScale(d.caqi) })
     .attr("class", function(d) { return d.name })
+    // .style("fill", "rgb(255,255,255)")
+    // .style("stroke-width", 1)
+    // .style("stroke", "black")
     .on("click", handle_bar_toggle)
 
   setBarChartConcentration(BarChart.xAxisVals, DateIndex[Current.date])
