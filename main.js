@@ -45,6 +45,13 @@ var LineChart = {
   "yScale": null
 }
 
+var TimeIntervals = [
+  "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
+  "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+  "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
+  "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
+  ]
+
 var parseTime = d3.timeParse("%Y-%m-%d");
 var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
@@ -189,9 +196,6 @@ function initBarChart() {
     .on("click", handle_bar_toggle)
 
   setBarChartConcentration(BarChart.xAxisVals, DateIndex[Current.date])
-
-  // barchart.on("click", handle_time_step, 5)  // one step forward
-  // barchart.on("click", handle_it)  // use this for auto play
 }
 
 function initParticleField() {
@@ -217,13 +221,18 @@ function initParticleField() {
 }
 
 function initControls() {
+  BarChart.play = false
   d3.select("#play_button")
     .on("click", handlePlay)
+
   d3.select("#pause_button")
     .on("click", handlePause)
+
   d3.select("#stop_button")
     .on("click", handleStop)
-  d3.select("#time").on("input", updateTime);
+
+  // d3.select("#time").on("input", updateTime)
+  d3.select("#time").on("input", handleTimeChange)
 }
 
 function initLineChart(dataset, eu_limit) {
@@ -343,28 +352,38 @@ function handleStop() {
 }
 
 function handlePause() {
-  BarChart.interval.stop()
+  pause()
 }
 
 function handlePlay() {
-  handle_time_step()
-  BarChart.interval = d3.interval(handle_time_step, 1200)
+  if (BarChart.play) {
+    return
+  } else {
+    play()
+  }
 }
 
 function handleDateChange() {
-    new_date = this.value + Current.date.slice(10)
-    set_time_step(Current.date, new_date)
+  next = this.value + Current.date.slice(10)
+  changeTime(Current.date, next)
 }
 
-function handle_time_step() {
-  current = Current.date
-  Next.date = step_n_times(1)
+function handleTimeChange() {
+  next = Current.date.slice(0,11) + getTime()
+  changeTime(Current.date, next)
+}
 
-  set_time_step(current, Next.date)
-
-  DatePicker.datepicker("update", Next.date.slice(0,10))
-
-  Current.date = Next.date
+function changeTime(current, next) {
+  console.log(Current.date, next)
+  if (BarChart.play) {
+    pause()
+    set_time_step(Current.date, next)
+    Current.date = moment.utc(next).format("YYYY-MM-DD HH:mm")
+    play()
+  } else {
+    set_time_step(Current.date, next)
+    Current.date = moment.utc(next).format("YYYY-MM-DD HH:mm")
+  }
 }
 
 
@@ -372,10 +391,45 @@ function handle_time_step() {
 ////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
+function play() {
+  BarChart.play = true
+  do_time_step()
+  BarChart.interval = d3.interval(do_time_step, 1200)
+}
+
+function pause() {
+  BarChart.interval.stop()
+  BarChart.play = false
+}
+
+function getTime() {
+  return TimeIntervals[d3.select("#time").node().value]
+}
+
+function setTime(date) {
+  time = date.slice(11)
+  new_v = TimeIntervals.indexOf(time)
+  d3.select("#time").node().value = new_v
+  d3.select("#time_txt").text(time)
+  animateSky(time)
+}
+
+function do_time_step() {
+  current = Current.date
+  Next.date = step_n_times(1)
+  set_time_step(current, Next.date)
+  Current.date = Next.date
+}
+
 function set_time_step(current, next) {
 
   let yScale = BarChart.yScale
   let height = BarChart.height
+
+  DatePicker.datepicker("update", next.slice(0,10))
+  setTime(next)
+
+
 
   // update the bars in the barchart
   bars = BarChart.obj.select(encodeDateIDSelector(current))
@@ -398,21 +452,13 @@ function set_time_step(current, next) {
     .attr("id", encodeDateIDAttr(next))
 
   setBarChartConcentration(BarChart.xAxisVals, DateIndex[next])
-
-  // Update the concentration of each particle type in the field
   setParticleFieldConcentration(DateIndex[next])
 
   flashWarningIfHigh(DateIndex[next])
 }
 
-function updateTime() {
-  var id = d3.select("#time").node().value;
-  d3.select("#time_txt").text(getTimeByIndex(id));
 
-  animateTimeFrame(getTimeByIndex(id))
-}
-
-function animateTimeFrame(time) {
+function animateSky(time) {
   var color = "#fff"
   var hour = Number(time.slice(0,2))
 
@@ -429,6 +475,7 @@ function animateTimeFrame(time) {
     .attr("fill",color)
 }
 
+
 function step_n_times(n) {
   return moment.utc(Current.date).add(n * 30,'m').format("YYYY-MM-DD HH:mm")
 }
@@ -441,13 +488,13 @@ function decodeDateID(dateID) {
   return dateID.slice(1)
 }
 
-function getTimeByIndex(id) {
-  var data_all = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
-                  "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-                  "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
-                  "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
-  return data_all[id];
-}
+// function getTimeByIndex(id) {
+//   var data_all = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
+//                   "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+//                   "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
+//                   "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
+//   return data_all[id];
+// }
 
 function formatNumber(number) {
   return parseFloat(Math.round(number * 1000) / 1000).toFixed(3);
@@ -564,7 +611,7 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
 
 function removeTooltip(tooltipLine) {
   tooltip = d3.select("#linechart-tooltip-box")
-  
+
   if (tooltip) {
     tooltip.style("display", "none");
   }
