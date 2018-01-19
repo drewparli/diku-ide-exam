@@ -14,8 +14,7 @@ function main(handsJSON) {
         console.log("ERROR: " + errMsg)
       } else {
         particles_daily = daily;
-        particles_EU = hourly.parts;
-        visualize(daily, particles_EU, HCAB) // Visualize emission graph
+        visualize(daily, HCAB) // Visualize emission graph
       }
     })
 }
@@ -70,7 +69,7 @@ var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
-function visualize(dataDaily, particles_EU, dateIndex) {
+function visualize(dataDaily, dateIndex) {
   // JQuery code to make our bootstrap date picker work
   var datepicker = $("#datepicker")
   var container=$('.inpute-group').length>0 ? $('.input-group').parent() : "body";
@@ -106,14 +105,14 @@ function visualize(dataDaily, particles_EU, dateIndex) {
   initParticleField()
   initControls()
   initHeatMap()
-  initLineChart(dataDaily["SO2"], QualityIndex.SO2)
+  initLineChart(dataDaily["PM10"], QualityIndex.PM10)
 }
 
 // This function sets up the main svg element for the map visualization
 function initBarChart() {
   let min = 0
   let max = 5
-  let marginLR = 30
+  let marginLR = 70
   let marginTB = 30
   let base = 30
   let pad = 0.25
@@ -127,7 +126,7 @@ function initBarChart() {
     .attr("height", height + (2 * marginTB) + base)
     .select("#barchart")
     .classed("barChart", true)
-    .attr("transform", "translate(20,30)")
+    .attr("transform", "translate(65,10)")
 
   BarChart.obj = barchart
 
@@ -139,7 +138,7 @@ function initBarChart() {
 
   let yScale = d3.scaleLinear()
     .domain([min, max])
-    .range([height, 0])
+    .range([height+1, 0])
 
   BarChart.yScale = yScale
 
@@ -167,6 +166,7 @@ function initBarChart() {
     .attr("height", function(d) { return 20})
     .attr("class", function(d) { return d })
     .classed("valueBox", true)
+    .on("click", handle_bar_toggle)
     .lower()
 
   // Add the x axis labels
@@ -183,15 +183,21 @@ function initBarChart() {
     .classed("label", true)
 
   // Add and edit the y axis
-  barchart.append("g")
+  BarChart.yAxisLabels = barchart.append("g")
     .attr("id", "barchart_y_axis")
     .classed("yAxis", true)
-    .call(d3.axisLeft(yScale).ticks(6))
-    // transform the given ticks into background grid lines
-    .selectAll(".tick")
+    .call(d3.axisLeft(yScale).ticks(7))
+
+  // transform the given ticks into background grid lines
+  BarChart.yAxisLabels.selectAll(".tick")
     .select("line")
-    .attr("x1", -6)
+    .attr("x1", function(d,i) { if (i < 1) { return -60 } else { return -6 } })
     .attr("x2", width)
+
+  BarChart.yAxisLabels.selectAll("text")
+    .data(["(μg/m3)", "Very Low","Low","Medium","High","Very High"])
+    .text(function(d) { return d })
+    .attr("dy", function(d,i) { if (i < 1) { return "1.8em" } else { return "0.32em" } })
 
   barchart.append("g")
     .attr("id", "time-steps")
@@ -251,11 +257,13 @@ function initControls() {
   d3.select("#stop_button")
     .on("click", handleStop)
 
-  // d3.select("#time").on("input", updateTime)
+  setTime(Current.date)
   d3.select("#time").on("input", handleTimeChange)
 }
 
 function initLineChart(dataset, eu_limit) {
+  updateLinegraphInfo("PM10");
+
   // Add functionality to the predefined HTML elements
   buttons = d3.select("#linechart-buttons")
   buttons.select("#SO2").on("click", updateLinegraph)
@@ -575,7 +583,11 @@ function decodeDateID(dateID) {
 // }
 
 function formatNumber(number) {
-  return parseFloat(Math.round(number * 1000) / 1000).toFixed(3);
+  if (number == 0) {
+    return "missing";
+  } else {
+    return parseFloat(Math.round(number * 1000) / 1000).toFixed(3);
+  }
 }
 
 function getDateIndex(first, second) {
@@ -701,9 +713,11 @@ function removeTooltip(tooltipLine) {
 
 // function updateLinegraph(dataset, eu_limit) {
 function updateLinegraph() {
+  updateLinegraphInfo(this.id)
+
   dataset = particles_daily[this.id]
   eu_limit = QualityIndex[this.id]
-
+		  console.log("dataset", dataset);
   // format the data
   dataset.forEach(function(d) {
     d.date = new Date(d.date);
@@ -795,6 +809,59 @@ function updateLinegraph() {
     .text(function(d) {
       return d;
     });
+}
+
+function updateLinegraphInfo(particle) {
+  if (particle == "SO2") {
+	d3.select("#linechart-info-particle").text("SO2")
+	d3.select("#linechart-very-low").text("0 - 50")
+	d3.select("#linechart-low").text("50 - 100")
+	d3.select("#linechart-medium").text("100 - 350")
+	d3.select("#linechart-high").text("350 - 500")
+	d3.select("#linechart-very-high").text(">500")
+  } else if (particle == "NO2") {
+	d3.select("#linechart-info-particle").text("NO2")
+	d3.select("#linechart-very-low").text("0 - 50")
+	d3.select("#linechart-low").text("50 - 100")
+	d3.select("#linechart-medium").text("100 - 200")
+	d3.select("#linechart-high").text("200 - 400")
+	d3.select("#linechart-very-high").text(">400")
+  } else if (particle == "PM10") {
+	d3.select("#linechart-info-particle").text("PM10 (adjusted daily average)")
+	d3.select("#linechart-very-low").text("0 - 15")
+	d3.select("#linechart-low").text("15 - 30")
+	d3.select("#linechart-medium").text("30 - 50")
+	d3.select("#linechart-high").text("50 - 100")
+	d3.select("#linechart-very-high").text(">100")
+  } else if (particle == "O3") {
+	d3.select("#linechart-info-particle").text("O3")
+	d3.select("#linechart-very-low").text("0 - 60")
+	d3.select("#linechart-low").text("60 - 120")
+	d3.select("#linechart-medium").text("120 - 180")
+	d3.select("#linechart-high").text("180 - 240")
+	d3.select("#linechart-very-high").text(">240") // "O3": [60, 120, 180, 240, 300],
+  } else if (particle == "CO") {
+    d3.select("#linechart-info-particle").text("CO")
+	d3.select("#linechart-very-low").text("0 - 5000")
+	d3.select("#linechart-low").text("5000 - 7500")
+	d3.select("#linechart-medium").text("7500- 10000")
+	d3.select("#linechart-high").text("10000 - 20000")
+	d3.select("#linechart-very-high").text(">20000") // "CO": [5000, 7500, 10000, 20000, 30000],
+  } else if (particle == "PM25") {
+    d3.select("#linechart-info-particle").text("PM25 (adjusted daily average)")
+	d3.select("#linechart-very-low").text("0 - 10")
+	d3.select("#linechart-low").text("10 - 20")
+	d3.select("#linechart-medium").text("20 - 30")
+	d3.select("#linechart-high").text("30 - 60")
+	d3.select("#linechart-very-high").text(">60")
+  } else {
+	d3.select("#linechart-info-particle").text("Undefined")
+	d3.select("#linechart-very-low").text("NaN")
+	d3.select("#linechart-low").text("NaN")
+	d3.select("#linechart-medium").text("NaN")
+	d3.select("#linechart-high").text("NaN")
+	d3.select("#linechart-very-high").text("NaN")
+  }
 }
 
 function initHeatMap(data) {
