@@ -198,7 +198,7 @@ th {
 }*/
 
 .card-body {
-  max-height: 530px;
+  max-height: 520px;
   overflow-y: scroll;
 }
 

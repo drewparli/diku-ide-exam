@@ -782,7 +782,7 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
   var title = "Hourly " + BarChartParticleDay.currParticle + " concentration (Date: " + date_formatted + ")";
 
   drawBarchartParticleForDay(hourly_data, title)
-  
+
   tooltipLine.attr("stroke", "#0052FF")
     .attr("x1", LineChart.xScale(curr_date))
     .attr("x2", LineChart.xScale(curr_date))
@@ -813,7 +813,7 @@ function removeTooltip(tooltipLine) {
   if (tooltipLine) {
     tooltipLine.attr("stroke", "none");
   }
-  
+
   var hourly_data = particles_hourly_by_date[BarChartParticleDay.currParticle][BarChartParticleDay.startDate];
   var title = "Hourly " + BarChartParticleDay.currParticle + " concentration (Date: 2017-Jan-01)";
   drawBarchartParticleForDay(hourly_data, title)
@@ -862,7 +862,7 @@ function updateLinegraph() {
   var hourly_data = particles_hourly_by_date[BarChartParticleDay.currParticle][BarChartParticleDay.startDate];
   var title = "Hourly " + BarChartParticleDay.currParticle + " concentration (Date: 2017-Jan-01)";
   drawBarchartParticleForDay(hourly_data, title)
-  
+
   dataset = particles_daily[this.id]
   eu_limit = QualityIndex[this.id]
 		  console.log("dataset", dataset);
