@@ -82,16 +82,16 @@
                     <h2>Monitoring Stations</h2>
                     <p>The data gathered at each monitoring station is dependent on the location and purpose of the station. In general a single station will monitor one of two different conditions:
 
-                    <ul>
+                  <ul>
                     <li><i>Roadside conditions</i>
-                        </br>These stations are placed at the ground level near major streets.
+                      </br>These stations are placed at the ground level near major streets.
                     </li>
                     <li><i>Background conditions</i></br>
-                        These stations are placed on top of buildings or other structures so as to decrease localized effects like traffic.</li>
-                    </ul>
+                      These stations are placed on top of buildings or other structures so as to decrease localized effects like traffic.</li>
+                  </ul>
 
-                    <h2>H. C. Ørsted Institutet</h2>
-                    <p>For this visualization specifically, we used the data gathered at the H. C. Ørsted Institutet roof top monitoring station for 2017. It is station no. 1259, as seen in the image below, and is atop a flat roof, seven story building at the University of Copenhagen. The area is open with trees between the university institutes. The distance to the Jagtvej street station (no. 1257) is around 300 meters and there are several streets with traffic densities above 5,000 vehicles per day within a few kilometres.</p>
+                  <h2>H. C. Ørsted Institutet</h2>
+                  <p>For this visualization specifically, we used the data gathered at the H. C. Ørsted Institutet roof top monitoring station for 2017. It is station no. 1259, as seen in the image below, and is atop a flat roof, seven story building at the University of Copenhagen. The area is open with trees between the university institutes. The distance to the Jagtvej street station (no. 1257) is around 300 meters and there are several streets with traffic densities above 5,000 vehicles per day within a few kilometres.</p>
 
                     <div style="width: 60%; max-width: 350px; margin: 30px auto;">
                         <img id="station-map" width="100%" align="middle" src="cph-stations.png"/>
@@ -99,14 +99,14 @@
                     </div>
                     </p>
 
-                    <h2>Measurements</h2>
-                    <p>The monitoring station measures the following: nitrogen dioxide (NO2), ozone (O3), airborne particulates (PM10 and PM25), carbon monoxide (CO) and sulfur dioxide (SO2). Measurements are recorded every half hour, on the hour and at half past the hour. This means we get a very dense dataset for the concentration levels across the entire year, i.e., approximately 17,520 data points for each particle for the entire year.<p>
+                  <h2>Measurements</h2>
+                  <p>The monitoring station measures the following: nitrogen dioxide (NO2), ozone (O3), airborne particulates (PM10 and PM25), carbon monoxide (CO) and sulfur dioxide (SO2). Measurements are recorded every half hour, on the hour and at half past the hour. This means we get a very dense dataset for the concentration levels across the entire year, i.e., approximately 17,520 data points for each particle for the entire year.<p>
 
-                    <h2>Gathering the Dataset</h2>
-                    <p>Initially, we looked at using the dataset provided on the <a href="http://data.kk.dk/dataset/luftforurening" target="_blank">Open Data Copenhagen</a> website. However, this dataset was rather small, only containing information for a single year. Therefore, we contacted the Department of Environmental Science and requested access to the full dataset, to which they agreed. In fact, we were given API access to all data from 2017-2000, however the consistency of the data, measurement methods and types of particles measured across this period presented many challenges in terms of trying to reconcile the data. Therefore, given the restricted time frame of this project, we chose to focus only on the most recent years worth of data, i.e., 2017.</p>
+                  <h2>Gathering the Dataset</h2>
+                  <p>Initially, we looked at using the dataset provided on the <a href="http://data.kk.dk/dataset/luftforurening" target="_blank">Open Data Copenhagen</a> website. However, this dataset was rather small, only containing information for a single year. Therefore, we contacted the Department of Environmental Science and requested access to the full dataset, to which they agreed. In fact, we were given API access to all data from 2017-2000, however the consistency of the data, measurement methods and types of particles measured across this period presented many challenges in terms of trying to reconcile the data. Therefore, given the restricted time frame of this project, we chose to focus only on the most recent years worth of data, i.e., 2017.</p>
 
-                    <h2>Preprocessing the Dataset</h2>
-                    <p>In order to reduce the load time of the visualization, we preprocessed the data in Python. Essentially, this meant augmenting the existing data measurements with statistical data, e.g., the common air quality index value and daily average. Additionally, in order to reduce the number of elements in the simulation visualization, we created a hash table by date, so that it was easy to update elements based on a date change.</p>
+                  <h2>Preprocessing the Dataset</h2>
+                  <p>In order to reduce the load time of the visualization, we preprocessed the data in Python. Essentially, this meant augmenting the existing data measurements with statistical data, e.g., the common air quality index value and daily average. Additionally, in order to reduce the number of elements in the simulation visualization, we created a hash table by date, so that it was easy to update elements based on a date change.</p>
                 </div>
               </div>
             </div>
@@ -277,6 +277,7 @@
           <ul class="nav nav-tabs">
             <li class="active"><a href="#menu1" data-toggle="tab">Pollution Simulation</a></li>
             <li><a href="#menu2" data-toggle="tab">Daily Averages</a></li>
+            <li><a href="#menu3" data-toggle="tab">Heat Map</a></li>
           </ul>
 
           <div class="tab-content" >
@@ -973,48 +974,51 @@
               </div>
 
               <!-- Control/Button Panel -->
-              <div style="width: 505px; height: 40px; margin: 0 auto; padding-top: 5px;">
+              <div style="width: 100%; height: 40px; margin: 0 auto; padding-top: 5px;">
 
-                <div id="controls" style="float:left;">
-                  <div>
-                    <button id="play_button" type="button" style="height:30px; width:30px;float:left;">
-                      <svg width=20px height=20px>
-                        <polygon points="0,0 0,15, 12.5,7.5" transform="translate(2,5)"></polygon>
-                      </svg>
-                    </button>
+                <div style="display: table; margin: 0 auto;">
+                  <div id="controls" style="float:left;">
+                    <div>
+                      <button id="play_button" type="button" style="height:30px; width:30px;float:left;">
+                        <svg width=20px height=20px>
+                          <polygon points="0,0 0,15, 12.5,7.5" transform="translate(2,5)"></polygon>
+                        </svg>
+                      </button>
 
-                    <button id="pause_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;">
-                      <svg width=20px height=20px>
-                        <polygon points="0,0 0,15, 4,15 4,0" transform="translate(2,5)"></polygon>
-                        <polygon points="0,0 0,15, 4,15 4,0" transform="translate(9,5)"></polygon>
-                      </svg>
-                    </button>
+                      <button id="pause_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;">
+                        <svg width=20px height=20px>
+                          <polygon points="0,0 0,15, 4,15 4,0" transform="translate(2,5)"></polygon>
+                          <polygon points="0,0 0,15, 4,15 4,0" transform="translate(9,5)"></polygon>
+                        </svg>
+                      </button>
 
-                    <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
-                      <svg width=20px height=20px>
-                        <polygon points="0,0 0,15, 15,15 15,0" transform="translate(1,5)"></polygon>
-                      </svg>
-                    </button>
+                      <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
+                        <svg width=20px height=20px>
+                          <polygon points="0,0 0,15, 15,15 15,0" transform="translate(1,5)"></polygon>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                <div class="bootstrap-iso" style="float:left;">
-                  <div class="col-md-3">
-                    <form class="form-horizontal">
+                  <div class="bootstrap-iso" style="float:left;">
+                    <div class="col-md-3">
+                      <form class="form-horizontal">
 
-                      <!-- <img src="calendar_icon.png" height="20" width="20"> -->
-                      <div class="input-group">
+                        <!-- <img src="calendar_icon.png" height="20" width="20"> -->
+                        <div class="input-group">
 
-                        <!-- Date Picker -->
-                        <input id="datepicker" placeholder="YYYY-MM-DD" type="text" readonly="true" size="10" style="text-align: center;" />
+                          <!-- Date Picker -->
+                          <input id="datepicker" placeholder="YYYY-MM-DD" type="text" readonly="true" size="10" style="text-align: center;" />
 
-                        <!-- Time Picker -->
-                        <span id="time_txt" class="input-group-addon" style="background-color: white; border: 0px; line-height: 0px; padding-left: 20px;">00:00</span>
-                        <input id="time" type="range" min="0" max="47" value="0" style="width: 200px;"/>
-                      </div>
-                      <!-- </div> -->
+                          <!-- Time Picker -->
+                          <span id="time_txt" class="input-group-addon" style="background-color: white; border: 0px; line-height: 0px; padding-left: 20px;">00:00</span>
+                          <input id="time" type="range" min="0" max="47" value="0" style="width: 200px;"/>
+                        </div>
+                        <!-- </div> -->
 
-                    </form>
+                      </form>
+                  </div>
+
                 </div>
               </div>
 
@@ -1032,7 +1036,6 @@
           </div>
 
           <div id="menu2" class="tab-pane" style="width: 600px; margin: 0 auto;">
-
               <!-- Line chart -->
               <div>
                 <svg id="linechart-1" style="display: block; margin: 0 auto; padding-top:20px;">
@@ -1040,21 +1043,28 @@
                     <div id="linechart-tooltip-date" style="background:white; padding-left:5px;"></div>
                     <div id="linechart-tooltip-value" style="background:white; padding-left:5px;"></div>
                   </foreignobject>
-				</svg>
+				        </svg>
               </div>
 
-              <!-- Line Chart Buttons -->
-              <div id="linechart-buttons" class="btn-group" style="width: 475px; display: block; margin: 15px auto;">
-                <button id="SO2" title="Sulfur dioxide" class="btn-linechart" style="position: absolute; left: 10px;">SO2</button>
-                <button id="NO2" title="Nitrogen dioxide" class="btn-linechart" style="position: absolute; left: 95px;">NO2</button>
-                <button id="PM10" title="Particulate PM10" class="btn-linechart" style="position: absolute; left: 180px;">PM10</button>
-                <button id="O3" title="Ozone" class="btn-linechart" style="position: absolute; left: 265px;">O3</button>
-                <button id="CO" title="Carbon monoxide" class="btn-linechart" style="position: absolute; left: 350px;">CO</button>
-                <button id="PM25" title="Particulate PM2.5" class="btn-linechart" style="position: absolute; left: 435px;">PM25</button>
-              </div>
+            <!-- Line Chart Buttons -->
+            <div id="linechart-buttons" class="btn-group" style="width: 475px; display: block; margin: 15px auto;">
+              <button id="SO2" title="Sulfur dioxide" class="btn-linechart" style="position: absolute; left: 10px;">SO2</button>
+              <button id="NO2" title="Nitrogen dioxide" class="btn-linechart" style="position: absolute; left: 95px;">NO2</button>
+              <button id="PM10" title="Particulate PM10" class="btn-linechart" style="position: absolute; left: 180px;">PM10</button>
+              <button id="O3" title="Ozone" class="btn-linechart" style="position: absolute; left: 265px;">O3</button>
+              <button id="CO" title="Carbon monoxide" class="btn-linechart" style="position: absolute; left: 350px;">CO</button>
+              <button id="PM25" title="Particulate PM2.5" class="btn-linechart" style="position: absolute; left: 435px;">PM25</button>
+            </div>
 
-              <div id="linechart-tooltip"></div>
+            <div id="linechart-tooltip"></div>
           </div>
+
+          <div id="menu3" class="tab-pane" style="width: 600px; margin: 0 auto;">
+            <svg id="heatmap" width="550" height="650">
+            </svg>
+
+          </div>
+
         </div>
       </div>
     </div>
