@@ -254,8 +254,8 @@ function initControls() {
   d3.select("#pause_button")
     .on("click", handlePause)
 
-  d3.select("#stop_button")
-    .on("click", handleStop)
+  // d3.select("#stop_button")
+  //   .on("click", handleStop)
 
   setTime(Current.date)
   d3.select("#time").on("input", handleTimeChange)

@@ -67,7 +67,7 @@
 
                     In all, we present three different visualizations of the data, each working at a different time scale: hourly, daily and yearly. The following sections describe the intent of these three visualizations  and how they might be used.
 
-                    <h2>Hourly Quality Simulation</h2>
+                    <h2>Hourly Air Quality Simulation</h2>
                     <hr>
                     <p>The intent of this visualization was to allow the viewer to explore the dataset at the most fine grain level (i.e., hourly). Additionally, instead of simply displaying the values at each interval, we wanted to provide the viewer with a more intuitive representation of the data at each point in time. Therefore, we attempted to "gamify" the dataset by visualizing the concentration of each particle type as a group of bouncing particles, see [<a href="https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd" target="_blank">6</a>], in a scene that represents the locality where the measurements where taken. We emphasize gamify, since we did not actually create a classic game, but rather a scene that represents this cannon of visualizations. Our hope is that this will help to break down barriers some user's may have to accessing the dataset by presenting it in a context they might consider to be more enjoyable.</p>
 
@@ -214,93 +214,78 @@
             </div>
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body">
+                <div class="card-body-text">
+                  <p>The index makes a distinction between core polutants and
+                  other polutants. They are defined such that without the core
+                  polutants, an index value could not be calculated. For city
+                  background measurements, the core polutants are NO2, O3 and
+                  PM10 while the other polutants are PM2.5, CO and SO2.</p>
 
-                <p>The index makes a distinction between core polutants and
-                other polutants. They are defined such that without the core
-                polutants, an index value could not be calculated. For city
-                background measurements, the core polutants are NO2, O3 and
-                PM10 while the other polutants are PM2.5, CO and SO2.</p>
+                  <h1>Core Polutants</h1>
+                  <hr>
+                  <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide"><h2>Nitrogen Dioxide (NO2)</h2></a>
 
-                <hr>
+                  <p>Nitrogen dioxicde is one of several nitrogen oxides. NO 2 is
+                  an intermediate in the industrial synthesis of nitric acid,
+                  millions of tons of which are produced each year. At higher
+                  temperatures it is a reddish-brown gas that has a
+                  characteristic sharp, biting odor and is a prominent air
+                  pollutant.</p>
 
-                <h4>Core Polutants</h4>
+                  <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576"><h2>Ozone (O3)</h2></a>
 
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide"><h5>Nitrogen dioxide (NO2)</h5></a>
+                  <p>Ground-level ozone (O3), unlike other pollutants mentioned,
+                  is not emitted directly into the atmosphere, but is a secondary
+                  pollutant produced by reaction between nitrogen dioxide (NO2),
+                  hydrocarbons and sunlight. Ozone levels are not as high in
+                  urban areas (where high levels of NO are emitted from vehicles)
+                  as in rural areas. Sunlight provides the energy to initiate
+                  ozone formation; consequently, high levels of ozone are
+                  generally observed during hot, still sunny, summertime
+                  weather.</p>
 
-                <p>Nitrogen dioxicde is one of several nitrogen oxides. NO 2 is
-                an intermediate in the industrial synthesis of nitric acid,
-                millions of tons of which are produced each year. At higher
-                temperatures it is a reddish-brown gas that has a
-                characteristic sharp, biting odor and is a prominent air
-                pollutant.</p>
+                  <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h2>Particulate &lt;10 &mu;m (PM10)</h2></a>
 
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576"><h5>Ozone (O3)</h5></a>
+                  <p>Airborne particulate matter varies widely in its physical
+                  and chemical composition, source and particle size. PM10
+                  particles (the fraction of particulates in air of very small
+                  size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
+                  current concern, as they are small enough to penetrate deep
+                  into the lungs and so potentially pose significant health
+                  risks. Larger particles meanwhile, are not readily inhaled, and
+                  are removed relatively efficiently from the air by
+                  sedimentation. The principal source of airborne PM10 and PM2.5
+                  matter in European cities is road traffic emissions,
+                  particularly from diesel vehicles. The limit values are very
+                  often exceeded in European cities.</p>
 
-                <p>Ground-level ozone (O3), unlike other pollutants mentioned,
-                is not emitted directly into the atmosphere, but is a secondary
-                pollutant produced by reaction between nitrogen dioxide (NO2),
-                hydrocarbons and sunlight. Ozone levels are not as high in
-                urban areas (where high levels of NO are emitted from vehicles)
-                as in rural areas. Sunlight provides the energy to initiate
-                ozone formation; consequently, high levels of ozone are
-                generally observed during hot, still sunny, summertime
-                weather.</p>
+                  <h1>Other Polutants</h1>
+                  <hr>
+                  <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060"><h2>Carbon Monoxide (CO)</h2></a>
 
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h5>Particulate PM10</h5></a>
+                  <p>CO is an odourless, tasteless and colourless gas produced by
+                  the incomplete burning of materials which contain carbon,
+                  including most transport fuels. CO is toxic, acting by reaction
+                  with haemoglobin and reducing its capacity for oxygen transport
+                  in the blood. Even in busy urban centres, CO concentrations
+                  rarely exceed health related standards.</p>
 
-                <p>Airborne particulate matter varies widely in its physical
-                and chemical composition, source and particle size. PM10
-                particles (the fraction of particulates in air of very small
-                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
-                current concern, as they are small enough to penetrate deep
-                into the lungs and so potentially pose significant health
-                risks. Larger particles meanwhile, are not readily inhaled, and
-                are removed relatively efficiently from the air by
-                sedimentation. The principal source of airborne PM10 and PM2.5
-                matter in European cities is road traffic emissions,
-                particularly from diesel vehicles. The limit values are very
-                often exceeded in European cities.</p>
+                  <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h2>Particulate &lt;2.5 &mu;m(PM25)</h2></a>
 
-                <hr>
+                  <p>Airborne particulate matter varies widely in its physical and chemical composition, source and particle size. PM10 particles (the fraction of particulates in air of very small size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major current concern, as they are small enough to penetrate deep into the lungs and so potentially pose significant health risks. Larger particles meanwhile, are not readily inhaled, and are removed relatively efficiently from the air by sedimentation. The principal source of airborne PM10 and PM2.5 matter in European cities is road traffic emissions, particularly from diesel vehicles. The limit values are very often exceeded in European cities.</p>
 
-                <h4>Other Polutants</h4>
+                  <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276"><h2>Sulfur Dioxide (SO2)</h2></a>
 
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060"><h5>Carbon monoxide (CO)</h5></a>
-
-                <p>CO is an odourless, tasteless and colourless gas produced by
-                the incomplete burning of materials which contain carbon,
-                including most transport fuels. CO is toxic, acting by reaction
-                with haemoglobin and reducing its capacity for oxygen transport
-                in the blood. Even in busy urban centres, CO concentrations
-                rarely exceed health related standards.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h5>Particulate PM2.5</h5></a>
-
-                <p>Airborne particulate matter varies widely in its physical
-                and chemical composition, source and particle size. PM10
-                particles (the fraction of particulates in air of very small
-                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
-                current concern, as they are small enough to penetrate deep
-                into the lungs and so potentially pose significant health
-                risks. Larger particles meanwhile, are not readily inhaled, and
-                are removed relatively efficiently from the air by
-                sedimentation. The principal source of airborne PM10 and PM2.5
-                matter in European cities is road traffic emissions,
-                particularly from diesel vehicles. The limit values are very
-                often exceeded in European cities.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276"><h5>Sulfur dioxide (SO2)</h5></a>
-
-                <p>Fossil fuels contain traces of sulphur compounds, and SO2 is
-                produced when they are burnt. The majority of the SO2 emitted
-                to the air is from power generation, and the contribution from
-                transport sources is small (shipping being an exception).
-                Exposure to SO2 can damage health by its action on the
-                bronchial system. Sulphuric acid generated from atmospheric
-                reactions of SO2 is the main constituent of acid rain, and
-                ammonium sulphate particles are the most abundant secondary
-                particles found in air.</p>
-
+                  <p>Fossil fuels contain traces of sulphur compounds, and SO2 is
+                  produced when they are burnt. The majority of the SO2 emitted
+                  to the air is from power generation, and the contribution from
+                  transport sources is small (shipping being an exception).
+                  Exposure to SO2 can damage health by its action on the
+                  bronchial system. Sulphuric acid generated from atmospheric
+                  reactions of SO2 is the main constituent of acid rain, and
+                  ammonium sulphate particles are the most abundant secondary
+                  particles found in air.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -320,15 +305,15 @@
 
                   <p>[1] Ebenstein, A., Fan, M., Greenstone, M., He, G., & Zhou, M. (2017). "<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">New evidence on the impact of sustained exposure to air pollution on life expectancy from China’s Huai River Policy.</a>" <i>Proceedings of the National Academy of Sciences</i>, 114(39), 10384-10389.</p>
 
-                  <p>[2] <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a></p>
+                  <p>[2] <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a> - Thanks to the Department of Environmental Science at Aarhus University for letting us access this dataset for our project.</p>
 
                   <p>[3] <a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">Air Quality in Europe</a></p>
 
                   <p>[4] <a href="http://envs.au.dk/en/knowledge/air/monitoring/" target="_blank">Department of Environmental Science - Air Quality Monitoring</a></p>
 
-                  <p>[5] <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">Common Air Quality Index</a></p>
+                  <p>[5] <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">Common Air Quality Index</a> - This document was published by Citeair and explains the index in much greater detail.</p>
 
-                  <p>[6] <a href="https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd" target="_blank">d3 Entropy Example</a></p>
+                  <p>[6] <a href="https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd" target="_blank">d3 Entropy Example</a> - This script was borrowed and adapted to create the hourly air quality simulation. See the comments in our source code on our <a href="https://drewparli.github.io/diku-ide-exam/" target="_blank">GitHub repo</a> for more details.</p>
                 </div>
               </div>
             </div>
@@ -341,7 +326,7 @@
       <div class="col-sm-6" style="background: white;">
         <div class="tabbable">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#menu1" data-toggle="tab">Hourly Quality Simulation</a></li>
+            <li class="active"><a href="#menu1" data-toggle="tab">Hourly Air Quality Simulation</a></li>
             <li><a href="#menu2" data-toggle="tab">Average Daily Quality</a></li>
             <li><a href="#menu3" data-toggle="tab">Yearly Highs</a></li>
           </ul>
@@ -1070,11 +1055,12 @@
                         </svg>
                       </button>
 
-                      <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
+                      <!-- <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
                         <svg width=20px height=20px>
                           <polygon points="0,0 0,15, 15,15 15,0" transform="translate(1,5)"></polygon>
                         </svg>
-                      </button>
+                      </button> -->
+
                     </div>
                   </div>
 
