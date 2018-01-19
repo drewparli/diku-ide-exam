@@ -81,7 +81,31 @@
 
                     <h2>Yearly Highs</h2>
                     <hr>
-                    <p></p>
+
+                    <p>The Yearly Highs visualization yields the most coarse
+                    overview of the data and allows a great deal of
+                    observations. The visualization consists of tiny, narrow
+                    bars colored in the 5 color codes presented in the index.
+                    Each bar represents a point in time measured for the data
+                    set. Each line corresponds to a day, as the <i>x</i>-axis
+                    increments in half hours. The <i>y</i>-axis thus increments
+                    in days.  The index code for each particular bar is chosen
+                    based on the most alarming index amongst the pollutants
+                    measured. </p>
+
+                    <p>The visualization gives an immediate overview of the
+                    patterns that emerge in pollution levels. It is
+                    constructive as it exposes general periods which have an
+                    unhealthy amount of polutants and allows the viewer to
+                    consult the other two visualizations for the details. This
+                    tendency is enforced as the image fits onto one screen. The
+                    downside is that it is hard to fix onto a specific point in
+                    time one might find interesting as the bars are
+                    impractically small. This is arguably a design choice as
+                    the strength in having a strong generalized perspective is
+                    more important. We have attempted a minor mitigation by
+                    showing a tool tip with the precise information for the bar
+                    hovered over.</p>
 
                 </div>
 
@@ -152,12 +176,28 @@
             <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
               <div class="card-body">
                 <div class="card-body-text">
+
+                  <p>There are many ways of making an air quality index and no
+                  agreed upon correct method. Making an index is a pragmatic
+                  process of reducing a variety of complex information of
+                  pollutants observed in the air into a simple figure on a
+                  scale.  This is a scientific over simplification but is
+                  beneficial in two regards: firstly linking air quality to
+                  health effects to inform the public of poor air quality; and
+                  secondly to condense complex data to provide information
+                  overview.</p>
+
                   <p>In 2004, the Common Information to European Air (<a href="http://citeair.rec.org/home.html" target="_blank">Citeair</a>) was started with the goal of developing an efficient means to collect, present and compare air quality data across a multitude of sites in the EU. As a result, the Common Air Quality Index (<a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">CAQI</a>) was developed.</p>
 
                   <p>As previously mentioned, the monitoring station we selected is a background station, therefore the values on the left-hand side of the chart below determine the index value for each particle type.</p>
-                  <div style="width: 90%; margin: 30px auto;">
-                    <img src="caqi-grid.png">
+
+                <img class="img-thumbnail" src="caqi-grid.png" style="display: block; margin: 0 auto;">
+                <div style="width:100%; margin-top: 10px; margin-bottom: 20px;">
+                  <div style="display: table; margin: 0 auto;">
+                    <span>Source: </span>
+                    <a style="text-align: centering;" href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf#page=3">Common Air Quality Index, page 2</a>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -174,17 +214,18 @@
             </div>
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body">
-                There is a distinction between core polutants and other
-                polutants.  Without core polutants, an index value could not be
-                calculated. For city background measurements, the core
-                polutants are NO2, O3 and PM10 while the other polutants are
-                PM2.5, CO and SO2.
+
+                <p>The index makes a distinction between core polutants and
+                other polutants. They are defined such that without the core
+                polutants, an index value could not be calculated. For city
+                background measurements, the core polutants are NO2, O3 and
+                PM10 while the other polutants are PM2.5, CO and SO2.</p>
 
                 <hr>
 
                 <h4>Core Polutants</h4>
 
-                <h5>Nitrogen dioxide (NO2)</h5>
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide"><h5>Nitrogen dioxide (NO2)</h5></a>
 
                 <p>Nitrogen dioxicde is one of several nitrogen oxides. NO 2 is
                 an intermediate in the industrial synthesis of nitric acid,
@@ -193,9 +234,7 @@
                 characteristic sharp, biting odor and is a prominent air
                 pollutant.</p>
 
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide">Wikipedia page</a>
-
-                <h5>Ozone (O3)</h5>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576"><h5>Ozone (O3)</h5></a>
 
                 <p>Ground-level ozone (O3), unlike other pollutants mentioned,
                 is not emitted directly into the atmosphere, but is a secondary
@@ -207,9 +246,7 @@
                 generally observed during hot, still sunny, summertime
                 weather.</p>
 
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576">Wikipedia page</a>
-
-                <h5>Particulate PM10</h5>
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h5>Particulate PM10</h5></a>
 
                 <p>Airborne particulate matter varies widely in its physical
                 and chemical composition, source and particle size. PM10
@@ -224,13 +261,11 @@
                 particularly from diesel vehicles. The limit values are very
                 often exceeded in European cities.</p>
 
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
-
                 <hr>
 
                 <h4>Other Polutants</h4>
 
-                <h5>Carbon monoxide (CO)</h5>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060"><h5>Carbon monoxide (CO)</h5></a>
 
                 <p>CO is an odourless, tasteless and colourless gas produced by
                 the incomplete burning of materials which contain carbon,
@@ -239,10 +274,7 @@
                 in the blood. Even in busy urban centres, CO concentrations
                 rarely exceed health related standards.</p>
 
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060">Wikipedia page</a>
-
-
-                <h5>Particulate PM2.5</h5>
+                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h5>Particulate PM2.5</h5></a>
 
                 <p>Airborne particulate matter varies widely in its physical
                 and chemical composition, source and particle size. PM10
@@ -257,9 +289,7 @@
                 particularly from diesel vehicles. The limit values are very
                 often exceeded in European cities.</p>
 
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
-
-                <h5>Sulfur dioxide (SO2)</h5>
+                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276"><h5>Sulfur dioxide (SO2)</h5></a>
 
                 <p>Fossil fuels contain traces of sulphur compounds, and SO2 is
                 produced when they are burnt. The majority of the SO2 emitted
@@ -270,8 +300,6 @@
                 reactions of SO2 is the main constituent of acid rain, and
                 ammonium sulphate particles are the most abundant secondary
                 particles found in air.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276">Wikipedia page</a>
 
               </div>
             </div>
@@ -1096,7 +1124,7 @@
                     <div id="linechart-tooltip-date" style="background:white; padding-left:5px;"></div>
                     <div id="linechart-tooltip-value" style="background:white; padding-left:5px;"></div>
                   </foreignobject>
-				        </svg>
+                        </svg>
               </div>
 
               <!-- Line Chart Buttons -->
@@ -1111,22 +1139,22 @@
 
               <div id="linechart-tooltip"></div>
 
-			  <!-- Info box about the chosen element -->
+              <!-- Info box about the chosen element -->
               <div id="linechart-info">
                 <h3 id="linechart-info-particle"></h3>
-				<div id="linechart-legend-colors">
-				  <div class="legend-linechart" style="background:#2B9B5C">very low</div>
-				  <div class="legend-linechart" style="background:#A4B963">low</div>
-				  <div class="legend-linechart" style="background:#FFD966">medium</div>
-				  <div class="legend-linechart" style="background:#E88D3F">high</div>
-				  <div class="legend-linechart" style="background:#DB4A36">very high</div>
+                <div id="linechart-legend-colors">
+                  <div class="legend-linechart" style="background:#2B9B5C">very low</div>
+                  <div class="legend-linechart" style="background:#A4B963">low</div>
+                  <div class="legend-linechart" style="background:#FFD966">medium</div>
+                  <div class="legend-linechart" style="background:#E88D3F">high</div>
+                  <div class="legend-linechart" style="background:#DB4A36">very high</div>
                 </div>
-				<div id="linechart-legend-values">
-				  <div id="linechart-very-low" class="legend-linechart"></div>
-				  <div id="linechart-low" class="legend-linechart"></div>
-				  <div id="linechart-medium" class="legend-linechart"></div>
-				  <div id="linechart-high" class="legend-linechart"></div>
-				  <div id="linechart-very-high" class="legend-linechart"></div>
+                <div id="linechart-legend-values">
+                  <div id="linechart-very-low" class="legend-linechart"></div>
+                  <div id="linechart-low" class="legend-linechart"></div>
+                  <div id="linechart-medium" class="legend-linechart"></div>
+                  <div id="linechart-high" class="legend-linechart"></div>
+                  <div id="linechart-very-high" class="legend-linechart"></div>
                 </div>
               </div>
           </div>
