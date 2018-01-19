@@ -102,7 +102,10 @@ function visualize(dataDaily, dateIndex) {
 
   div = d3.select('body').append('div')
     .attr('class', 'tooltip')
-    .style('opacity', 0);
+    .style('opacity', 0)
+    .style('background-color', 'black')
+    .style('color', 'white')
+    .style('padding', '3px')
 
   // JQuery code to make our bootstrap tabs work
   $(".nav a").on("click", function() {
@@ -139,7 +142,7 @@ function initBarChart() {
     .attr("height", height + (2 * marginTB) + base)
     .select("#barchart")
     .classed("barChart", true)
-    .attr("transform", "translate(65,30)")
+    .attr("transform", "translate(65,10)")
 
   BarChart.obj = barchart
 
@@ -179,6 +182,7 @@ function initBarChart() {
     .attr("height", function(d) { return 20})
     .attr("class", function(d) { return d })
     .classed("valueBox", true)
+    .on("click", handle_bar_toggle)
     .lower()
 
   // Add the x axis labels
@@ -203,13 +207,13 @@ function initBarChart() {
   // transform the given ticks into background grid lines
   BarChart.yAxisLabels.selectAll(".tick")
     .select("line")
-    .attr("x1", -6)
+    .attr("x1", function(d,i) { if (i < 1) { return -60 } else { return -6 } })
     .attr("x2", width)
 
   BarChart.yAxisLabels.selectAll("text")
-    .data(["", "Very Low","Low","Medium","High","Very High"])
+    .data(["(μg/m3)", "Very Low","Low","Medium","High","Very High"])
     .text(function(d) { return d })
-
+    .attr("dy", function(d,i) { if (i < 1) { return "1.8em" } else { return "0.32em" } })
 
   barchart.append("g")
     .attr("id", "time-steps")
@@ -231,9 +235,6 @@ function initBarChart() {
     .attr("width", xScale.bandwidth())
     .attr("height", function(d) { return height - yScale(d.caqi) })
     .attr("class", function(d) { return d.name })
-    // .style("fill", "rgb(255,255,255)")
-    // .style("stroke-width", 1)
-    // .style("stroke", "black")
     .on("click", handle_bar_toggle)
 
   setBarChartConcentration(BarChart.xAxisVals, DateIndex[Current.date])
@@ -269,8 +270,8 @@ function initControls() {
   d3.select("#pause_button")
     .on("click", handlePause)
 
-  d3.select("#stop_button")
-    .on("click", handleStop)
+  // d3.select("#stop_button")
+  //   .on("click", handleStop)
 
   setTime(Current.date)
   d3.select("#time").on("input", handleTimeChange)
@@ -630,7 +631,6 @@ function set_time_step(current, next) {
   flashWarningIfHigh(DateIndex[next])
 }
 
-
 function animateSky(time) {
   var color = "#fff"
   var hour = Number(time.slice(0,2))
@@ -648,7 +648,6 @@ function animateSky(time) {
     .attr("fill",color)
 }
 
-
 function step_n_times(n) {
   return moment.utc(Current.date).add(n * 30,'m').format("YYYY-MM-DD HH:mm")
 }
@@ -660,14 +659,6 @@ function encodeDateIDAttr(date) {
 function decodeDateID(dateID) {
   return dateID.slice(1)
 }
-
-// function getTimeByIndex(id) {
-//   var data_all = ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
-//                   "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-//                   "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
-//                   "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"];
-//   return data_all[id];
-// }
 
 function formatNumber(number) {
   if (number == 0) {
@@ -711,12 +702,31 @@ function roundTwo(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
 
+function setYearsLost() {
+  // for each 10 mirco-grams/m3 increase, loose 0.64 years
+  let msg = ""
+
+  if (Current.pm10 < 15.0) {
+    msg = "0.0 years!"
+  } else {
+    var n = (Current.pm10 - 15.0) / 10.0
+    msg = roundTwo(0.64 * n) + " years!"
+  }
+
+  d3.select("#man-years")
+    .data([msg])
+    .text(function(d) { return msg })
+}
+
 function setBarChartConcentration(selection, values) {
   selection.selectAll(".tick")
     .select("text")
     .data(values)
     .text(function(d) {
         c = d.value
+        // setup the speech bubble value here
+        if (d.name == "PM10") { Current.pm10 = c }
+        setYearsLost()
         if (c == "null") {return "missing"} else {return roundTwo(c)} } )
 }
 
@@ -845,7 +855,6 @@ function drawBarchartParticleForDay(hourly_data, title) {
     });
 }
 
-// function updateLinegraph(dataset, eu_limit) {
 function updateLinegraph() {
   updateLinegraphInfo(this.id)
 
@@ -911,7 +920,7 @@ function updateLinegraph() {
   var dataset_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[1])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[1])}];
   var dataset_very_low = [{"date": date_ranges[0], "value": Math.min(yMax, eu_limit[0])}, {"date": date_ranges[1], "value": Math.min(yMax, eu_limit[0])}];
 
-    // Add the valueline path.
+  // Add the valueline path.
   linechart.select(".area_very_high")
     .duration(750)
     .attr("d", area(dataset_very_high));
@@ -987,7 +996,7 @@ function updateLinegraphInfo(particle) {
 	d3.select("#linechart-high").text("10000 - 20000")
 	d3.select("#linechart-very-high").text(">20000") // "CO": [5000, 7500, 10000, 20000, 30000],
   } else if (particle == "PM25") {
-    d3.select("#linechart-info-title").text("Daily PM2.5 concentration in 2017 (adjusted daily average)")
+    d3.select("#linechart-info-title").text("Daily PM25 concentration in 2017 (adjusted daily average)")
 	d3.select("#linechart-very-low").text("0 - 10")
 	d3.select("#linechart-low").text("10 - 20")
 	d3.select("#linechart-medium").text("20 - 30")
@@ -1057,15 +1066,17 @@ function initHeatMap(data) {
       .attr('width', 10)
       .attr('height', 1.50)
       .attr('data-date', get_time(d))
+      .attr('data-caqi', max_caqi)
       .attr('fill', get_color(max_caqi))
       .on('mouseover', function() {
         var date = $(this).attr('data-date');
+        var caqi = $(this).attr('data-caqi');
         div.transition()
           .duration(0)
           .style("opacity", .9)
-        div.html(date)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 20) + "px");
+        div.html(date+'<br>max index: '+caqi)
+          .style("left", (d3.event.pageX + 20) + "px")
+          .style("top", (d3.event.pageY - 50) + "px");
        })
      .on('mouseout', function() {
        div.transition()

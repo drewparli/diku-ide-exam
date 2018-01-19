@@ -186,11 +186,16 @@ th {
   font-size: 18px;
   font-weight: 700;
   font-style: normal;
+  text-decoration: none;
 }
 
 .card-header a:hover {
   text-decoration: none;
 }
+
+/*.card-header a:active {
+  text-decoration: none;
+}*/
 
 .card-body {
   max-height: 530px;
@@ -213,14 +218,14 @@ th {
 }
 
 .card-body-text h1 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400 !important;
   color: black;
   margin-top: 30px;
 }
 
 .card-body-text h2 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400 !important;
   color: black;
   margin-top: 30px;
@@ -255,7 +260,13 @@ th {
   text-decoration: none;
 }
 
-
+.barChartTitle {
+  width: 70%;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
 
 circle {
   stroke: white;
@@ -270,8 +281,10 @@ circle {
 .NOX { fill: #a65628; }
 .NO2 { fill: #ffff33; }
 
-.HCOmask {
-  background: rgb(255,255,255);
+.speechBubble {
+  stroke: black;
+  stroke-width: 1;
+  fill: white;
 }
 
 .barChart path { stroke: rgba(0,0,0,0); }
@@ -279,8 +292,8 @@ circle {
 .barChart .yAxis line { stroke: rgba(0,0,0,0.3); }
 
 .barChart .barIgnore {
-  fill: rgba(255,255,255);
-  stroke: rgb(0,0,0);
+  fill: rgba(255,255,255,1);
+  stroke: rgba(0,0,0,1);
   stroke-width: 0.5px;
   opacity: 1;
 }
@@ -309,13 +322,13 @@ circle {
 }
 
 .particleIgnore {
-  stroke: rgb(0,0,0);
-  stroke-width: 1px;
-  fill: rgba(255,255,255);
+  stroke: rgba(0,0,0,0);
+  /*stroke-width: 1px;*/
+  fill: rgba(255,255,255,0);
 }
 
 .person {
-  fill: rgba(0,0,0,0.5);
+  fill: rgba(0,0,0,1);
 }
 
 #controls {
@@ -354,5 +367,5 @@ button {
   display: table-cell;
   text-align: center;
   vertical-align: middle;
-  background:#FFFFFF";
+  background: #FFFFFF;
 }

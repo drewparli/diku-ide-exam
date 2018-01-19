@@ -67,9 +67,11 @@
 
                     In all, we present three different visualizations of the data, each working at a different time scale: hourly, daily and yearly. The following sections describe the intent of these three visualizations  and how they might be used.
 
-                    <h2>Hourly Quality Simulation</h2>
+                    You can find our source code at our <a href="https://github.com/drewparli/diku-ide-exam" target="_blank">GitHub repo</a>.
+
+                    <h2>Hourly Air Quality Simulation</h2>
                     <hr>
-                    <p>The intent of this visualization was to allow the viewer to explore the dataset at the most fine grain level (i.e., hourly). Additionally, instead of simply displaying the values at each interval, we wanted to provide the viewer with a more intuitive representation of the data at each point in time. Therefore, we attempted to "gamify" the dataset by visualizing the concentration of each particle type as a group of bouncing particles, see [<a href="https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd" target="_blank">6</a>], in a scene that represents the locality where the measurements where taken. We emphasize gamify, since we did not actually create a classic game, but rather a scene that represents this cannon of visualizations. Our hope is that this will help to break down barriers some user's may have to accessing the dataset by presenting it in a context they might consider to be more enjoyable.</p>
+                    <p>The intent of this visualization was to allow the viewer to explore the dataset at the most fine grain level (i.e., hourly). Additionally, instead of simply displaying the values at each interval, we wanted to provide the viewer with a more intuitive representation of the data at each point in time. Therefore, we attempted to "gamify" the dataset by visualizing the concentration of each particle type as a group of bouncing particles, see [<a href="https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd" target="_blank">5</a>], in a scene that represents the locality where the measurements where taken. We emphasize gamify, since we did not actually create a classic game, but rather a scene that represents this cannon of visualizations. Our hope is that this will help to break down barriers some user's may have to accessing the dataset by presenting it in a context they might consider to be more enjoyable.</p>
 
                     <p>Viewers can explore the dataset by either choosing to set the date and time themselves, or by "playing" through the dataset. Again emphasizing that in this context playing means to step through the recorded date points sequentially with respect to time, but also play in the sence of the game scene.</p>
 
@@ -81,7 +83,31 @@
 
                     <h2>Yearly Highs</h2>
                     <hr>
-                    <p></p>
+
+                    <p>The Yearly Highs visualization yields the most coarse
+                    overview of the data and allows a great deal of
+                    observations. The visualization consists of tiny, narrow
+                    bars colored in the 5 color codes presented in the index.
+                    Each bar represents a point in time measured for the data
+                    set. Each line corresponds to a day, as the <i>x</i>-axis
+                    increments in half hours. The <i>y</i>-axis thus increments
+                    in days.  The index code for each particular bar is chosen
+                    based on the most alarming index amongst the pollutants
+                    measured. </p>
+
+                    <p>The visualization gives an immediate overview of the
+                    patterns that emerge in pollution levels. It is
+                    constructive as it exposes general periods which have an
+                    unhealthy amount of polutants and allows the viewer to
+                    consult the other two visualizations for the details. This
+                    tendency is enforced as the image fits onto one screen. The
+                    downside is that it is hard to fix onto a specific point in
+                    time one might find interesting as the bars are
+                    impractically small. This is arguably a design choice as
+                    the strength in having a strong generalized perspective is
+                    more important. We have attempted a minor mitigation by
+                    showing a tool tip with the precise information for the bar
+                    hovered over.</p>
 
                 </div>
 
@@ -151,13 +177,30 @@
             </div>
             <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
               <div class="card-body">
-                In 2004, the Common Information to European Air (<a href="http://citeair.rec.org/home.html" target="_blank">Citeair</a>) was started with the goal of developing an efficient means to collect, present and compare air quality data across a multitude of sites in the EU. As a result, the Common Air Quality Index (<a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">CAQI</a>) was developed.
+                <div class="card-body-text">
 
-                As previously mentioned, the monitoring station we selected is a background station, therefore the values on the left-hand side of the chart below determine the index value for each particle type.
-                <div style="width: 90%; margin: 30px auto;">
-                  <img src="caqi-grid.png">
+                  <p>There are many ways of making an air quality index and no
+                  agreed upon correct method. Making an index is a pragmatic
+                  process of reducing a variety of complex information of
+                  pollutants observed in the air into a simple figure on a
+                  scale.  This is a scientific over simplification but is
+                  beneficial in two regards: firstly linking air quality to
+                  health effects to inform the public of poor air quality; and
+                  secondly to condense complex data to provide information
+                  overview.</p>
+
+                  <p>In 2004, the Common Information to European Air (<a href="http://citeair.rec.org/home.html" target="_blank">Citeair</a>) was started with the goal of developing an efficient means to collect, present and compare air quality data across a multitude of sites in the EU. As a result, the Common Air Quality Index (<a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">CAQI</a>) was developed.</p>
+
+                  <p>As previously mentioned, the monitoring station we selected is a background station, therefore the values on the left-hand side of the chart below determine the index value for each particle type.</p>
+
+                <img class="img-thumbnail" src="caqi-grid.png" style="display: block; margin: 0 auto;">
+                <div style="width:100%; margin-top: 10px; margin-bottom: 20px;">
+                  <div style="display: table; margin: 0 auto;">
+                    <span>Source: </span>
+                    <a style="text-align: centering;" href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf#page=3" target="_blank">Common Air Quality Index, page 3</a>
+                  </div>
                 </div>
-
+                </div>
               </div>
             </div>
           </div>
@@ -173,105 +216,70 @@
             </div>
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body">
-                There is a distinction between core polutants and other
-                polutants.  Without core polutants, an index value could not be
-                calculated. For city background measurements, the core
-                polutants are NO2, O3 and PM10 while the other polutants are
-                PM2.5, CO and SO2.
+                <div class="card-body-text">
+                  <p>The index makes a distinction between core polutants and
+                  other polutants. They are defined such that without the core
+                  polutants, an index value could not be calculated. For city
+                  background measurements, the core polutants are NO2, O3 and
+                  PM10 while the other polutants are PM2.5, CO and SO2.</p>
 
-                <hr>
+                  <h1>Core Polutants</h1>
+                  <hr>
+                  <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide"><h2>Nitrogen Dioxide (NO2)</h2></a>
 
-                <h4>Core Polutants</h4>
+                  <p>Nitrogen dioxicde is one of several nitrogen oxides. NO 2 is
+                  an intermediate in the industrial synthesis of nitric acid,
+                  millions of tons of which are produced each year. At higher
+                  temperatures it is a reddish-brown gas that has a
+                  characteristic sharp, biting odor and is a prominent air
+                  pollutant [<a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">3</a>].</p>
 
-                <h5>Nitrogen dioxide (NO2)</h5>
+                  <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576"><h2>Ozone (O3)</h2></a>
 
-                <p>Nitrogen dioxicde is one of several nitrogen oxides. NO 2 is
-                an intermediate in the industrial synthesis of nitric acid,
-                millions of tons of which are produced each year. At higher
-                temperatures it is a reddish-brown gas that has a
-                characteristic sharp, biting odor and is a prominent air
-                pollutant.</p>
+                  <p>Ground-level ozone (O3), unlike other pollutants mentioned,
+                  is not emitted directly into the atmosphere, but is a secondary
+                  pollutant produced by reaction between nitrogen dioxide (NO2),
+                  hydrocarbons and sunlight. Ozone levels are not as high in
+                  urban areas (where high levels of NO are emitted from vehicles)
+                  as in rural areas. Sunlight provides the energy to initiate
+                  ozone formation; consequently, high levels of ozone are
+                  generally observed during hot, still sunny, summertime
+                  weather [<a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">3</a>].</p>
 
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Nitrogen_dioxide">Wikipedia page</a>
+                  <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h2>Particulate &lt;10 &mu;m (PM10)</h2></a>
 
-                <h5>Ozone (O3)</h5>
+                  <p>Airborne particulate matter varies widely in its physical
+                  and chemical composition, source and particle size. PM10
+                  particles (the fraction of particulates in air of very small
+                  size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
+                  current concern, as they are small enough to penetrate deep
+                  into the lungs and so potentially pose significant health
+                  risks. Larger particles meanwhile, are not readily inhaled, and
+                  are removed relatively efficiently from the air by
+                  sedimentation. The principal source of airborne PM10 and PM2.5
+                  matter in European cities is road traffic emissions,
+                  particularly from diesel vehicles. The limit values are very
+                  often exceeded in European cities [<a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">3</a>].</p>
 
-                <p>Ground-level ozone (O3), unlike other pollutants mentioned,
-                is not emitted directly into the atmosphere, but is a secondary
-                pollutant produced by reaction between nitrogen dioxide (NO2),
-                hydrocarbons and sunlight. Ozone levels are not as high in
-                urban areas (where high levels of NO are emitted from vehicles)
-                as in rural areas. Sunlight provides the energy to initiate
-                ozone formation; consequently, high levels of ozone are
-                generally observed during hot, still sunny, summertime
-                weather.</p>
+                  <h1>Other Polutants</h1>
+                  <hr>
+                  <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060"><h2>Carbon Monoxide (CO)</h2></a>
 
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Ozone&oldid=813101576">Wikipedia page</a>
+                  <p>CO is an odourless, tasteless and colourless gas produced by
+                  the incomplete burning of materials which contain carbon,
+                  including most transport fuels. CO is toxic, acting by reaction
+                  with haemoglobin and reducing its capacity for oxygen transport
+                  in the blood. Even in busy urban centres, CO concentrations
+                  rarely exceed health related standards [<a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">3</a>].</p>
 
-                <h5>Particulate PM10</h5>
+                  <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union"><h2>Particulate &lt;2.5 &mu;m(PM25)</h2></a>
 
-                <p>Airborne particulate matter varies widely in its physical
-                and chemical composition, source and particle size. PM10
-                particles (the fraction of particulates in air of very small
-                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
-                current concern, as they are small enough to penetrate deep
-                into the lungs and so potentially pose significant health
-                risks. Larger particles meanwhile, are not readily inhaled, and
-                are removed relatively efficiently from the air by
-                sedimentation. The principal source of airborne PM10 and PM2.5
-                matter in European cities is road traffic emissions,
-                particularly from diesel vehicles. The limit values are very
-                often exceeded in European cities.</p>
+                  <p>Airborne particulate matter varies widely in its physical and chemical composition, source and particle size. PM10 particles (the fraction of particulates in air of very small size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major current concern, as they are small enough to penetrate deep into the lungs and so potentially pose significant health risks. Larger particles meanwhile, are not readily inhaled, and are removed relatively efficiently from the air by sedimentation. The principal source of airborne PM10 and PM2.5 matter in European cities is road traffic emissions, particularly from diesel vehicles. The limit values are very often exceeded in European cities [<a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">3</a>].</p>
 
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
+                  <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276"><h2>Sulfur Dioxide (SO2)</h2></a>
 
-                <hr>
-
-                <h4>Other Polutants</h4>
-
-                <h5>Carbon monoxide (CO)</h5>
-
-                <p>CO is an odourless, tasteless and colourless gas produced by
-                the incomplete burning of materials which contain carbon,
-                including most transport fuels. CO is toxic, acting by reaction
-                with haemoglobin and reducing its capacity for oxygen transport
-                in the blood. Even in busy urban centres, CO concentrations
-                rarely exceed health related standards.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Carbon_monoxide&oldid=818285060">Wikipedia page</a>
-
-
-                <h5>Particulate PM2.5</h5>
-
-                <p>Airborne particulate matter varies widely in its physical
-                and chemical composition, source and particle size. PM10
-                particles (the fraction of particulates in air of very small
-                size (&lt;10 µm)) and PM2.5 particles (&lt;2.5 µm) are of major
-                current concern, as they are small enough to penetrate deep
-                into the lungs and so potentially pose significant health
-                risks. Larger particles meanwhile, are not readily inhaled, and
-                are removed relatively efficiently from the air by
-                sedimentation. The principal source of airborne PM10 and PM2.5
-                matter in European cities is road traffic emissions,
-                particularly from diesel vehicles. The limit values are very
-                often exceeded in European cities.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/wiki/Particulates#European_Union">Wikipedia page</a>
-
-                <h5>Sulfur dioxide (SO2)</h5>
-
-                <p>Fossil fuels contain traces of sulphur compounds, and SO2 is
-                produced when they are burnt. The majority of the SO2 emitted
-                to the air is from power generation, and the contribution from
-                transport sources is small (shipping being an exception).
-                Exposure to SO2 can damage health by its action on the
-                bronchial system. Sulphuric acid generated from atmospheric
-                reactions of SO2 is the main constituent of acid rain, and
-                ammonium sulphate particles are the most abundant secondary
-                particles found in air.</p>
-
-                <a target="_blank" href="https://en.wikipedia.org/w/index.php?title=Sulfur_dioxide&oldid=817850276">Wikipedia page</a>
-
+                  <p>Fossil fuels contain traces of sulphur compounds, and SO2 is produced when they are burnt. The majority of the SO2 emitted to the air is from power generation, and the contribution from transport sources is small (shipping being an exception). Exposure to SO2 can damage health by its action on the bronchial system. Sulphuric acid generated from atmospheric reactions of SO2 is the main constituent of acid rain, and ammonium sulphate particles are the most abundant secondary particles found in air [<a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">3</a>].</p>
+                </div>
               </div>
             </div>
           </div>
@@ -281,7 +289,7 @@
             <div class="card-header" role="tab" id="headingFour">
               <h5 class="mb-0">
                 <a class="collapsed" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false" aria-controls="collapseFour">
-                  Sources
+                  References & Disclaimer
                 </a>
               </h5>
             </div>
@@ -291,15 +299,15 @@
 
                   <p>[1] Ebenstein, A., Fan, M., Greenstone, M., He, G., & Zhou, M. (2017). "<a href="http://www.pnas.org/content/114/39/10384.short" target="_blank">New evidence on the impact of sustained exposure to air pollution on life expectancy from China’s Huai River Policy.</a>" <i>Proceedings of the National Academy of Sciences</i>, 114(39), 10384-10389.</p>
 
-                  <p>[2] <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a></p>
+                  <p>[2] <a href="http://envs.au.dk/en/knowledge/air/" target="_blank">Department of Environmental Science</a> - Thanks to the Department of Environmental Science at Aarhus University for letting us access this dataset for our project.</p>
 
-                  <p>[3] <a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">Air Quality in Europe</a></p>
+                  <p>[3] <a href="http://www.airqualitynow.eu/pollution_home.php" target="_blank">Air Quality in Europe</a> - This is our main reference regarding the description of each particle and its general effect on the environment and the health of people.</p>
 
-                  <p>[4] <a href="http://envs.au.dk/en/knowledge/air/monitoring/" target="_blank">Department of Environmental Science - Air Quality Monitoring</a></p>
+                  <p>[4] <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">Common Air Quality Index</a> - This document was published by Citeair and explains the index in much greater detail.</p>
 
-                  <p>[5] <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf" target="_blank">Common Air Quality Index</a></p>
+                  <p>[5] <a href="https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd" target="_blank">d3 Entropy Example</a> - This script was borrowed and adapted to create the hourly air quality simulation. See the comments in our source code on our <a href="https://github.com/drewparli/diku-ide-exam" target="_blank">GitHub repo</a> for more details.</p>
 
-                  <p>[6] <a href="https://bl.ocks.org/vasturiano/2992bcb530bc2d64519c5b25201492fd" target="_blank">d3 Entropy Example</a></p>
+                  <p style="margin-top:40px;">Please note that the main focus of this project was to visualize a scientific dataset. We have not cross-checked or validated the information presented here to the degree in which this project could be used as a reference in any scientific context.</p>
                 </div>
               </div>
             </div>
@@ -312,7 +320,7 @@
       <div class="col-sm-6" style="background: white;">
         <div class="tabbable">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#menu1" data-toggle="tab">Hourly Quality Simulation</a></li>
+            <li class="active"><a href="#menu1" data-toggle="tab">Hourly Air Quality Simulation</a></li>
             <li><a href="#menu2" data-toggle="tab">Average Daily Quality</a></li>
             <li><a href="#menu3" data-toggle="tab">Yearly Highs</a></li>
           </ul>
@@ -979,6 +987,18 @@
                   <path d="M 22.574217,241.67349 C 22.224017,241.10685 22.223387,239.11924 22.572827,237.25659 C 23.034967,234.79314 22.608087,232.69372 21.006867,229.55505 C 18.887427,225.40062 18.832317,224.56245 19.524847,207.01596 C 20.239397,188.91152 20.229657,188.78403 18.043027,187.61378 L 15.841927,186.43579 L 16.048517,154.7725 C 16.162127,137.35769 16.205457,121.92805 16.144797,120.48441 C 16.075497,118.83546 14.369517,116.12188 11.556117,113.18556 C 9.0930169,110.61484 5.4394869,105.58204 3.4371669,102.00156 C 0.10170688,96.037191 -0.15588312,95.014611 0.36373685,89.800401 C 0.67567685,86.670247 1.1825869,80.509211 1.4902169,76.109211 C 2.0224969,68.496046 5.6058969,48.704473 6.6391069,47.671261 C 6.9071369,47.403233 9.0182469,46.464702 11.330467,45.585636 C 16.710457,43.540254 30.030647,34.782798 30.796227,32.78773 C 31.117927,31.949394 30.650567,29.203771 29.757647,26.686347 C 26.372107,17.141468 26.488367,14.689315 30.623477,8.4248053 C 34.801117,2.0958521 36.433417,1.3422121 44.111797,2.1972011 C 51.491627,3.0189471 53.880067,4.1457301 54.637287,7.1627611 C 55.495907,10.583749 54.449997,20.593711 53.092047,21.95166 C 52.510387,22.533313 52.036177,25.281711 52.038227,28.059211 C 52.042897,34.358752 54.919477,39.609211 58.366157,39.609211 C 61.690027,39.609211 65.887247,41.904241 70.450297,46.216781 C 74.246387,49.804474 74.387967,50.180384 75.081547,58.51341 C 76.064627,70.32466 79.106487,80.574379 82.259277,82.699188 C 83.460607,83.508822 83.416547,86.067563 82.080007,93.109211 C 81.453647,96.409211 80.745487,100.44993 80.506317,102.08858 C 80.267137,103.72723 79.163137,106.29651 78.052977,107.79808 C 76.942807,109.29966 76.034497,111.18464 76.034497,111.98693 C 76.034497,114.79527 74.768337,116.69549 71.913317,118.17188 L 69.034497,119.66057 L 69.034497,132.69334 C 69.034497,139.86136 69.461257,148.7373 69.982847,152.41766 C 70.504437,156.09801 71.139647,164.90508 71.394417,171.98891 C 71.839467,184.36361 71.769137,184.95175 69.600547,186.98891 C 66.671227,189.74072 65.563847,196.93707 65.919507,210.91039 C 66.107287,218.28802 65.808897,222.17611 64.978097,223.17717 C 64.309117,223.98324 63.761767,226.50137 63.761767,228.77302 C 63.761767,232.39393 64.271887,233.32702 67.898127,236.33919 C 74.685837,241.97743 73.860267,242.60921 59.704787,242.60921 L 47.375087,242.60921 L 48.381047,237.05929 C 49.149427,232.82009 49.053977,230.28126 47.976867,226.30929 C 47.048357,222.88524 46.561227,215.74734 46.550617,205.41004 C 46.540157,195.22853 46.143007,189.31909 45.420627,188.59617 C 44.676577,187.85157 43.182527,187.77198 40.920627,188.35647 L 37.534497,189.23146 L 36.746447,202.17033 C 36.256197,210.21982 36.344987,217.35703 36.981437,221.05765 C 37.802917,225.83421 37.723037,227.43561 36.575947,229.18629 C 35.790267,230.38539 35.009517,233.78359 34.840967,236.73784 L 34.534497,242.10921 L 28.872727,242.40648 C 25.730667,242.57145 22.927587,242.24524 22.574217,241.67349 z "></path>
                   </g>
 
+                  <!-- Man's Speech Box -->
+                  <g transform="translate(222,200)">
+                    <g transform="scale(1.5) matrix(0.9486962,0,0,0.9486962,2.4834364,1.8361818)" id="g3">
+                      <path class="speechBubble" d="M 45.673,0 C 67.781,0 85.703,12.475 85.703,27.862 C 85.703,43.249 67.781,55.724 45.673,55.724 C 38.742,55.724 32.224,54.497 26.539,52.34 C 15.319,56.564 0,64.542 0,64.542 C 0,64.542 9.989,58.887 14.107,52.021 C 15.159,50.266 15.775,48.426 16.128,46.659 C 9.618,41.704 5.643,35.106 5.643,27.862 C 5.643,12.475 23.565,0 45.673,0 z " id="path5"/>
+                    </g>
+                    <g id="man-msg" transform="translate(25,32) scale(1.2)">
+                    <text font-family="mono" font-size="10">At this rate,</text>
+                    <text font-family="mono" font-size="10" transform="translate(0,12)">I will loose</text>
+                    <text id="man-years" font-family="mono" font-size="10" transform="translate(0,24)"></text>
+                    </g>
+                  </g>
+
                   <!-- Warning Box -->
                   <g transform="scale(0.30) translate(620,40)">
                   <svg width="350mm" height="25mm" version="1.1" viewBox="0 0 350 25" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -1029,11 +1049,12 @@
                         </svg>
                       </button>
 
-                      <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
+                      <!-- <button id="stop_button" type="button" style="height:30px; width:30px; float:left; margin-left: 2px;" >
                         <svg width=20px height=20px>
                           <polygon points="0,0 0,15, 15,15 15,0" transform="translate(1,5)"></polygon>
                         </svg>
-                      </button>
+                      </button> -->
+
                     </div>
                   </div>
 
@@ -1065,6 +1086,9 @@
 
             <!-- Bar Chart Area -->
             <div id="barchart_container">
+              <div class="barChartTitle">
+                Common Air Quality Index Values by Particle Type
+              </div>
               <svg id="barchart_frame">
                 <g id="barchart" />
               </svg>
@@ -1094,8 +1118,8 @@
               </div>
 
               <div id="linechart-tooltip"></div>
-			  
-			  <!-- Info box about the chosen element -->
+
+              <!-- Info box about the chosen element -->
               <div id="linechart-info">
 				<div id="linechart-legend-colors">
 				  <div class="legend-linechart" style="background:#2B9B5C">very low</div>
@@ -1104,12 +1128,12 @@
 				  <div class="legend-linechart" style="background:#E88D3F">high</div>
 				  <div class="legend-linechart" style="background:#DB4A36">very high</div>
                 </div>
-				<div id="linechart-legend-values">
-				  <div id="linechart-very-low" class="legend-linechart"></div>
-				  <div id="linechart-low" class="legend-linechart"></div>
-				  <div id="linechart-medium" class="legend-linechart"></div>
-				  <div id="linechart-high" class="legend-linechart"></div>
-				  <div id="linechart-very-high" class="legend-linechart"></div>
+                <div id="linechart-legend-values">
+                  <div id="linechart-very-low" class="legend-linechart"></div>
+                  <div id="linechart-low" class="legend-linechart"></div>
+                  <div id="linechart-medium" class="legend-linechart"></div>
+                  <div id="linechart-high" class="legend-linechart"></div>
+                  <div id="linechart-very-high" class="legend-linechart"></div>
                 </div>
               </div>
 			  
@@ -1122,6 +1146,14 @@
           <div id="menu3" class="tab-pane" style="width: 600px; margin: 0 auto;">
             <svg id="heatmap" width="550" height="650">
             </svg>
+
+            <div id="heatmap-legend-colors" style="margin-top: 20px;">
+              <div class="legend-linechart" style="background:#2B9B5C">very low</div>
+              <div class="legend-linechart" style="background:#A4B963">low</div>
+              <div class="legend-linechart" style="background:#FFD966">medium</div>
+              <div class="legend-linechart" style="background:#E88D3F">high</div>
+              <div class="legend-linechart" style="background:#DB4A36">very high</div>
+            </div>
 
           </div>
 
