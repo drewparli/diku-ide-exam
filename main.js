@@ -15,7 +15,7 @@ function main(handsJSON) {
       } else {
         particles_daily = daily;
         particles_EU = hourly.parts;
-        visualize(hourly, daily, particles_EU, HCAB) // Visualize emission graph
+        visualize(daily, particles_EU, HCAB) // Visualize emission graph
       }
     })
 }
@@ -28,6 +28,7 @@ var BarChart = { }
 var Current = { "date": "2017-01-01 00:00" }
 var Next = { "date": null }
 var Default = { "date": "2017-01-01 00:00" }
+var Final = { "date": "2017-12-31 23:30" }
 var Data = {}
 var DateIndex = {}
 var ParticleField = {}
@@ -57,10 +58,9 @@ var parseTimeISO = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
 // This function organizes the entire visualization.
 // It is called after the data files are loaded.
-function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
+function visualize(dataDaily, particles_EU, dateIndex) {
   // JQuery code to make our bootstrap date picker work
   var datepicker = $("#datepicker")
-  console.log(datepicker)
   var container=$('.inpute-group').length>0 ? $('.input-group').parent() : "body";
   datepicker.datepicker({
     format: 'yyyy-mm-dd',
@@ -87,6 +87,7 @@ function visualize(dataHourly, dataDaily, particles_EU, dateIndex) {
   initParticleField()
   initControls()
   initLineChart(dataDaily["SO2"], particles_EU["SO2"].limit)
+  initHeatMap()
 }
 
 // This function sets up the main svg element for the map visualization
@@ -597,10 +598,10 @@ function drawTooltip(dataset, tipBox, tooltipLine) {
 
   d3.select("#linechart-tooltip-box")
     .attr("x", LineChart.width - LineChart.margin - 80)
-	.attr("y", LineChart.margin)
-	.style("background-color", "white")
-	.style("display", "block")
-	.raise();
+    .attr("y", LineChart.margin)
+    .style("background-color", "white")
+    .style("display", "block")
+    .raise();
 
   d3.select("#linechart-tooltip-date")
     .text("Date: " + formDate(dataset[date_id].date));
@@ -685,7 +686,105 @@ function updateLinegraph() {
     });
 }
 
+function initHeatMap(data) {
+  var loop_end = new Date(Final.date).getTime()
 
+  var day_id = 0
+  var i = 0
+  var x_start = 40; y_start = 25
+  var x_stride = 10; y_stride = 1.5
+  var d = Default.date
+  var day_g = null
+
+  hour_g = d3.select('#heatmap').append('g')
+
+  // x axis comes first
+  for (j = 0; j < 48; j++) {
+    hour_g.append('text')
+      .text(function (d)
+      {
+        if (j % 4 == 0) return (j/2) + ""
+      })
+      .attr("transform", function(d)
+      {
+        var off = x_start+(j*x_stride)
+        return "translate(" + off + ",20)"
+      })
+  }
+
+  x = x_start
+  y = y_start
+
+  // heat map computation and y axis
+  while (new Date(d).getTime() < loop_end) {
+    var day_data = DateIndex[d]
+    var caqis = day_data.map(w => w.caqi)
+    var max_caqi = Math.max.apply(null, caqis)
+    if (i % 48 == 0) {
+      x = x_start
+      y += y_stride
+      var day_id_string = "day_" + day_id
+      day_g = d3.select('#heatmap').append('g')
+              .attr('id', day_id_string)
+      if (i % (48*16) == 0) {
+        day_g.append('text')
+          .attr('transform', function(d) {
+            console.log(i)
+            off = x_start + ((i/48) * y_stride)
+            return 'translate(0,' + off + ')'
+          })
+          .text(function() {
+            return get_date(d)
+          })
+      }
+      day_id++
+    }
+    else {
+        x += x_stride
+    }
+    day_g.append('rect')
+      .attr('id', day_id_string)
+      .attr('x', x)
+      .attr('y', y)
+      .attr('fill', '#fff')
+      .attr('width', 10)
+      .attr('height', 1.50)
+      .attr('fill', get_color(max_caqi))
+
+    i++
+    d = heat_step(d,1)
+  }
+}
+
+function heat_step(date,n) {
+  return moment.utc(date).add(30*n,'m').format("YYYY-MM-DD HH:mm")
+}
+
+function get_date(date) {
+  return moment.utc(date).format("MM-DD")
+}
+
+function get_color(caqi) {
+  var color = ""
+  switch (caqi) {
+    case 1:
+      color = "#2b9b5c"
+      break
+    case 2:
+      color = "#a4b963"
+      break
+    case 3:
+      color = "#ffd966"
+      break
+    case 4:
+      color = "#e88d3f"
+      break
+    case 5:
+      color = "#db4a36"
+      break
+  }
+  return color
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////

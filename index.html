@@ -55,7 +55,46 @@
             </div>
             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body" style="height:500px;overflow-y: scroll;">
-                The end of theh 18 hundreds saw the surging rise of a new age when the  
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Text for Common Air Quality Index -->
+          <div class="card">
+            <div class="card-header" role="tab" id="headingThree">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
+                  Common Air Quality Index
+                </a>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body" style="height:500px;overflow-y: scroll;">
+
+                <p>There are many ways of making an air quality index and no
+                agreed upon correct method. Making an index is a pragmatic
+                process of reducing a variety of complex information of
+                pollutants observed in the air into a simple figure on a scale.
+                This is a gross scientific over simplification but is said to
+                be beneficial in two regards: firstly linking air quality to
+                health effects to inform the public of poor air quality; and
+                secondly to condense complex data to provide information
+                overview.</p>
+
+                <p></p>
+
+                <hr>
+
+                <h4>Index overview</h4>
+                <img class="img-thumbnail" src="caqi-grid.png" style="display: block; margin: 0 auto;">
+                <div style="width:100%; margin-top: 10px; margin-bottom: 20px;">
+                  <div style="display: table; margin: 0 auto;">
+                    <span>Source: </span>
+                    <a style="text-align: centering;" href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf#page=3">Common Air Quality Index, page 2</a>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -72,11 +111,11 @@
             <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
               <div class="card-body" style="height:500px;overflow-y: scroll;">
 
-                There is a distinction between core polutants and other
-                polutants.  Without core polutants, an index value could not be
-                calculated. For city background measurements, the core
-                polutants are NO2, O3 and PM10 while the other polutants are
-                PM2.5, CO and SO2.
+                The index makes a distinction between core polutants and other
+                polutants. They are defined such that Without the core
+                polutants, an index value could not be calculated. For city
+                background measurements, the core polutants are NO2, O3 and
+                PM10 while the other polutants are PM2.5, CO and SO2.
 
                 <hr>
 
@@ -175,23 +214,6 @@
             </div>
           </div>
 
-          <!-- Text for Common Air Quality Index -->
-          <div class="card">
-            <div class="card-header" role="tab" id="headingThree">
-              <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
-                  Common Air Quality Index
-                </a>
-              </h5>
-            </div>
-            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-              <div class="card-body" style="height:500px;overflow-y: scroll;">
-                <img src="caqi-grid.png">
-                <a href="https://www.airqualitynow.eu/download/CITEAIR-Comparing_Urban_Air_Quality_across_Borders.pdf">link</a>
-              </div>
-            </div>
-          </div>
-
           <!-- Text for sources and references -->
           <div class="card">
             <div class="card-header" role="tab" id="headingFour">
@@ -220,6 +242,7 @@
           <ul class="nav nav-tabs">
             <li class="active"><a href="#menu1" data-toggle="tab">Title 1 Here</a></li>
             <li><a href="#menu2" data-toggle="tab">Title 2 Here</a></li>
+            <li><a href="#menu3" data-toggle="tab">Title 3 Here</a></li>
           </ul>
 
           <div class="tab-content" >
@@ -998,6 +1021,15 @@
             </div>
 
             <div id="linechart-tooltip"></div>
+          </div>
+
+          <div id="menu3" class="tab-pane" style="width: 600px; margin: 0 auto;">
+
+            <!-- Heat map -->
+            <div>
+              <svg id="heatmap" width="600" height="550">
+              </svg>
+            </div>
           </div>
         </div>
       </div>
