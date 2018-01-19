@@ -39,9 +39,9 @@ if __name__ == '__main__':
 
                 if date in date_dict:
                     if particle_translated in date_dict[date]:
-                        list = date_dict[date][particle_translated]
-                        list.append(particle_val)
-                        date_dict[date][particle_translated] = list
+                        list_part = date_dict[date][particle_translated]
+                        list_part.append(particle_val)
+                        date_dict[date][particle_translated] = list_part
                     else:
                         date_dict[date][particle_translated] = [particle_val]
                 else:
@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     for date in sorted(date_dict.keys()):
         for particle in particle_dict.values():
-            particle_hourly[particle][date] = date_dict[date][particle]
+            particle_hourly[particle][date] = list(reversed(date_dict[date][particle]))
 
     with open("data-by-particles-hourly.json", "w") as f:
         f.write(json.dumps(particle_hourly))
