@@ -15,6 +15,9 @@ function main(handsJSON) {
       } else {
         particles_daily = daily;
         particles_EU = hourly.parts;
+
+		console.log(particles_daily);
+		
         visualize(daily, particles_EU, HCAB) // Visualize emission graph
       }
     })
@@ -698,6 +701,8 @@ function removeTooltip(tooltipLine) {
 
 // function updateLinegraph(dataset, eu_limit) {
 function updateLinegraph() {
+  updateLinegraphInfo(this.id)
+ 
   dataset = particles_daily[this.id]
   eu_limit = QualityIndex[this.id]
 
@@ -792,6 +797,59 @@ function updateLinegraph() {
     .text(function(d) {
       return d;
     });
+}
+
+function updateLinegraphInfo(particle) {
+  if (particle == "SO2") {
+	d3.select("#linechart-info-particle").text("SO2")
+	d3.select("#linechart-very-low").text("0 - 50")
+	d3.select("#linechart-low").text("50 - 100")
+	d3.select("#linechart-medium").text("100 - 350")
+	d3.select("#linechart-high").text("350 - 500")
+	d3.select("#linechart-very-high").text(">500")
+  } else if (particle == "NO2") {
+	d3.select("#linechart-info-particle").text("NO2")
+	d3.select("#linechart-very-low").text("0 - 50")
+	d3.select("#linechart-low").text("50 - 100")
+	d3.select("#linechart-medium").text("100 - 200")
+	d3.select("#linechart-high").text("200 - 400")
+	d3.select("#linechart-very-high").text(">400")
+  } else if (particle == "PM10") {
+	d3.select("#linechart-info-particle").text("PM10 (adjusted daily average)")
+	d3.select("#linechart-very-low").text("0 - 15")
+	d3.select("#linechart-low").text("15 - 30")
+	d3.select("#linechart-medium").text("30 - 50")
+	d3.select("#linechart-high").text("50 - 100")
+	d3.select("#linechart-very-high").text(">100")
+  } else if (particle == "O3") {
+	d3.select("#linechart-info-particle").text("O3")
+	d3.select("#linechart-very-low").text("0 - 60")
+	d3.select("#linechart-low").text("60 - 120")
+	d3.select("#linechart-medium").text("120 - 180")
+	d3.select("#linechart-high").text("180 - 240")
+	d3.select("#linechart-very-high").text(">240") // "O3": [60, 120, 180, 240, 300],
+  } else if (particle == "CO") {
+    d3.select("#linechart-info-particle").text("CO")
+	d3.select("#linechart-very-low").text("0 - 5000")
+	d3.select("#linechart-low").text("5000 - 7500")
+	d3.select("#linechart-medium").text("7500- 10000")
+	d3.select("#linechart-high").text("10000 - 20000")
+	d3.select("#linechart-very-high").text(">20000") // "CO": [5000, 7500, 10000, 20000, 30000],
+  } else if (particle == "PM25") {
+    d3.select("#linechart-info-particle").text("PM25 (adjusted daily average)")
+	d3.select("#linechart-very-low").text("0 - 10")
+	d3.select("#linechart-low").text("10 - 20")
+	d3.select("#linechart-medium").text("20 - 30")
+	d3.select("#linechart-high").text("30 - 60")
+	d3.select("#linechart-very-high").text(">60")
+  } else {
+	d3.select("#linechart-info-particle").text("Undefined")
+	d3.select("#linechart-very-low").text("NaN")
+	d3.select("#linechart-low").text("NaN")
+	d3.select("#linechart-medium").text("NaN")
+	d3.select("#linechart-high").text("NaN")
+	d3.select("#linechart-very-high").text("NaN")
+  }
 }
 
 function initHeatMap(data) {

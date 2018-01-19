@@ -1083,17 +1083,36 @@
 				        </svg>
               </div>
 
-            <!-- Line Chart Buttons -->
-            <div id="linechart-buttons" class="btn-group" style="width: 475px; display: block; margin: 15px auto;">
-              <button id="SO2" title="Sulfur dioxide" class="btn-linechart" style="position: absolute; left: 10px;">SO2</button>
-              <button id="NO2" title="Nitrogen dioxide" class="btn-linechart" style="position: absolute; left: 95px;">NO2</button>
-              <button id="PM10" title="Particulate PM10" class="btn-linechart" style="position: absolute; left: 180px;">PM10</button>
-              <button id="O3" title="Ozone" class="btn-linechart" style="position: absolute; left: 265px;">O3</button>
-              <button id="CO" title="Carbon monoxide" class="btn-linechart" style="position: absolute; left: 350px;">CO</button>
-              <button id="PM25" title="Particulate PM2.5" class="btn-linechart" style="position: absolute; left: 435px;">PM25</button>
-            </div>
+              <!-- Line Chart Buttons -->
+              <div id="linechart-buttons" class="btn-group" style="width: 475px; height: 30px; display: block; margin: 15px auto;">
+                <button id="SO2" title="Sulfur dioxide" class="btn-linechart" style="position: absolute; left: 10px;">SO2</button>
+                <button id="NO2" title="Nitrogen dioxide" class="btn-linechart" style="position: absolute; left: 95px;">NO2</button>
+                <button id="PM10" title="Particulate PM10" class="btn-linechart" style="position: absolute; left: 180px;">PM10</button>
+                <button id="O3" title="Ozone" class="btn-linechart" style="position: absolute; left: 265px;">O3</button>
+                <button id="CO" title="Carbon monoxide" class="btn-linechart" style="position: absolute; left: 350px;">CO</button>
+                <button id="PM25" title="Particulate PM2.5" class="btn-linechart" style="position: absolute; left: 435px;">PM25</button>
+              </div>
 
-            <div id="linechart-tooltip"></div>
+              <div id="linechart-tooltip"></div>
+			  
+			  <!-- Info box about the chosen element -->
+              <div id="linechart-info">
+                <h3 id="linechart-info-particle">SO2</h3>
+				<div id="linechart-legend-colors">
+				  <div class="legend-linechart" style="background:#2B9B5C">very low</div>
+				  <div class="legend-linechart" style="background:#A4B963">low</div>
+				  <div class="legend-linechart" style="background:#FFD966">medium</div>
+				  <div class="legend-linechart" style="background:#E88D3F">high</div>
+				  <div class="legend-linechart" style="background:#DB4A36">very high</div>
+                </div>
+				<div id="linechart-legend-values">
+				  <div id="linechart-very-low" class="legend-linechart">0 - 50</div>
+				  <div id="linechart-low" class="legend-linechart">50 - 100</div>
+				  <div id="linechart-medium" class="legend-linechart">100 - 350</div>
+				  <div id="linechart-high" class="legend-linechart">350 - 500</div>
+				  <div id="linechart-very-high" class="legend-linechart">>500</div>
+                </div>
+              </div>
           </div>
 
           <div id="menu3" class="tab-pane" style="width: 600px; margin: 0 auto;">
