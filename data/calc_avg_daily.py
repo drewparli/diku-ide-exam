@@ -56,6 +56,10 @@ if __name__ == '__main__':
                 date_obj = dict()
                 date_obj["date"] = date
                 date_obj["value"] = sum(date_dict[date][particle]) / len(date_dict[date][particle])
+
+                if particle == "CO":
+                    date_obj["value"] *= 1000
+
                 list = particle_daily[particle]
                 list.append(date_obj)
                 particle_daily[particle] = list
