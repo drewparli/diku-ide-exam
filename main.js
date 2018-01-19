@@ -17,7 +17,7 @@ function main(handsJSON) {
         particles_EU = hourly.parts;
 
 		console.log(particles_daily);
-		
+
         visualize(daily, particles_EU, HCAB) // Visualize emission graph
       }
     })
@@ -251,7 +251,7 @@ function initControls() {
   d3.select("#stop_button")
     .on("click", handleStop)
 
-  // d3.select("#time").on("input", updateTime)
+  setTime(Current.date)
   d3.select("#time").on("input", handleTimeChange)
 }
 
@@ -702,7 +702,7 @@ function removeTooltip(tooltipLine) {
 // function updateLinegraph(dataset, eu_limit) {
 function updateLinegraph() {
   updateLinegraphInfo(this.id)
- 
+
   dataset = particles_daily[this.id]
   eu_limit = QualityIndex[this.id]
 
