@@ -102,7 +102,7 @@ function visualize(dataDaily, dateIndex) {
   initParticleField()
   initControls()
   initHeatMap()
-  initLineChart(dataDaily["SO2"], QualityIndex.SO2)
+  initLineChart(dataDaily["PM10"], QualityIndex.PM10)
 }
 
 // This function sets up the main svg element for the map visualization
@@ -259,6 +259,8 @@ function initControls() {
 }
 
 function initLineChart(dataset, eu_limit) {
+  updateLinegraphInfo("PM10");
+
   // Add functionality to the predefined HTML elements
   buttons = d3.select("#linechart-buttons")
   buttons.select("#SO2").on("click", updateLinegraph)
@@ -712,7 +714,7 @@ function updateLinegraph() {
 
   dataset = particles_daily[this.id]
   eu_limit = QualityIndex[this.id]
-
+		  console.log("dataset", dataset);
   // format the data
   dataset.forEach(function(d) {
     d.date = new Date(d.date);
