@@ -618,7 +618,7 @@ function setYearsLost() {
   // for each 10 mirco-grams/m3 increase, loose 0.64 years
   let msg = ""
 
-  if (Current.pm10 < 15.0) {
+  if (Current.pm10 == "null" || Current.pm10 < 15.0) {
     msg = "0.0 years!"
   } else {
     var n = (Current.pm10 - 15.0) / 10.0
