@@ -88,7 +88,10 @@ function visualize(dataDaily, particles_EU, dateIndex) {
 
   div = d3.select('body').append('div')
     .attr('class', 'tooltip')
-    .style('opacity', 0);
+    .style('opacity', 0)
+    .style('background-color', 'black')
+    .style('color', 'white')
+    .style('padding', '3px')
 
   // JQuery code to make our bootstrap tabs work
   $(".nav a").on("click", function() {
@@ -848,15 +851,17 @@ function initHeatMap(data) {
       .attr('width', 10)
       .attr('height', 1.50)
       .attr('data-date', get_time(d))
+      .attr('data-caqi', max_caqi)
       .attr('fill', get_color(max_caqi))
       .on('mouseover', function() {
         var date = $(this).attr('data-date');
+        var caqi = $(this).attr('data-caqi');
         div.transition()
           .duration(0)
           .style("opacity", .9)
-        div.html(date)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 20) + "px");
+        div.html(date+'<br>max index: '+caqi)
+          .style("left", (d3.event.pageX + 20) + "px")
+          .style("top", (d3.event.pageY - 50) + "px");
        })
      .on('mouseout', function() {
        div.transition()
